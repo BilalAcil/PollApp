@@ -1,11 +1,11 @@
--- PollApp – Datenbankschema für Supabase
--- Ausführen im Supabase Dashboard unter: SQL Editor -> New query -> Run
+-- PollApp - database schema for Supabase.
+-- Run it in the Supabase dashboard: SQL Editor -> New query -> Run.
 
 -- =============================================================
--- Tabellen
+-- Tables
 -- =============================================================
 
--- Eine Umfrage. "deadline" bestimmt, ob sie laufend oder beendet ist.
+-- A survey. The deadline decides whether it is still running or closed.
 create table if not exists public.surveys (
   id          uuid primary key default gen_random_uuid(),
   title       text        not null,
@@ -15,32 +15,32 @@ create table if not exists public.surveys (
   created_at  timestamptz not null default now()
 );
 
--- Eine Antwortmöglichkeit, die zu genau einer Umfrage gehört.
--- Wird die Umfrage gelöscht, verschwinden auch ihre Optionen (on delete cascade).
+-- An answer option belonging to exactly one survey.
+-- Deleting the survey removes its options as well (on delete cascade).
 create table if not exists public.survey_options (
   id        uuid primary key default gen_random_uuid(),
   survey_id uuid not null references public.surveys (id) on delete cascade,
   label     text not null
 );
 
--- Eine einzelne abgegebene Stimme für eine Option.
+-- A single vote cast for one answer option.
 create table if not exists public.votes (
   id         uuid primary key default gen_random_uuid(),
   option_id  uuid        not null references public.survey_options (id) on delete cascade,
   created_at timestamptz not null default now()
 );
 
--- Indizes für die Abfragen, die die App am häufigsten macht.
+-- Indexes for the queries the application runs most often.
 create index if not exists survey_options_survey_id_idx on public.survey_options (survey_id);
 create index if not exists votes_option_id_idx          on public.votes (option_id);
 create index if not exists surveys_deadline_idx         on public.surveys (deadline);
 
 -- =============================================================
--- Row Level Security
+-- Row level security
 -- =============================================================
--- Ohne RLS kann jeder mit dem anon key die Tabellen leeren.
--- Die App hat keinen Login, deshalb: Lesen und Anlegen für alle erlaubt,
--- Ändern und Löschen für niemanden.
+-- Without RLS anyone holding the publishable key could wipe the tables.
+-- The application has no login, so reading and inserting is open to everyone
+-- while updating and deleting is allowed for nobody.
 
 alter table public.surveys        enable row level security;
 alter table public.survey_options enable row level security;
@@ -56,22 +56,23 @@ create policy "votes_select"   on public.votes          for select using (true);
 create policy "votes_insert"   on public.votes          for insert with check (true);
 
 -- =============================================================
--- Rechte (GRANTs)
+-- Privileges
 -- =============================================================
--- Zweite, unabhängige Rechte-Ebene neben RLS: GRANT entscheidet, ob die Rolle
--- die Tabelle überhaupt ansprechen darf, RLS danach, welche Zeilen sie sieht.
--- Fehlt der GRANT, antwortet die API mit 401 "permission denied for table ...".
--- "anon" ist die Rolle, unter der der Publishable key läuft.
+-- A second, independent layer next to RLS: a grant decides whether the role may
+-- touch the table at all, RLS then decides which rows it sees. Without the grant
+-- the API answers with 401 "permission denied for table ...".
+-- "anon" is the role the publishable key runs as.
 
 grant select, insert on public.surveys        to anon, authenticated;
 grant select, insert on public.survey_options to anon, authenticated;
 grant select, insert on public.votes          to anon, authenticated;
 
 -- =============================================================
--- View: Stimmen pro Option (spart das Zählen im Frontend)
+-- View: vote count per option
 -- =============================================================
--- security_invoker = on sorgt dafür, dass die View die RLS-Regeln des
--- aufrufenden Benutzers anwendet statt die des Erstellers.
+-- Counting happens in the database so the frontend does not have to.
+-- security_invoker = on makes the view apply the RLS rules of the caller
+-- instead of those of its owner.
 
 create or replace view public.option_results
 with (security_invoker = on) as
@@ -87,14 +88,14 @@ group by o.id, o.survey_id, o.label;
 grant select on public.option_results to anon, authenticated;
 
 -- =============================================================
--- Funktion: Umfrage + Optionen atomar anlegen
+-- Function: create a survey and its options atomically
 -- =============================================================
--- Eine Umfrage ohne Antwortoptionen wäre unbrauchbar. Da die App nichts löschen
--- darf, kann sie einen halb angelegten Zustand nicht selbst aufräumen. Deshalb
--- passiert beides hier in einer Funktion: Sie läuft als eine Transaktion,
--- ein Fehler macht automatisch alles rückgängig.
--- Kein "security definer" - die Funktion läuft mit den Rechten des Aufrufers,
--- die RLS-Policies greifen also weiterhin.
+-- A survey without answer options would be useless. Since the application is not
+-- allowed to delete anything, it cannot clean up a half-created state on its own.
+-- Both inserts therefore happen inside this function, which runs as a single
+-- transaction: any error rolls the whole thing back.
+-- No "security definer" here - the function runs with the privileges of the
+-- caller, so the RLS policies still apply.
 
 create or replace function public.create_survey(
   p_title       text,
@@ -129,7 +130,7 @@ grant execute on function public.create_survey(text, text, text[], text, timesta
   to anon, authenticated;
 
 -- =============================================================
--- Beispieldaten (optional, zum Testen)
+-- Sample data (optional, for testing)
 -- =============================================================
 
 insert into public.surveys (title, category, description, deadline)

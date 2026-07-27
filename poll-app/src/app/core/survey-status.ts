@@ -1,14 +1,15 @@
 import { Survey } from '../models/survey.model';
 
-/**
- * Ab wie vielen Tagen Restlaufzeit eine Umfrage als "bald endend" gilt.
- * Zentral hier definiert, damit der Wert an einer Stelle änderbar bleibt.
- */
+/** Remaining days below which a running survey counts as ending soon. */
 export const ENDING_SOON_DAYS = 7;
 
+/** Number of milliseconds in a single day. */
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-/** Umfragen ohne Deadline laufen unbegrenzt und sind nie beendet. */
+/**
+ * Tells whether a survey has passed its deadline.
+ * A survey without a deadline runs indefinitely and is never closed.
+ */
 export function isClosed(survey: Survey, now: Date = new Date()): boolean {
   if (!survey.deadline) {
     return false;
@@ -16,7 +17,9 @@ export function isClosed(survey: Survey, now: Date = new Date()): boolean {
   return new Date(survey.deadline).getTime() <= now.getTime();
 }
 
-/** Laufend, aber Deadline innerhalb der nächsten ENDING_SOON_DAYS Tage. */
+/**
+ * Tells whether a survey is still running but ends within ENDING_SOON_DAYS days.
+ */
 export function isEndingSoon(survey: Survey, now: Date = new Date()): boolean {
   if (!survey.deadline || isClosed(survey, now)) {
     return false;
@@ -26,8 +29,8 @@ export function isEndingSoon(survey: Survey, now: Date = new Date()): boolean {
 }
 
 /**
- * Sortiert nach Enddatum, frühestes Ende zuerst.
- * Umfragen ohne Deadline landen am Ende der Liste.
+ * Comparator that sorts surveys by deadline, earliest first.
+ * Surveys without a deadline end up at the bottom of the list.
  */
 export function byDeadlineAscending(a: Survey, b: Survey): number {
   if (!a.deadline) {

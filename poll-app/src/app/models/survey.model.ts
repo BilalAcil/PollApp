@@ -1,17 +1,17 @@
-/** Eine Umfrage, so wie sie in der Tabelle "surveys" liegt. */
+/** A survey as stored in the "surveys" table. */
 export interface Survey {
   id: string;
   title: string;
   category: string;
   description: string | null;
-  /** ISO-Zeitstempel. null bedeutet: kein Enddatum, läuft unbegrenzt. */
+  /** ISO timestamp. null means the survey has no end date and runs indefinitely. */
   deadline: string | null;
   created_at: string;
 }
 
 /**
- * Eine Antwortoption samt aktueller Stimmenzahl.
- * Kommt aus der View "option_results", die das Zählen in der Datenbank erledigt.
+ * An answer option together with its current vote count.
+ * Comes from the "option_results" view, which counts the votes in the database.
  */
 export interface OptionResult {
   option_id: string;
@@ -20,16 +20,16 @@ export interface OptionResult {
   vote_count: number;
 }
 
-/** Die Eingaben aus dem "New Survey"-Formular. */
+/** The values collected by the "New Survey" form. */
 export interface NewSurvey {
-  /** Pflichtfeld */
+  /** Required. */
   title: string;
-  /** Pflichtfeld */
+  /** Required. */
   category: string;
-  /** Pflichtfeld: mindestens zwei Optionen */
+  /** Required, at least two entries. */
   options: string[];
-  /** optional */
+  /** Optional. */
   description?: string | null;
-  /** optional, ISO-Zeitstempel */
+  /** Optional ISO timestamp. */
   deadline?: string | null;
 }

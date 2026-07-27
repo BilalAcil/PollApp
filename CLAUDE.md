@@ -90,6 +90,13 @@ Volltext beider Vorgaben: `docs/coding-conventions.md`. **Vor jeder neuen Datei 
 - [ ] Coding-Konvention für HTML umgesetzt
 - [ ] Coding-Konvention für TypeScript umgesetzt
 
+**Zusätzliche Hausregel:** Kommentare ausschließlich auf **Englisch**, und **keine
+Inline-Kommentare** — weder am Zeilenende noch innerhalb von Funktionsrümpfen.
+Erklärungen gehören in einen TSDoc-Block über der Deklaration. Verlangt eine
+Codezeile einen Kommentar, ist das ein Hinweis auf einen besseren Namen oder eine
+eigene Funktion. Texte, die der Benutzer sieht (Fehlermeldungen, Labels), bleiben
+deutsch.
+
 Die Regeln, die im Alltag am häufigsten verletzt werden:
 
 - **Max. 14 Zeilen pro Funktion** — längere Methoden aufteilen.

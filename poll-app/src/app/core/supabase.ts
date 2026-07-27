@@ -4,8 +4,8 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
 
 /**
- * Hält die eine Supabase-Verbindung, die die ganze App benutzt.
- * Alle Datenzugriffe laufen über SurveyApi, nicht direkt über diesen Service.
+ * Holds the single Supabase connection shared by the whole application.
+ * Components never use this client directly, they go through SurveyApi.
  */
 @Injectable({
   providedIn: 'root',

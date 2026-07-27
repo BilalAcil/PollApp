@@ -1,7 +1,4 @@
 {
-  // Angular legt seine tsconfig-Dateien mit Kommentaren an. Ohne diese
-  // Zuordnung meldet VS Code faelschlich "Kommentare in JSON sind nicht
-  // zulaessig", obwohl der Build fehlerfrei durchlaeuft.
   "files.associations": {
     "tsconfig*.json": "jsonc",
     ".prettierrc": "json"
