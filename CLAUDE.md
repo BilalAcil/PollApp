@@ -85,12 +85,20 @@ werden bei der Abgabe kurz erwähnt, damit die Mentoren sie ansehen können.
 
 ### Code Conventions
 
+Volltext beider Vorgaben: `docs/coding-conventions.md`. **Vor jeder neuen Datei lesen.**
+
 - [ ] Coding-Konvention für HTML umgesetzt
 - [ ] Coding-Konvention für TypeScript umgesetzt
 
-> **TODO:** Die konkreten Konventionen der Developer Akademie hier eintragen
-> (Namensgebung, Funktionslänge, Kommentare, Ordnerstruktur …). Solange sie fehlen,
-> gilt der Angular Style Guide als Näherung.
+Die Regeln, die im Alltag am häufigsten verletzt werden:
+
+- **Max. 14 Zeilen pro Funktion** — längere Methoden aufteilen.
+- Kein `any`; Typen und Rückgabewerte immer explizit angeben.
+- TSDoc (`/** … */`) über jeder Funktion und Methode.
+- Dateinamen in kebab-case, 2 Leerzeichen Einrückung, Semikolons.
+- Keine Magic Numbers — benannte Konstante in UPPER_CASE.
+- Im HTML semantische Tags statt `div`-Suppe; Templates immer per `templateUrl`
+  auslagern, nie inline.
 
 ## Backend: Supabase
 

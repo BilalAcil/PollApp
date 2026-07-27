@@ -11,7 +11,7 @@ import { Supabase } from './supabase';
   providedIn: 'root',
 })
 export class SurveyApi {
-  private readonly supabase = inject(Supabase);
+  private readonly supabase: Supabase = inject(Supabase);
 
   /** Alle Umfragen, frühestes Enddatum zuerst (User Story 1). */
   async loadSurveys(): Promise<Survey[]> {
