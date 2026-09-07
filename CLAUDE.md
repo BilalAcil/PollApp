@@ -26,6 +26,9 @@ Alle Befehle im Ordner `poll-app/` ausführen:
 Alle Punkte müssen vor der Einreichung erfüllt sein. Zusätzlich eingebaute Extras
 werden bei der Abgabe kurz erwähnt, damit die Mentoren sie ansehen können.
 
+Quelle: `Poll-App Checkliste.pdf` (Developer Akademie, 2026). Diese Liste ist die
+wortgetreue Übernahme — bei Abweichungen gilt das PDF.
+
 ### User Story 1 — Dringende Umfragen erkennen
 
 > Als Benutzer möchte ich besonders dringende Umfragen sofort erkennen können,
@@ -42,10 +45,16 @@ werden bei der Abgabe kurz erwähnt, damit die Mentoren sie ansehen können.
 - [ ] Auf dem Homescreen werden die Umfragen angezeigt.
   - [ ] Es gibt einen Reiter, der die Anzeige zwischen **laufenden** und
         **abgeschlossenen** Umfragen wechselt.
+  - [ ] In den Testdaten liegen **auch bereits abgelaufene Umfragen**, damit der
+        Reiter „abgeschlossen“ überhaupt testbar ist.
 - [ ] Jede Umfrage zeigt mindestens:
   - [ ] Kategorie der Umfrage
   - [ ] Titel der Umfrage
   - [ ] Deadline der Umfrage
+- [ ] Die Umfragen lassen sich **nach Kategorien filtern**.
+  - [ ] Der Filter greift **getrennt** bei den laufenden und bei den abgeschlossenen
+        Umfragen — die beiden Listen dürfen sich nicht vermischen.
+  - [ ] Der Filter lässt sich wieder auf **„Alle“** zurückstellen.
 
 ### User Story 3 — Umfragen erstellen
 
@@ -53,8 +62,9 @@ werden bei der Abgabe kurz erwähnt, damit die Mentoren sie ansehen können.
 > Abstimmungen anlegen kann.
 
 - [ ] Auf dem Homescreen gibt es einen **„New Survey“-Button**.
-- [ ] Beim Klick öffnet sich ein **Dialog / Modal / separates Formular** zur Erstellung
-      einer neuen Umfrage.
+- [ ] Beim Klick öffnet sich ein **Dialog / Modal** zur Erstellung einer neuen Umfrage.
+      **Achtung:** Dialog / Modal bedeutet **Overlay** — ausdrücklich **keine eigene
+      Route**.
 - [ ] Das Formular unterscheidet klar zwischen:
   - [ ] **Pflichtangaben** (z. B. Titel, Antwortoptionen)
   - [ ] **optionalen Angaben** (z. B. Beschreibung, Deadline)
@@ -70,8 +80,12 @@ werden bei der Abgabe kurz erwähnt, damit die Mentoren sie ansehen können.
   - [ ] die Fragestellung
   - [ ] die Antwortoptionen
   - [ ] relevante Zusatzinformationen
-  - [ ] der aktuelle Stand der Auswertung
-- [ ] Beendete Umfragen sind **nicht mehr klickbar** und unter „Past Surveys“ gelistet.
+  - [ ] der aktuelle Stand der Auswertung — die Anzeige verändert sich **live, also
+        in Echtzeit** (Supabase Realtime), nicht erst nach einem Reload oder nach der
+        eigenen Stimmabgabe.
+- [ ] Beendete Umfragen sind unter „Past Surveys“ gelistet und lassen sich weiterhin
+      **öffnen und einsehen**. Nur die Antwortoptionen darin sind **nicht mehr
+      klickbar** — es kann keine Stimme mehr abgegeben werden.
 
 ### User Story 5 — Abstimmen mit Live-Auswertung
 
