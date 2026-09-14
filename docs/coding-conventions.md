@@ -1,9 +1,12 @@
 # Coding Conventions
 
 Vorgaben der Developer Akademie, die für die Abgabe erfüllt sein müssen.
-Quelle: die beiden Google-Dokumente „Coding Convention für HTML“ und
-„Coding Konvention für TypeScript“ (nur mit Login erreichbar, deshalb hier
-abgelegt).
+Diese Datei ist die Textfassung der beiden Original-PDFs, die daneben liegen:
+
+- `coding-convention-html.pdf` — „Coding Konvention für HTML“ (2025)
+- `coding-konvention-typescript.pdf` — „Coding Konvention für TypeScript“ (2025)
+
+Bei Abweichungen gelten die PDFs.
 
 ---
 
@@ -52,6 +55,11 @@ abgelegt).
 - Struktur (HTML) von Darstellung (CSS) trennen
 - Kein Lorem Ipsum — eigene, sinnvolle Texte verwenden
 
+### 7. Quellen
+
+- <https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility/HTML>
+- <https://www.semrush.com/blog/semantic-html5-guide/>
+
 ---
 
 ## TypeScript
@@ -87,3 +95,9 @@ abgelegt).
 - Keine Magic Numbers — benannte Konstanten verwenden
 - HTML auslagern statt inline (in Angular: `templateUrl` statt `template`)
 - Lesbare Bedingungen (`if (isUserActive)` statt `if (x)`)
+
+### 6. Quellen
+
+Im PDF verlinkt: TSDoc (Kommentar-Standards), Airbnb Style Guide (Formatierung,
+Einrückung, Namensgebung), TypeScript StyleGuide, Clean Code, Funktionslänge &
+Funktionswirkung.

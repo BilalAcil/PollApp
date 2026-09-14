@@ -81,20 +81,77 @@ Feste Liste laut Dropdown-Menü:
 - Lifestyle & Preferences
 - Technology & Innovation
 
+## Ansichten
+
+### Homescreen
+
+- **Hero** — Logo oben links, Display-Überschrift „Collect Feedback, Unlock
+  Ideas", Fließtext, Primary-Button „New survey", Illustration rechts
+- **„Your surveys"** als zentrierte Display-Überschrift
+- **„Ending soon surveys"** — drei Highlights-Cards nebeneinander, Deadline-Pill
+  unten links
+- **Tabs** „Active survey" (amber, aktiv) und „Past survey" (weiß, inaktiv),
+  rechts daneben das Dropdown „Sort by categories"
+- **Liste** — zweispaltiges Raster dunkler Karten, Deadline-Pill unten rechts,
+  eigener Scrollbereich
+
+### Erstellen-Dialog (Overlay)
+
+Dunkles Panel mit abgerundeter Ecke oben rechts, `Draft`-Badge oben links,
+Display-Überschrift „Create new survey", „Cancel ✕" oben rechts, „Publish"
+unten rechts.
+
+- Kopfbereich zweispaltig: links `Survey name` (Pflicht), `Set end date`
+  (optional) und `Choose category`; rechts `Describing text` (optional)
+- Jedes Eingabefeld hat ein Lösch-Icon daneben
+- Fragen-Blöcke nummeriert, je mit Fragetext, Checkbox „Allow multiple answers.",
+  Antwortfeldern A./B./… und „Add answer ⊕"
+- „Add next question ⊕" steht neben dem letzten Fragen-Block, solange nur eine
+  Frage existiert, danach unterhalb
+
+### Detailansicht (eigene Route)
+
+Kopfzeile mit Logo links und „Create survey" rechts. Darunter zwei Spalten:
+
+- **Links** — helle Lavendel-Karte mit abgerundeter Ecke oben rechts:
+  `Published`-Badge, „Ends on TT.MM.JJJJ", „Category: …", Display-Titel,
+  Beschreibung, Fragen im zweispaltigen Raster mit Checkboxen, Button
+  „Complete survey" unten rechts
+- **Rechts** — „Survey results **LIVE**"; vor der ersten Stimme ein Leerzustand,
+  danach je Frage Balken A–E mit Prozentwert
+
+### Bestätigungs-Overlay
+
+Nach „Publish" erscheint „Your survey is now published" mit Schließen-Kreuz.
+Nach dem Schließen landet der Benutzer in der neu erstellten Umfrage.
+
+## Verhalten der Lösch-Icons
+
+Aus der Vorlage übernommen:
+
+- Das Icon bei **Frage 1** leert nur die Eingabefelder.
+- Das Icon bei **jeder weiteren Frage** entfernt den ganzen Fragen-Block.
+- Eine Umfrage hat immer mindestens eine Frage — Frage 1 ist nicht löschbar.
+
 ## Hinweis aus der Vorlage
 
 Die Illustration mit den Telefon-Mockups hat eine Hover-Interaktion **nur auf
 Desktop**. Auf Tablet und Mobile ausdrücklich keine Interaktion.
 
+## Abweichungen von der Vorlage
+
+Bewusste Korrekturen beim Nachbau:
+
+- Plural der Deadline-Pill wird korrekt gebildet („Ends in 3 Days", die Vorlage
+  zeigt an einer Stelle „Ends in 3 Day").
+- Tippfehler werden korrigiert: „There are no answears yet." → „answers";
+  „More than one answers are possible." → „More than one answer is possible."
+- Prozentwerte stammen aus echten Stimmen, nicht aus den Zahlen der Vorlage.
+
 ## Offene Punkte
 
-Diese Elemente stehen in der Vorlage, aber nicht in der Abgabe-Checkliste. Sie
-brauchen jeweils eine Entscheidung, teils mit Auswirkung auf die Datenbank:
-
-- **„Allow multiple answers"** — Mehrfachauswahl pro Umfrage. Bräuchte eine
-  Spalte in `surveys` und eine andere Auswertungslogik.
-- **`Published` / `Draft`** — Status einer Umfrage. Bräuchte eine Spalte in
-  `surveys`.
-- **Maximal 6 Antwortoptionen** — bisher nicht begrenzt.
-- **Sortierung / Filter nach Kategorie** — bisher nicht vorgesehen.
-- **Schriftart** — aus den Screenshots nicht sicher bestimmbar.
+- **Schriftart** — Display-Schrift und Fließtext-Schrift aus Figma noch unbekannt.
+- **Assets** — Logo (hell/dunkel) und Hero-Illustration fehlen in
+  `poll-app/public/`.
+- **Maximal 6 Antwortoptionen** — laut Vorlage („You can add up to 6 answer
+  fields."), als Formular-Validierung noch zu bestätigen.

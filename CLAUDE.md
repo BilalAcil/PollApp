@@ -26,7 +26,7 @@ Alle Befehle im Ordner `poll-app/` ausführen:
 Alle Punkte müssen vor der Einreichung erfüllt sein. Zusätzlich eingebaute Extras
 werden bei der Abgabe kurz erwähnt, damit die Mentoren sie ansehen können.
 
-Quelle: `Poll-App Checkliste.pdf` (Developer Akademie, 2026). Diese Liste ist die
+Quelle: `docs/poll-app-checkliste.pdf` (Developer Akademie, 2026). Diese Liste ist die
 wortgetreue Übernahme — bei Abweichungen gilt das PDF.
 
 ### User Story 1 — Dringende Umfragen erkennen
@@ -100,6 +100,8 @@ wortgetreue Übernahme — bei Abweichungen gilt das PDF.
 ### Code Conventions
 
 Volltext beider Vorgaben: `docs/coding-conventions.md`. **Vor jeder neuen Datei lesen.**
+Die Original-PDFs liegen daneben in `docs/` (`coding-convention-html.pdf`,
+`coding-konvention-typescript.pdf`).
 
 - [ ] Coding-Konvention für HTML umgesetzt
 - [ ] Coding-Konvention für TypeScript umgesetzt
@@ -138,12 +140,35 @@ Die Datenhaltung läuft über **Supabase** (Vorgabe, nicht verhandelbar).
 
 ### Geplante Tabellen
 
+Eine Umfrage enthält **mehrere Fragen**, jede Frage mehrere Antwortoptionen.
+Deshalb liegt zwischen `surveys` und `survey_options` die Tabelle
+`survey_questions`.
+
 - `surveys` — id, title, description, category, deadline, created_at
-- `survey_options` — id, survey_id (FK), label
+- `survey_questions` — id, survey_id (FK), text, position, allow_multiple
+- `survey_options` — id, question_id (FK), label, position
 - `votes` — id, option_id (FK), created_at
+
+## Getroffene Entscheidungen
+
+Grundlage ist der Figma-Entwurf, festgehalten in `docs/design-system.md`.
+
+- **Mehrere Fragen pro Umfrage** — siehe Tabellen oben.
+- **Mehrfachauswahl pro Frage** über `allow_multiple`; die Detailansicht zeigt
+  dann den Hinweis „More than one answer is possible".
+- **Abstimmung wird gesammelt abgegeben** — der Benutzer hakt alle Fragen an und
+  bestätigt einmal mit „Complete survey". Erst danach erscheint die Auswertung.
+- **Oberflächensprache Englisch**, dazu ein Sprachumschalter (Flaggen oben
+  rechts) für Deutsch. Die Wahl wird in `localStorage` gespeichert und überdauert
+  einen Seitenbesuch. Deshalb darf **kein sichtbarer Text fest im Template
+  stehen** — alle Labels kommen aus einer Übersetzungsdatei.
+- **`Published` / `Draft` ist nur ein Zustandslabel**, kein Feature: Es gibt
+  keinen „Als Entwurf speichern"-Button, also auch keine Spalte dafür.
 
 ## Offene Entscheidungen
 
 - **Styling:** Noch nicht festgelegt (pures CSS vs. Framework).
 - **Doppelte Stimmabgabe:** Ohne Login schwer zu verhindern. Einfachste Lösung:
   abgegebene Stimme in `localStorage` merken.
+- **Schriftarten:** Display-Schrift und Fließtext-Schrift aus Figma noch unbekannt.
+- **Assets:** Logo und Hero-Illustration liegen noch nicht in `poll-app/public/`.
