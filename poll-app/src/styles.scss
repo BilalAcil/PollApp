@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @font-face {
   font-family: 'Nerko One';
   src: url('/fonts/nerko-one-regular.woff2') format('woff2');
@@ -57,12 +63,20 @@
   --space-lg: 1.5rem;
   --space-xl: 2.5rem;
   --space-xxl: 4rem;
+
+  --max-content-width: 1440px;
 }
 
 body {
+  margin: 0;
   font-family: var(--font-body);
   color: var(--color-text-dark);
   background: var(--color-white);
+}
+
+.page {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
 }
 
 .sr-only {
