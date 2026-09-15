@@ -1,0 +1,29 @@
+.language-switcher {
+  display: inline-flex;
+  gap: var(--space-xs);
+}
+
+.flag {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: var(--space-xs);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.15s ease;
+}
+
+.flag.active {
+  opacity: 1;
+}
+
+.flag:hover {
+  opacity: 0.8;
+}
+
+.flag:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}

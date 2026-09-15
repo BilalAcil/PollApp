@@ -177,10 +177,30 @@ Grundlage ist der Figma-Entwurf, festgehalten in `docs/design-system.md`.
 
 ## Offene Entscheidungen
 
-- **Styling:** Noch nicht festgelegt (pures CSS vs. Framework).
 - **Doppelte Stimmabgabe:** Ohne Login schwer zu verhindern. Einfachste Lösung:
   abgegebene Stimme in `localStorage` merken.
-- **Assets:** Logo und Hero-Illustration liegen noch nicht in `poll-app/public/`.
 
-Schriftarten sind gesetzt: Nerko One (Display) und Mulish (Fließtext), siehe
-`docs/design-system.md`.
+Erledigt: Styling ist reines SCSS mit CSS-Variablen (`src/styles.scss`), keine
+Komponentenbibliothek. Schriftarten sind gesetzt: Nerko One (Display) und
+Mulish (Fließtext). Logo und Hero-Illustration liegen in `poll-app/public/images/`.
+Siehe `docs/design-system.md`.
+
+## Homescreen (`src/app/pages/home/`)
+
+Erste fertige Seite. Liest echte Daten über `SurveyApi.loadSurveys()`.
+
+- Tabs „Active" / „Past" plus Kategorie-Filter, beide clientseitig aus den
+  geladenen Umfragen berechnet (keine erneute Datenbankabfrage nötig)
+- „Ending soon" nutzt `isEndingSoon()` und `byDeadlineAscending()` aus
+  `survey-status.ts`
+- Übersetzung über `Translate` (`src/app/core/translate.ts`): Signal-basiert,
+  Wörterbücher in `core/i18n/en.ts` und `de.ts`, Sprachwahl in `localStorage`
+  unter dem Schlüssel `pollapp-lang`, `document.documentElement.lang` wird bei
+  jedem Wechsel synchron gehalten
+- Der „New survey"-Button öffnet noch keinen Dialog — das ist User Story 3,
+  noch nicht gebaut
+- Kartenklick öffnet noch keine Detailansicht — das ist User Story 4, noch
+  nicht gebaut
+- Mobile-Layout ist nur grob (Grid wird einspaltig), nicht die volle
+  mobile Spezifikation aus `docs/design-system.md` (horizontales Scrollen bei
+  „Ending soon", aufklappbare Auswertung)

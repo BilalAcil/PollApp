@@ -1,0 +1,87 @@
+<header class="topbar">
+  <img class="logo" src="images/logo-on-dark.png" alt="Poll App" />
+  <app-language-switcher />
+</header>
+
+<section class="hero">
+  <div class="hero-copy">
+    <h1 class="hero-title">{{ translate.t('home.hero.title') }}</h1>
+    <p class="hero-subtitle">{{ translate.t('home.hero.subtitle') }}</p>
+    <button type="button" class="btn-primary">
+      {{ translate.t('home.hero.cta') }}
+      <span aria-hidden="true">+</span>
+    </button>
+  </div>
+  <div class="hero-illustration">
+    <img class="resting" src="images/hero-illustration-resting.png" alt="" />
+    <img class="hover" src="images/hero-illustration-hover.png" alt="" />
+  </div>
+</section>
+
+<main>
+  <h2 class="section-title">{{ translate.t('home.yourSurveys') }}</h2>
+
+  @if (loadError()) {
+    <p class="error" role="alert">{{ translate.t('home.loadError') }}</p>
+  } @else if (!loading()) {
+    @if (endingSoon().length > 0) {
+      <section class="ending-soon" aria-labelledby="ending-soon-heading">
+        <h3 id="ending-soon-heading">{{ translate.t('home.endingSoon') }}</h3>
+        <div class="card-grid">
+          @for (survey of endingSoon(); track survey.id) {
+            <app-survey-card [survey]="survey" variant="highlight" />
+          }
+        </div>
+      </section>
+    }
+
+    <div class="toolbar">
+      <div class="tabs" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          [class.active]="activeTab() === 'active'"
+          [attr.aria-selected]="activeTab() === 'active'"
+          (click)="selectTab('active')"
+        >
+          {{ translate.t('home.tabs.active') }}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          [class.active]="activeTab() === 'past'"
+          [attr.aria-selected]="activeTab() === 'past'"
+          (click)="selectTab('past')"
+        >
+          {{ translate.t('home.tabs.past') }}
+        </button>
+      </div>
+
+      <label class="category-filter">
+        <span class="sr-only">{{ translate.t('home.sortByCategories') }}</span>
+        <select (change)="onCategoryChange($event)">
+          <option [value]="allCategories" [selected]="categoryFilter() === allCategories">
+            {{ translate.t('home.allCategories') }}
+          </option>
+          @for (category of categories; track category.value) {
+            <option [value]="category.value" [selected]="categoryFilter() === category.value">
+              {{ translate.t(category.labelKey) }}
+            </option>
+          }
+        </select>
+      </label>
+    </div>
+
+    @if (visibleSurveys().length === 0) {
+      <p class="empty">
+        {{ translate.t(activeTab() === 'active' ? 'home.empty.active' : 'home.empty.past') }}
+      </p>
+    } @else {
+      <div class="card-grid list">
+        @for (survey of visibleSurveys(); track survey.id) {
+          <app-survey-card [survey]="survey" variant="list" />
+        }
+      </div>
+    }
+  }
+</main>

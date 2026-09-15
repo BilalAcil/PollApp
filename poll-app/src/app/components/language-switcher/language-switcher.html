@@ -1,0 +1,22 @@
+<div class="language-switcher" role="group" aria-label="Language">
+  <button
+    type="button"
+    class="flag"
+    [class.active]="translate.lang() === 'en'"
+    [attr.aria-pressed]="translate.lang() === 'en'"
+    [attr.aria-label]="translate.t('lang.en')"
+    (click)="select('en')"
+  >
+    🇬🇧
+  </button>
+  <button
+    type="button"
+    class="flag"
+    [class.active]="translate.lang() === 'de'"
+    [attr.aria-pressed]="translate.lang() === 'de'"
+    [attr.aria-label]="translate.t('lang.de')"
+    (click)="select('de')"
+  >
+    🇩🇪
+  </button>
+</div>

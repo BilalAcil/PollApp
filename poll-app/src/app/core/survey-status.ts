@@ -29,6 +29,18 @@ export function isEndingSoon(survey: Survey, now: Date = new Date()): boolean {
 }
 
 /**
+ * Number of full days left until a survey's deadline, rounded up.
+ * Returns null if the survey has no deadline.
+ */
+export function daysRemaining(survey: Survey, now: Date = new Date()): number | null {
+  if (!survey.deadline) {
+    return null;
+  }
+  const remainingMs = new Date(survey.deadline).getTime() - now.getTime();
+  return Math.max(0, Math.ceil(remainingMs / MS_PER_DAY));
+}
+
+/**
  * Comparator that sorts surveys by deadline, earliest first.
  * Surveys without a deadline end up at the bottom of the list.
  */

@@ -1,0 +1,5 @@
+<article class="survey-card" [class.highlight]="variant() === 'highlight'">
+  <p class="category">{{ categoryLabel() }}</p>
+  <h3 class="title">{{ survey().title }}</h3>
+  <time class="deadline" [attr.datetime]="survey().deadline">{{ deadlineLabel() }}</time>
+</article>
