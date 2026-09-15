@@ -138,7 +138,11 @@ Die Datenhaltung läuft über **Supabase** (Vorgabe, nicht verhandelbar).
 - RLS muss auf allen Tabellen aktiviert sein, sonst kann jeder beliebige Daten
   löschen, sobald die App online ist.
 
-### Geplante Tabellen
+### Tabellen
+
+Das vollständige SQL liegt in `supabase/schema.sql` — einmal in den Supabase
+SQL Editor einfügen und ausführen. `supabase/seed.sql` legt danach Testdaten
+an, darunter eine bereits abgelaufene Umfrage (für den „Past"-Reiter).
 
 Eine Umfrage enthält **mehrere Fragen**, jede Frage mehrere Antwortoptionen.
 Deshalb liegt zwischen `surveys` und `survey_options` die Tabelle
@@ -148,6 +152,12 @@ Deshalb liegt zwischen `surveys` und `survey_options` die Tabelle
 - `survey_questions` — id, survey_id (FK), text, position, allow_multiple
 - `survey_options` — id, question_id (FK), label, position
 - `votes` — id, option_id (FK), created_at
+- `option_results` — View, zählt die Stimmen pro Option
+- `create_survey(...)` — Datenbankfunktion, legt Umfrage + Fragen + Optionen
+  in einer Transaktion an
+
+RLS-Policies erlauben Lesen und Anlegen für alle (kein Login), aber kein
+Ändern oder Löschen — dafür existiert bewusst keine Policy.
 
 ## Getroffene Entscheidungen
 

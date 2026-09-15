@@ -86,6 +86,24 @@ Bestätigungs-Overlay — sie ist das prägende Formmerkmal des Entwurfs.
 
 „Poll App" mit Sprechblasen-Icon, zwei Varianten für hellen und dunklen Grund.
 
+Beide liegen in `poll-app/public/images/`:
+
+- `logo-on-dark.png` — peachfarben, für dunklen Grund (Homescreen-Header)
+- `logo-on-light.png` — Aubergine, für hellen Grund (Header der Detailansicht)
+
+### Hero-Illustration
+
+Handy-Mockup mit Sprechblase, Stern-, Fragezeichen- und Häkchen-Kreis, siehe
+Abschnitt „Hinweis aus der Vorlage". Zwei PNGs in `poll-app/public/images/`:
+
+- `hero-illustration-resting.png` — Ruhezustand, Icons dicht am Handy
+- `hero-illustration-hover.png` — Hover-Zustand, Icons weiter auseinander
+
+Vom Benutzer bestätigt. Die einzelnen Ebenen (Sprechblase, Stern-Kreis usw. als
+eigene SVGs) liegen nicht vor — für eine echte gestaffelte Hover-Animation
+bräuchte es die Einzelteile statt der beiden fertigen Composings. Ohne sie:
+Umschalten zwischen den zwei fertigen PNGs bei `:hover`.
+
 ## Kategorien
 
 Feste Liste laut Dropdown-Menü:

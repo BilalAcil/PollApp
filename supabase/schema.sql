@@ -1,156 +1,181 @@
--- PollApp - database schema for Supabase.
--- Run it in the Supabase dashboard: SQL Editor -> New query -> Run.
+-- PollApp database schema.
+-- Run once in the Supabase dashboard under SQL Editor -> New query -> Run.
+-- Safe to re-run: every statement replaces its target first.
 
--- =============================================================
+-- ---------------------------------------------------------------------------
 -- Tables
--- =============================================================
+-- ---------------------------------------------------------------------------
 
--- A survey. The deadline decides whether it is still running or closed.
-create table if not exists public.surveys (
-  id          uuid primary key default gen_random_uuid(),
-  title       text        not null,
-  category    text        not null,
+drop table if exists votes cascade;
+drop table if exists survey_options cascade;
+drop table if exists survey_questions cascade;
+drop table if exists surveys cascade;
+
+-- A survey. One survey has one or more questions.
+create table surveys (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
   description text,
-  deadline    timestamptz,
-  created_at  timestamptz not null default now()
-);
-
--- An answer option belonging to exactly one survey.
--- Deleting the survey removes its options as well (on delete cascade).
-create table if not exists public.survey_options (
-  id        uuid primary key default gen_random_uuid(),
-  survey_id uuid not null references public.surveys (id) on delete cascade,
-  label     text not null
-);
-
--- A single vote cast for one answer option.
-create table if not exists public.votes (
-  id         uuid primary key default gen_random_uuid(),
-  option_id  uuid        not null references public.survey_options (id) on delete cascade,
+  category text not null check (category in (
+    'Team Activities',
+    'Health & Wellness',
+    'Gaming & Entertainment',
+    'Education & Learning',
+    'Lifestyle & Preferences',
+    'Technology & Innovation'
+  )),
+  deadline timestamptz,
   created_at timestamptz not null default now()
 );
 
--- Indexes for the queries the application runs most often.
-create index if not exists survey_options_survey_id_idx on public.survey_options (survey_id);
-create index if not exists votes_option_id_idx          on public.votes (option_id);
-create index if not exists surveys_deadline_idx         on public.surveys (deadline);
+-- A question that belongs to a survey.
+-- "position" fixes the display order, since SQL tables have no row order
+-- of their own.
+create table survey_questions (
+  id uuid primary key default gen_random_uuid(),
+  survey_id uuid not null references surveys (id) on delete cascade,
+  text text not null,
+  position integer not null,
+  allow_multiple boolean not null default false
+);
 
--- =============================================================
--- Row level security
--- =============================================================
--- Without RLS anyone holding the publishable key could wipe the tables.
--- The application has no login, so reading and inserting is open to everyone
--- while updating and deleting is allowed for nobody.
+-- One selectable answer for a question.
+create table survey_options (
+  id uuid primary key default gen_random_uuid(),
+  question_id uuid not null references survey_questions (id) on delete cascade,
+  label text not null,
+  position integer not null
+);
 
-alter table public.surveys        enable row level security;
-alter table public.survey_options enable row level security;
-alter table public.votes          enable row level security;
+-- One vote for one option. A single "Complete survey" click inserts one row
+-- per selected option in a single request.
+create table votes (
+  id uuid primary key default gen_random_uuid(),
+  option_id uuid not null references survey_options (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
 
-create policy "surveys_select" on public.surveys        for select using (true);
-create policy "surveys_insert" on public.surveys        for insert with check (true);
+create index survey_questions_survey_id_idx on survey_questions (survey_id);
+create index survey_options_question_id_idx on survey_options (question_id);
+create index votes_option_id_idx on votes (option_id);
 
-create policy "options_select" on public.survey_options for select using (true);
-create policy "options_insert" on public.survey_options for insert with check (true);
+-- ---------------------------------------------------------------------------
+-- Live results view
+-- ---------------------------------------------------------------------------
 
-create policy "votes_select"   on public.votes          for select using (true);
-create policy "votes_insert"   on public.votes          for insert with check (true);
-
--- =============================================================
--- Privileges
--- =============================================================
--- A second, independent layer next to RLS: a grant decides whether the role may
--- touch the table at all, RLS then decides which rows it sees. Without the grant
--- the API answers with 401 "permission denied for table ...".
--- "anon" is the role the publishable key runs as.
-
-grant select, insert on public.surveys        to anon, authenticated;
-grant select, insert on public.survey_options to anon, authenticated;
-grant select, insert on public.votes          to anon, authenticated;
-
--- =============================================================
--- View: vote count per option
--- =============================================================
--- Counting happens in the database so the frontend does not have to.
--- security_invoker = on makes the view apply the RLS rules of the caller
--- instead of those of its owner.
-
-create or replace view public.option_results
-with (security_invoker = on) as
+-- Counts votes per option. security_invoker makes the view check the RLS
+-- policies of the querying role instead of the view owner's permissions.
+drop view if exists option_results;
+create view option_results
+with (security_invoker = true) as
 select
-  o.id        as option_id,
-  o.survey_id as survey_id,
-  o.label     as label,
+  o.id as option_id,
+  o.question_id,
+  q.survey_id,
+  o.label,
   count(v.id) as vote_count
-from public.survey_options o
-left join public.votes v on v.option_id = o.id
-group by o.id, o.survey_id, o.label;
+from survey_options o
+join survey_questions q on q.id = o.question_id
+left join votes v on v.option_id = o.id
+group by o.id, o.question_id, q.survey_id, o.label;
 
-grant select on public.option_results to anon, authenticated;
+-- ---------------------------------------------------------------------------
+-- Create a survey together with its questions and options
+-- ---------------------------------------------------------------------------
 
--- =============================================================
--- Function: create a survey and its options atomically
--- =============================================================
--- A survey without answer options would be useless. Since the application is not
--- allowed to delete anything, it cannot clean up a half-created state on its own.
--- Both inserts therefore happen inside this function, which runs as a single
--- transaction: any error rolls the whole thing back.
--- No "security definer" here - the function runs with the privileges of the
--- caller, so the RLS policies still apply.
-
-create or replace function public.create_survey(
-  p_title       text,
-  p_category    text,
-  p_options     text[],
-  p_description text        default null,
-  p_deadline    timestamptz default null
-) returns uuid
+-- p_questions is a JSON array shaped like:
+-- [{ "text": "...", "allow_multiple": false, "options": ["A", "B"] }, ...]
+-- Runs as one transaction: if any insert fails, nothing is written.
+create or replace function create_survey(
+  p_title text,
+  p_category text,
+  p_questions jsonb,
+  p_description text default null,
+  p_deadline timestamptz default null
+)
+returns uuid
 language plpgsql
 as $$
 declare
   v_survey_id uuid;
+  v_question jsonb;
+  v_question_id uuid;
+  v_option text;
+  v_question_position integer := 0;
+  v_option_position integer;
 begin
-  if coalesce(array_length(p_options, 1), 0) < 2 then
-    raise exception 'Eine Umfrage braucht mindestens zwei Antwortoptionen.';
-  end if;
-
-  insert into public.surveys (title, category, description, deadline)
+  insert into surveys (title, category, description, deadline)
   values (p_title, p_category, p_description, p_deadline)
   returning id into v_survey_id;
 
-  insert into public.survey_options (survey_id, label)
-  select v_survey_id, trim(label)
-  from unnest(p_options) as label
-  where trim(label) <> '';
+  for v_question in select * from jsonb_array_elements(p_questions)
+  loop
+    insert into survey_questions (survey_id, text, position, allow_multiple)
+    values (
+      v_survey_id,
+      v_question ->> 'text',
+      v_question_position,
+      coalesce((v_question ->> 'allow_multiple')::boolean, false)
+    )
+    returning id into v_question_id;
+
+    v_option_position := 0;
+    for v_option in select * from jsonb_array_elements_text(v_question -> 'options')
+    loop
+      insert into survey_options (question_id, label, position)
+      values (v_question_id, v_option, v_option_position);
+      v_option_position := v_option_position + 1;
+    end loop;
+
+    v_question_position := v_question_position + 1;
+  end loop;
 
   return v_survey_id;
 end;
 $$;
 
-grant execute on function public.create_survey(text, text, text[], text, timestamptz)
+grant execute on function create_survey(text, text, jsonb, text, timestamptz)
   to anon, authenticated;
 
--- =============================================================
--- Sample data (optional, for testing)
--- =============================================================
+-- ---------------------------------------------------------------------------
+-- Row Level Security
+-- ---------------------------------------------------------------------------
 
-insert into public.surveys (title, category, description, deadline)
-values
-  ('Welches Framework für das nächste Projekt?', 'Technik',
-   'Wir starten im Herbst ein neues Projekt.', now() + interval '3 days'),
-  ('Wohin geht der Betriebsausflug?', 'Freizeit',
-   null, now() + interval '20 days'),
-  ('Bestes Mittagessen in der Kantine', 'Verpflegung',
-   'Rückblick auf das letzte Halbjahr.', now() - interval '2 days');
+-- The app has no login, so the publishable key is used by every visitor.
+-- Everyone may read and create rows; nobody may update or delete anything,
+-- since no policy exists for those actions and RLS denies by default.
 
-insert into public.survey_options (survey_id, label)
-select s.id, o.label
-from public.surveys s
-join (values
-  ('Welches Framework für das nächste Projekt?', 'Angular'),
-  ('Welches Framework für das nächste Projekt?', 'React'),
-  ('Welches Framework für das nächste Projekt?', 'Vue'),
-  ('Wohin geht der Betriebsausflug?', 'Wandern in den Alpen'),
-  ('Wohin geht der Betriebsausflug?', 'Städtetrip Wien'),
-  ('Bestes Mittagessen in der Kantine', 'Schnitzel'),
-  ('Bestes Mittagessen in der Kantine', 'Lasagne')
-) as o (survey_title, label) on o.survey_title = s.title;
+alter table surveys enable row level security;
+alter table survey_questions enable row level security;
+alter table survey_options enable row level security;
+alter table votes enable row level security;
+
+create policy "Anyone can read surveys" on surveys
+  for select using (true);
+create policy "Anyone can create surveys" on surveys
+  for insert with check (true);
+
+create policy "Anyone can read questions" on survey_questions
+  for select using (true);
+create policy "Anyone can create questions" on survey_questions
+  for insert with check (true);
+
+create policy "Anyone can read options" on survey_options
+  for select using (true);
+create policy "Anyone can create options" on survey_options
+  for insert with check (true);
+
+create policy "Anyone can read votes" on votes
+  for select using (true);
+create policy "Anyone can cast votes" on votes
+  for insert with check (true);
+
+-- RLS policies only decide which rows a role may see. Postgres separately
+-- requires the privilege to access the table at all; the SQL Editor does not
+-- grant this automatically the way the Supabase Table Editor UI does.
+
+grant select, insert on surveys to anon, authenticated;
+grant select, insert on survey_questions to anon, authenticated;
+grant select, insert on survey_options to anon, authenticated;
+grant select, insert on votes to anon, authenticated;
+grant select on option_results to anon, authenticated;
