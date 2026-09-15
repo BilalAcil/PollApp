@@ -17,8 +17,20 @@ werden, sobald sie vorliegen.
 | Weiß | `#FFFFFF` | Input-Felder, Karten auf hellem Grund |
 | Text dunkel | `#1E1B29` | Fließtext auf hellem Grund |
 | Text auf dunkel | `#FFFFFF` | Titel in dunklen Karten |
-| Label lavendel | `#C9B8DE` | Kategorie-Label in dunklen Karten |
+| Label amber | `#F7A94A` | Kategorie-Label in dunklen Karten |
 | Track grau | `#E9E7EF` | Hintergrund der Ergebnis-Balken |
+
+## Typografie
+
+| Rolle | Schrift | Schnitte | Verwendung |
+| --- | --- | --- | --- |
+| Display | Nerko One | Regular (400) | Überschriften, Logo, „LIVE"-Label |
+| Fließtext | Mulish | Regular (400), SemiBold (600), Bold (700) | Fließtext, Labels, Buttons |
+
+Beide sind Google Fonts, lokal eingebunden (kein externer CDN-Aufruf) als
+WOFF2 in `poll-app/public/fonts/`, per `@font-face` in `src/styles.scss`
+registriert. CSS-Variablen `--font-display` und `--font-body` stehen auf
+`:root` bereit.
 
 ## Formen
 
@@ -47,8 +59,12 @@ werden, sobald sie vorliegen.
 
 - **Highlights-Card** — heller Lavendel-Hintergrund, Kategorie-Label klein oben,
   großer fetter Titel, Deadline-Pill unten links
-- **Survey view in the list** — dunkle Karte, Kategorie-Label in Lavendel,
-  weißer fetter Titel, Deadline-Pill unten rechts
+- **Survey view in the list** — dunkle Karte, Kategorie-Label in Amber, weißer
+  fetter Titel, Deadline-Pill unten rechts
+
+Beide Kartentypen haben oben rechts eine **stark abgerundete Ecke**. Dieselbe
+Form wiederholt sich am Erstellen-Dialog, an der Detailansicht-Karte und am
+Bestätigungs-Overlay — sie ist das prägende Formmerkmal des Entwurfs.
 
 ### Formulare
 
@@ -106,6 +122,7 @@ unten rechts.
 - Jedes Eingabefeld hat ein Lösch-Icon daneben
 - Fragen-Blöcke nummeriert, je mit Fragetext, Checkbox „Allow multiple answers.",
   Antwortfeldern A./B./… und „Add answer ⊕"
+- **Maximal 6 Antwortoptionen pro Frage** — danach wird „Add answer" inaktiv
 - „Add next question ⊕" steht neben dem letzten Fragen-Block, solange nur eine
   Frage existiert, danach unterhalb
 
@@ -124,6 +141,48 @@ Kopfzeile mit Logo links und „Create survey" rechts. Darunter zwei Spalten:
 
 Nach „Publish" erscheint „Your survey is now published" mit Schließen-Kreuz.
 Nach dem Schließen landet der Benutzer in der neu erstellten Umfrage.
+
+## Mobile-Layouts
+
+Für alle drei Ansichten liegen eigene Entwürfe vor. Gemeinsames Muster: alles
+wird einspaltig, und die Auswertung wandert unter die Abstimmung.
+
+### Homescreen
+
+- Logo oben links, darunter die Display-Überschrift dreizeilig
+- **Die Illustration steht unter der Überschrift**, nicht daneben, und bleibt
+  sichtbar
+- Button „New survey" trägt hier ein `⊕`-Icon
+- „Ending soon surveys" **scrollt horizontal** — die nächste Karte ragt
+  angeschnitten ins Bild
+- Tabs und Kategorie-Dropdown stehen untereinander statt nebeneinander
+- Die Umfrageliste ist einspaltig
+
+### Erstellen-Dialog
+
+- Füllt den Bildschirm; das Logo steht darüber
+- Schließen-Kreuz als eigener Button oben rechts, `Draft`-Badge oben links
+- **Andere Feldreihenfolge als auf Desktop**: Survey name → Choose category →
+  Set end date → Describing text
+- Die Lösch-Icons sitzen auf Höhe der Beschriftung, nicht neben dem Feld
+- „Add next question" und „Publish" sind zentriert; „Publish" trägt ein
+  `✓`-Icon
+
+### Detailansicht
+
+- Statt „Create survey" steht oben rechts in der Karte ein **Schließen-Kreuz**
+- „Ends on …" und „Category: …" stehen nebeneinander in einer Zeile
+- Fragen einspaltig untereinander
+- Der Button heißt verkürzt „Complete ✓"
+- **Die Auswertung liegt unter der Karte und ist aufklappbar** — im
+  eingeklappten Zustand „See results ▼", im ausgeklappten „Close results ▲"
+
+### Results-Component
+
+Der aufklappbare Ergebnisbereich ist eine eigene Komponente mit zwei Zuständen
+(„See results" / „Close results"). Auf Desktop steht die Auswertung dauerhaft
+offen rechts neben der Abstimmung — so verlangt es auch die Abgabe-Checkliste
+(User Story 5).
 
 ## Verhalten der Lösch-Icons
 
@@ -153,5 +212,3 @@ Bewusste Korrekturen beim Nachbau:
 - **Schriftart** — Display-Schrift und Fließtext-Schrift aus Figma noch unbekannt.
 - **Assets** — Logo (hell/dunkel) und Hero-Illustration fehlen in
   `poll-app/public/`.
-- **Maximal 6 Antwortoptionen** — laut Vorlage („You can add up to 6 answer
-  fields."), als Formular-Validierung noch zu bestätigen.

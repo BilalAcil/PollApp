@@ -170,5 +170,7 @@ Grundlage ist der Figma-Entwurf, festgehalten in `docs/design-system.md`.
 - **Styling:** Noch nicht festgelegt (pures CSS vs. Framework).
 - **Doppelte Stimmabgabe:** Ohne Login schwer zu verhindern. Einfachste Lösung:
   abgegebene Stimme in `localStorage` merken.
-- **Schriftarten:** Display-Schrift und Fließtext-Schrift aus Figma noch unbekannt.
 - **Assets:** Logo und Hero-Illustration liegen noch nicht in `poll-app/public/`.
+
+Schriftarten sind gesetzt: Nerko One (Display) und Mulish (Fließtext), siehe
+`docs/design-system.md`.
