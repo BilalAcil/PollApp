@@ -24,8 +24,7 @@
 .hero {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xl);
+  gap: 2.5rem;
   margin-bottom: 5.625rem;
 }
 
@@ -46,7 +45,10 @@
 
 .hero-subtitle {
   margin: 0 0 var(--space-lg);
-  line-height: 1.6;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .btn-primary {
