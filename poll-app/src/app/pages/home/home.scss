@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-xl);
-  margin-bottom: var(--space-xxl);
+  margin-bottom: 5.625rem;
 }
 
 .hero-copy {
@@ -132,24 +132,27 @@
 }
 
 .section-title {
-  margin: 0 0 var(--space-xl);
+  margin: 0 0 5rem;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 2rem;
-  color: var(--color-amber);
+  font-size: 4.5rem;
+  color: var(--color-amber-light);
   text-align: center;
 }
 
 .ending-soon h3 {
-  margin: 0 0 var(--space-md);
-  font-weight: 700;
+  margin: 0 0 2rem;
+  font-weight: 500;
+  font-size: 2rem;
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-lg);
-  margin-bottom: var(--space-xl);
+  width: 65.125rem;
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
 }
 
 .card-grid.list {

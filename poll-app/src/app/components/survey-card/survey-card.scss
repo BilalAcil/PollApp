@@ -37,9 +37,13 @@
 }
 
 .survey-card.highlight {
+  width: 20rem;
+  height: 19.375rem;
+  gap: 0.625rem;
+  padding: 2.5rem 1.125rem;
   background: var(--color-lavender);
   color: var(--color-text-dark);
-  border-radius: var(--radius-card) var(--radius-card-cut) var(--radius-card) var(--radius-card);
+  border-radius: 0 5rem 0 0;
 }
 
 .survey-card.highlight .category {
