@@ -38,9 +38,18 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Nokora';
+  src: url('/fonts/nokora-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-display: 'Nerko One', cursive;
   --font-body: 'Mulish', sans-serif;
+  --font-button: 'Nokora', sans-serif;
 
   --color-amber: #f7a94a;
   --color-amber-light: #ffb770;
