@@ -134,12 +134,17 @@
 }
 
 .section-title {
-  margin: 0 0 5rem;
+  margin: 0;
+  margin-bottom: 3rem;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 4.5rem;
   color: var(--color-amber-light);
   text-align: center;
+}
+
+.ending-soon {
+  max-width: 65.125rem;
 }
 
 .ending-soon h3 {
