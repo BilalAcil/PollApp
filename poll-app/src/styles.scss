@@ -43,6 +43,8 @@
   --font-body: 'Mulish', sans-serif;
 
   --color-amber: #f7a94a;
+  --color-amber-light: #ffb770;
+  --color-amber-soft: #ffcfa1;
   --color-peach: #fbdcc0;
   --color-peach-light: #fdeee0;
   --color-dark: #372b4a;
@@ -77,6 +79,7 @@ body {
 .page {
   max-width: var(--max-content-width);
   margin: 0 auto;
+  container-type: inline-size;
 }
 
 .sr-only {
