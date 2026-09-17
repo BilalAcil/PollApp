@@ -4,11 +4,14 @@ import { LanguageSwitcher } from '../../components/language-switcher/language-sw
 import { SurveyCard } from '../../components/survey-card/survey-card';
 import { ALL_CATEGORIES, CATEGORIES, CategoryOption } from '../../core/categories';
 import { SurveyApi } from '../../core/survey-api';
-import { byDeadlineAscending, isClosed, isEndingSoon } from '../../core/survey-status';
+import { byDeadlineAscending, isClosed } from '../../core/survey-status';
 import { Translate } from '../../core/translate';
 import { Survey } from '../../models/survey.model';
 
 type Tab = 'active' | 'past';
+
+/** How many of the soonest-ending active surveys are highlighted above the list. */
+const ENDING_SOON_COUNT = 3;
 
 /** The homescreen: hero, ending-soon highlights, and the filterable survey list. */
 @Component({
@@ -32,8 +35,9 @@ export class Home implements OnInit {
 
   protected readonly endingSoon: Signal<Survey[]> = computed(() =>
     this.surveys()
-      .filter((survey) => isEndingSoon(survey))
-      .sort(byDeadlineAscending),
+      .filter((survey) => !isClosed(survey))
+      .sort(byDeadlineAscending)
+      .slice(0, ENDING_SOON_COUNT),
   );
 
   protected readonly visibleSurveys: Signal<Survey[]> = computed(() => this.filterVisible());

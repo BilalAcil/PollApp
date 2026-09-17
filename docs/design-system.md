@@ -9,13 +9,14 @@ werden, sobald sie vorliegen.
 | Rolle | Wert (geschätzt) | Verwendung |
 | --- | --- | --- |
 | Amber / Primär | `#F7A94A` | Primary Button, aktive Zustände, Ergebnis-Balken, Edit-Button |
-| Amber hell (bestätigt) | `#FFB770` | Hero-Überschrift (`.hero-title`), Primary Button Hover |
-| Amber soft (bestätigt) | `#FFCFA1` | Primary Button (`.btn-primary`) Ruhezustand |
+| Amber hell (bestätigt) | `#FFB770` | Hero-Überschrift (`.hero-title`), Primary Button Hover, Deadline-Pill Hover (Highlights-Card) |
+| Amber soft (bestätigt) | `#FFCFA1` | Primary Button (`.btn-primary`) Ruhezustand, Deadline-Pill |
 | Peach hell | `#FBDCC0` | Secondary Button, Filter-Pills, „Ends in 1 Day", Hover-Zustände |
 | Peach sehr hell | `#FDEEE0` | Hintergrund von Zeilen im Hover |
 | Dunkel / Aubergine | `#372B4A` | Dunkle Panels, Karten in der Liste, Delete-Button |
-| Dunkel tiefer (bestätigt) | `#35273A` | Homescreen-Hintergrund |
-| Lavendel hell | `#F0E8F7` | Highlights-Card Hintergrund |
+| Dunkel tiefer (bestätigt) | `#35273A` | Homescreen-Hintergrund, Kategorie-Label in Highlights-Card |
+| Lavendel hell (bestätigt) | `#FAF5FE` | Highlights-Card Hintergrund |
+| Lavendel Hover (bestätigt) | `#F4E9FB` | Highlights-Card Hover-Hintergrund |
 | Weiß | `#FFFFFF` | Input-Felder, Karten auf hellem Grund |
 | Text dunkel | `#1E1B29` | Fließtext auf hellem Grund |
 | Text auf dunkel | `#FFFFFF` | Titel in dunklen Karten |

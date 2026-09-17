@@ -191,8 +191,10 @@ Erste fertige Seite. Liest echte Daten über `SurveyApi.loadSurveys()`.
 
 - Tabs „Active" / „Past" plus Kategorie-Filter, beide clientseitig aus den
   geladenen Umfragen berechnet (keine erneute Datenbankabfrage nötig)
-- „Ending soon" nutzt `isEndingSoon()` und `byDeadlineAscending()` aus
-  `survey-status.ts`
+- „Ending soon" zeigt immer die `ENDING_SOON_COUNT` (3) am frühesten endenden
+  laufenden Umfragen — kein Zeitfenster, sondern eine feste Anzahl. Läuft eine
+  davon ab, rutscht automatisch die nächste nach. Nutzt `isClosed()` und
+  `byDeadlineAscending()` aus `survey-status.ts`.
 - Übersetzung über `Translate` (`src/app/core/translate.ts`): Signal-basiert,
   Wörterbücher in `core/i18n/en.ts` und `de.ts`, Sprachwahl in `localStorage`
   unter dem Schlüssel `pollapp-lang`, `document.documentElement.lang` wird bei

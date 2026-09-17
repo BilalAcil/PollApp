@@ -11,6 +11,9 @@ export type SurveyCardVariant = 'highlight' | 'list';
 @Component({
   selector: 'app-survey-card',
   imports: [],
+  host: {
+    '[class.highlight]': "variant() === 'highlight'",
+  },
   templateUrl: './survey-card.html',
   styleUrl: './survey-card.scss',
 })
