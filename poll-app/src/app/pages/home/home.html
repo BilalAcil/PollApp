@@ -64,19 +64,7 @@
             </button>
           </div>
 
-          <label class="category-filter">
-            <span class="sr-only">{{ translate.t('home.sortByCategories') }}</span>
-            <select (change)="onCategoryChange($event)">
-              <option [value]="allCategories" [selected]="categoryFilter() === allCategories">
-                {{ translate.t('home.allCategories') }}
-              </option>
-              @for (category of categories; track category.value) {
-                <option [value]="category.value" [selected]="categoryFilter() === category.value">
-                  {{ translate.t(category.labelKey) }}
-                </option>
-              }
-            </select>
-          </label>
+          <app-category-select [(value)]="categoryFilter" />
         </div>
 
         @if (visibleSurveys().length === 0) {

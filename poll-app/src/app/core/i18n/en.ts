@@ -9,7 +9,6 @@ export const en: Record<string, string> = {
   'home.tabs.active': 'Active survey',
   'home.tabs.past': 'Past survey',
   'home.sortByCategories': 'Sort by categories',
-  'home.allCategories': 'All Surveys',
   'home.empty.active': 'No active surveys in this category yet.',
   'home.empty.past': 'No past surveys in this category yet.',
   'home.loadError': 'Surveys could not be loaded.',

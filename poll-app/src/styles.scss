@@ -40,6 +40,14 @@
 
 @font-face {
   font-family: 'Nokora';
+  src: url('/fonts/nokora-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nokora';
   src: url('/fonts/nokora-bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
@@ -55,6 +63,7 @@
   --color-amber-light: #ffb770;
   --color-amber-soft: #ffcfa1;
   --color-peach: #fbdcc0;
+  --color-peach-pale: #fee9d4;
   --color-peach-light: #fdeee0;
   --color-dark: #372b4a;
   --color-dark-deep: #35273a;
@@ -62,6 +71,7 @@
   --color-lavender-hover: #f4e9fb;
   --color-white: #ffffff;
   --color-text-dark: #1e1b29;
+  --color-button-text: #221227;
   --color-text-on-dark: #ffffff;
   --color-track: #e9e7ef;
 

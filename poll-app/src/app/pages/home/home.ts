@@ -1,8 +1,9 @@
 import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 
+import { CategorySelect } from '../../components/category-select/category-select';
 import { LanguageSwitcher } from '../../components/language-switcher/language-switcher';
 import { SurveyCard } from '../../components/survey-card/survey-card';
-import { ALL_CATEGORIES, CATEGORIES, CategoryOption } from '../../core/categories';
+import { ALL_CATEGORIES } from '../../core/categories';
 import { SurveyApi } from '../../core/survey-api';
 import { byDeadlineAscending, isClosed } from '../../core/survey-status';
 import { Translate } from '../../core/translate';
@@ -16,16 +17,13 @@ const ENDING_SOON_COUNT = 3;
 /** The homescreen: hero, ending-soon highlights, and the filterable survey list. */
 @Component({
   selector: 'app-home',
-  imports: [LanguageSwitcher, SurveyCard],
+  imports: [LanguageSwitcher, SurveyCard, CategorySelect],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
   protected readonly translate: Translate = inject(Translate);
-
-  protected readonly categories: readonly CategoryOption[] = CATEGORIES;
-  protected readonly allCategories: string = ALL_CATEGORIES;
 
   protected readonly surveys: WritableSignal<Survey[]> = signal([]);
   protected readonly loading: WritableSignal<boolean> = signal(true);
@@ -49,12 +47,6 @@ export class Home implements OnInit {
   /** Switches between the "active" and "past" tab. */
   protected selectTab(tab: Tab): void {
     this.activeTab.set(tab);
-  }
-
-  /** Reads the chosen category out of the native select's change event. */
-  protected onCategoryChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    this.categoryFilter.set(target.value);
   }
 
   private async loadSurveys(): Promise<void> {

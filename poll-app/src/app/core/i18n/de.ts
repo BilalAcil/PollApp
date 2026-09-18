@@ -9,7 +9,6 @@ export const de: Record<string, string> = {
   'home.tabs.active': 'Laufende Umfragen',
   'home.tabs.past': 'Abgeschlossene Umfragen',
   'home.sortByCategories': 'Nach Kategorie sortieren',
-  'home.allCategories': 'Alle Umfragen',
   'home.empty.active': 'In dieser Kategorie gibt es noch keine laufenden Umfragen.',
   'home.empty.past': 'In dieser Kategorie gibt es noch keine abgeschlossenen Umfragen.',
   'home.loadError': 'Umfragen konnten nicht geladen werden.',

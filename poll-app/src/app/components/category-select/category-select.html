@@ -1,0 +1,29 @@
+<div class="category-select">
+  <button
+    type="button"
+    class="trigger"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="open()"
+    (click)="toggle()"
+  >
+    {{ translate.t(currentLabelKey()) }}
+    <span class="arrow" [class.up]="open()" aria-hidden="true"></span>
+  </button>
+
+  @if (open()) {
+    <ul class="options" role="listbox">
+      <li role="option" [attr.aria-selected]="value() === allCategories">
+        <button type="button" (click)="select(allCategories)">
+          {{ translate.t('home.sortByCategories') }}
+        </button>
+      </li>
+      @for (category of categories; track category.value) {
+        <li role="option" [attr.aria-selected]="value() === category.value">
+          <button type="button" (click)="select(category.value)">
+            {{ translate.t(category.labelKey) }}
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>
