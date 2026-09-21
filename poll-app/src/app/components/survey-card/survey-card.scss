@@ -1,39 +1,50 @@
 .survey-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-lg);
-  min-height: 9rem;
-  border-radius: var(--radius-card) var(--radius-card-cut) var(--radius-card) var(--radius-card);
-  background: var(--color-dark);
+  width: 32rem;
+  height: 8.125rem;
+  padding: 0.75rem 1.25rem;
+  border-top-left-radius: 0.3125rem;
+  border-top-right-radius: 3.125rem;
+  border-bottom-right-radius: 0.3125rem;
+  border-bottom-left-radius: 0.3125rem;
+  background: rgba(217, 217, 217, 0.0784);
   color: var(--color-text-on-dark);
   cursor: pointer;
 }
 
 .category {
-  margin: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-amber);
+  margin: 0 0 0.5rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-amber-soft);
 }
 
 .title {
-  margin: 0;
+  margin: 0 0 1.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
   font-family: var(--font-body);
-  font-size: 1.625rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1;
+  color: var(--color-text-on-dark);
 }
 
 .deadline {
-  margin-top: auto;
   align-self: flex-end;
   padding: var(--space-xs) var(--space-md);
   border-radius: 0 0.875rem 0 0;
   background: var(--color-amber-soft);
-  color: var(--color-dark-deep);
-  font-size: 0.88rem;
+  color: var(--color-button-text);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
   font-weight: 500;
+  line-height: 1;
   transition: background 0.15s ease;
 }
 
@@ -64,6 +75,7 @@
 }
 
 .survey-card.highlight .category {
+  margin: 0;
   color: var(--color-dark-deep);
   font-family: var(--font-body);
   font-weight: 600;
@@ -71,15 +83,20 @@
 }
 
 .survey-card.highlight .title {
+  margin: 0;
   color: var(--color-dark-deep);
   display: -webkit-box;
   overflow: hidden;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
+  font-size: 1.625rem;
+  line-height: 1.3;
 }
 
 .survey-card.highlight .deadline {
   align-self: flex-start;
+  color: var(--color-dark-deep);
 }
 
 :host(.highlight:hover) .deadline {
