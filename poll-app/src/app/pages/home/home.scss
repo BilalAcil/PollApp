@@ -236,6 +236,10 @@ main {
   cursor: pointer;
 }
 
+.tabs button:hover {
+  background: var(--color-amber-soft);
+}
+
 .tabs button.active {
   background: var(--color-amber-light);
 }

@@ -38,7 +38,10 @@
   background-image: url('/images/icon-dropdown-arrow-hover.png');
 }
 
-.arrow.up,
+.arrow.up {
+  background-image: url('/images/icon-dropdown-arrow-up-white.png');
+}
+
 .trigger:hover .arrow.up {
   background-image: url('/images/icon-dropdown-arrow-up.png');
 }

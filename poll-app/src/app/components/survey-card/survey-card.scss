@@ -11,6 +11,11 @@
   background: rgba(217, 217, 217, 0.0784);
   color: var(--color-text-on-dark);
   cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.survey-card:hover {
+  background: rgba(217, 217, 217, 0.1608);
 }
 
 .category {
