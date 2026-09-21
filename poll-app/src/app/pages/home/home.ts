@@ -2,6 +2,7 @@ import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } f
 
 import { CategorySelect } from '../../components/category-select/category-select';
 import { LanguageSwitcher } from '../../components/language-switcher/language-switcher';
+import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
 import { SurveyCard } from '../../components/survey-card/survey-card';
 import { ALL_CATEGORIES } from '../../core/categories';
 import { SurveyApi } from '../../core/survey-api';
@@ -17,7 +18,7 @@ const ENDING_SOON_COUNT = 3;
 /** The homescreen: hero, ending-soon highlights, and the filterable survey list. */
 @Component({
   selector: 'app-home',
-  imports: [LanguageSwitcher, SurveyCard, CategorySelect],
+  imports: [LanguageSwitcher, SurveyCard, CategorySelect, ScrollThumb],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

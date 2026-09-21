@@ -1,0 +1,9 @@
+@if (visible()) {
+  <div
+    class="thumb"
+    aria-hidden="true"
+    [style.height.px]="thumbHeight()"
+    [style.top.px]="thumbTop()"
+    (pointerdown)="onThumbPointerDown($event)"
+  ></div>
+}

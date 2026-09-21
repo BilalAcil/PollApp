@@ -74,10 +74,15 @@
             {{ translate.t(activeTab() === 'active' ? 'home.empty.active' : 'home.empty.past') }}
           </p>
         } @else {
-          <div class="card-grid list">
-            @for (survey of visibleSurveys(); track survey.id) {
-              <app-survey-card [survey]="survey" variant="list" />
-            }
+          <div class="list-row">
+            <div class="card-grid list" #listViewport>
+              @for (survey of visibleSurveys(); track survey.id) {
+                <app-survey-card [survey]="survey" variant="list" />
+              }
+            </div>
+            <div class="list-row-spacer">
+              <app-scroll-thumb [viewport]="listViewport" />
+            </div>
           </div>
         }
       }

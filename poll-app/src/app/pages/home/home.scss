@@ -182,14 +182,33 @@ main {
   padding-left: 0.625rem;
 }
 
+.list-row {
+  display: flex;
+  width: 100%;
+}
+
 .card-grid.list {
   grid-template-columns: repeat(2, 1fr);
+  margin-left: 4.9375rem;
   height: 26.375rem;
   gap: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.card-grid.list::-webkit-scrollbar {
+  display: none;
+}
+
+.list-row-spacer {
+  flex: 0 0 auto;
+  width: 4.9375rem;
 }
 
 .toolbar {
   width: 100%;
+  max-width: 65.125rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -253,6 +272,14 @@ main {
   .card-grid,
   .card-grid.list {
     grid-template-columns: 1fr;
+  }
+
+  .card-grid.list {
+    margin-left: 0;
+  }
+
+  .list-row-spacer {
+    display: none;
   }
 
   .toolbar {
