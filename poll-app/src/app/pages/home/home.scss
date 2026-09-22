@@ -256,6 +256,28 @@ main {
   color: var(--color-amber);
 }
 
+@media (max-width: 1420px) {
+  .page-inner {
+    padding: 2.5rem 5.5rem;
+  }
+}
+
+@media (max-width: 1350px) {
+  .page-inner {
+    padding: 2.5rem 3.5rem;
+  }
+}
+
+@media (max-width: 1250px) {
+  .page-inner {
+    padding: 2.5rem 2.5rem;
+  }
+
+  .hero-visual {
+    width: 30rem;
+  }
+}
+
 @media (max-width: 900px) {
   :host {
     padding: var(--space-lg);
