@@ -77,6 +77,7 @@
           </p>
         } @else {
           <div class="list-row">
+            <div class="list-row-spacer"></div>
             <div class="card-grid list" #listViewport>
               @for (survey of visibleSurveys(); track survey.id) {
                 <app-survey-card [survey]="survey" variant="list" />

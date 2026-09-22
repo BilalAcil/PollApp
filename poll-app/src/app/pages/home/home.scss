@@ -193,12 +193,12 @@ main {
 
 .list-row {
   display: flex;
+  justify-content: center;
   width: 100%;
 }
 
 .card-grid.list {
   grid-template-columns: repeat(2, 1fr);
-  margin-left: 4.9375rem;
   height: 26.375rem;
   gap: 1rem;
   overflow-y: auto;
@@ -212,7 +212,6 @@ main {
 
 .list-row-spacer {
   flex: 0 0 auto;
-  width: 4.9375rem;
 }
 
 .toolbar {
@@ -336,10 +335,6 @@ main {
   .card-grid,
   .card-grid.list {
     grid-template-columns: 1fr;
-  }
-
-  .card-grid.list {
-    margin-left: 0;
   }
 
   .list-row-spacer {
