@@ -46,6 +46,7 @@
   line-height: 6.25cqw;
   color: var(--color-amber-light);
   white-space: pre-line;
+  cursor: default;
 }
 
 .hero-subtitle {
@@ -54,6 +55,7 @@
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 1;
+  cursor: default;
 }
 
 .btn-primary {
@@ -150,7 +152,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1218px;
+  max-width: 1218px;
 }
 
 .section-title {
@@ -161,6 +163,7 @@ main {
   font-size: 4.5rem;
   color: var(--color-amber-light);
   text-align: center;
+  cursor: default;
 }
 
 .ending-soon {
@@ -171,6 +174,7 @@ main {
   margin: 0 0 2rem;
   font-weight: 500;
   font-size: 2rem;
+  cursor: default;
 }
 
 .card-grid {
