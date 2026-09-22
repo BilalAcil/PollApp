@@ -7,7 +7,9 @@
 
     <section class="hero">
       <div class="hero-copy">
-        <h1 class="hero-title">{{ translate.t('home.hero.title') }}</h1>
+        <h1 class="hero-title" [class.lang-de]="translate.lang() === 'de'">
+          {{ translate.t('home.hero.title') }}
+        </h1>
         <p class="hero-subtitle">{{ translate.t('home.hero.subtitle') }}</p>
         <button type="button" class="btn-primary">
           {{ translate.t('home.hero.cta') }}

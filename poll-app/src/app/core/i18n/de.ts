@@ -2,7 +2,7 @@
 export const de: Record<string, string> = {
   'home.hero.title': 'Feedback sammeln,\nIdeen freisetzen',
   'home.hero.subtitle':
-    'Erstelle und teile Umfragen in wenigen Minuten – von Team-Events bis zur Unternehmenskultur. Sammle Meinungen, binde dein Publikum ein und mach aus Feedback konkrete Schritte.',
+    'Erstelle und teile Umfragen in Minuten – für Team-Events oder Unternehmenskultur. Sammle Meinungen, aktiviere dein Publikum und mach aus Feedback Taten.',
   'home.hero.cta': 'Neue Umfrage',
   'home.yourSurveys': 'Deine Umfragen',
   'home.endingSoon': 'Bald endende Umfragen',
