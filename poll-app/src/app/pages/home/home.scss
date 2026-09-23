@@ -199,6 +199,8 @@ main {
 
 .card-grid.list {
   grid-template-columns: repeat(2, 1fr);
+  flex: 1 1 auto;
+  min-width: 0;
   height: 26.375rem;
   gap: 1rem;
   overflow-y: auto;
@@ -316,6 +318,10 @@ main {
     padding: var(--space-lg);
   }
 
+  .page-inner {
+    padding: 1rem 1rem;
+  }
+
   .hero {
     height: auto;
     flex-direction: column;
@@ -332,15 +338,37 @@ main {
     width: 100%;
   }
 
-  .card-grid,
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
   .card-grid.list {
     grid-template-columns: 1fr;
+    justify-items: center;
   }
 
   .list-row-spacer {
     display: none;
   }
 
+  .card-grid {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  [_nghost-ng-c1910622990] {
+    width: 100%;
+  }
+
+  app-survey-card {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 600px) {
   .toolbar {
     flex-direction: column;
     align-items: flex-start;

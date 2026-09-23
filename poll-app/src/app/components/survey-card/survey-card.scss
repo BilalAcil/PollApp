@@ -1,7 +1,7 @@
 .survey-card {
   display: flex;
   flex-direction: column;
-  width: 32rem;
+  width: clamp(10rem, 42.6667vw - 1.3333rem, 32rem);
   height: 8.125rem;
   padding: 0.75rem 1.25rem;
   border-top-left-radius: 0.3125rem;
@@ -106,4 +106,12 @@
 
 :host(.highlight:hover) .deadline {
   background: var(--color-amber-light);
+}
+
+@media (max-width: 800px) {
+
+  .survey-card {
+    width: unset;
+  }
+
 }
