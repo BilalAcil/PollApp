@@ -382,6 +382,22 @@ main {
 
 }
 
+@media (max-width: 680px) {
+  .ending-soon .card-grid {
+    gap: var(--space-lg);
+    scrollbar-width: none;
+  }
+
+  .ending-soon .card-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ending-soon .card-grid app-survey-card {
+    margin-left: 0;
+    box-shadow: none;
+  }
+}
+
 @media (max-width: 600px) {
   .toolbar {
     flex-direction: column;
