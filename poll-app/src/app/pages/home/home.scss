@@ -310,9 +310,7 @@ main {
   .ending-soon .card-grid app-survey-card:hover {
     z-index: 5;
   }
-}
 
-@media (max-width: 960px) {
   .hero-visual {
     width: 27rem;
   }
@@ -321,6 +319,10 @@ main {
 @media (max-width: 900px) {
   :host {
     padding: var(--space-lg);
+  }
+
+  .hero-title.lang-de {
+    font-size: 6.9444cqw;
   }
 
   .page-inner {
@@ -349,6 +351,7 @@ main {
 }
 
 @media (max-width: 800px) {
+
   .card-grid.list {
     grid-template-columns: 1fr;
     justify-items: center;
