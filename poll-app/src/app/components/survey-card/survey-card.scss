@@ -18,6 +18,10 @@
   background: rgba(217, 217, 217, 0.1608);
 }
 
+.survey-card:not(.highlight) {
+  min-width: 100%;
+}
+
 .category {
   margin: 0 0 0.5rem;
   font-family: var(--font-body);

@@ -6,10 +6,16 @@
 
 .thumb {
   position: absolute;
-  left: 0;
+  left: 10px;
   width: 0.5rem;
   border-radius: 0.625rem;
   background: var(--color-amber-light);
   cursor: pointer;
   touch-action: none;
+}
+
+@media (max-width: 1240px) {
+  .thumb {
+    left: 0;
+  }
 }

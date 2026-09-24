@@ -192,11 +192,13 @@ main {
 }
 
 .list-row {
+  width: 100%;
   display: flex;
   justify-content: center;
 }
 
 .card-grid.list {
+  max-width: 1042px;
   grid-template-columns: repeat(2, 1fr);
   flex: 1 1 auto;
   min-width: 0;
