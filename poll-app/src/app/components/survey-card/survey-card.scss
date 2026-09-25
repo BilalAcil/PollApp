@@ -110,10 +110,56 @@
   background: var(--color-amber-light);
 }
 
+@media (max-width: 900px) {
+
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
 @media (max-width: 800px) {
 
   .survey-card {
     width: unset;
+    height: auto;
   }
 
+  .title {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+  }
+}
+
+@media (max-width: 600px) {
+
+  :host(.highlight) {
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 250px;
+    height: 233px;
+    padding: 24px 16px;
+    border-radius: 0 80px 0 0;
+  }
+
+  .survey-card.highlight {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    gap: 0;
+  }
+
+  .survey-card.highlight .category {
+    margin-bottom: 8px;
+  }
+
+  .survey-card.highlight .title {
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .survey-card.highlight .deadline {
+    margin-top: auto;
+  }
 }

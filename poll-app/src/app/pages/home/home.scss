@@ -414,6 +414,11 @@ main {
     width: 100%;
   }
 
+  .toolbar[_ngcontent-ng-c1910622990] {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 48px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -438,6 +443,14 @@ main {
     margin-left: 0;
     box-shadow: none;
   }
+
+  :host {
+    padding: 48px 16px;
+  }
+
+  .page-inner {
+    padding: 0;
+  }
 }
 
 @media (max-width: 750px) {
@@ -461,4 +474,35 @@ main {
     align-items: flex-start;
     gap: var(--space-md);
   }
+
+  .section-title {
+    font-size: clamp(54px, 12.6761cqw, 72px);
+    line-height: 1;
+  }
+
+  .ending-soon h3 {
+    font-size: clamp(24px, 5.6338cqw, 32px);
+  }
+}
+
+@media (max-width: 500px) {
+  .tabs button {
+    max-width: 142px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 360px) {
+  :host-context(html[lang='de']) .tabs {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  :host-context(html[lang='de']) .tabs button {
+    max-width: 100%;
+    text-overflow: none;
+  }
+
 }
