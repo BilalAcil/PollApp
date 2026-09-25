@@ -57,6 +57,7 @@ export class CategorySelect {
     }
   }
 
+  /** Closes the list when the user presses Escape. */
   @HostListener('keydown.escape')
   protected onEscape(): void {
     this.open.set(false);

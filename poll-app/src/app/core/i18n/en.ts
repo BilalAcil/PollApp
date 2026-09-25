@@ -27,4 +27,5 @@ export const en: Record<string, string> = {
 
   'lang.en': 'English',
   'lang.de': 'German',
+  'lang.groupLabel': 'Language',
 };

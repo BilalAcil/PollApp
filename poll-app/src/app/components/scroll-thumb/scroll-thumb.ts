@@ -55,6 +55,7 @@ export class ScrollThumb {
     event.preventDefault();
   }
 
+  /** Continues an active drag gesture as the pointer moves. */
   @HostListener('document:pointermove', ['$event'])
   protected onDocumentPointerMove(event: PointerEvent): void {
     if (this.dragging()) {
@@ -62,6 +63,7 @@ export class ScrollThumb {
     }
   }
 
+  /** Ends the drag gesture once the pointer is released. */
   @HostListener('document:pointerup')
   protected onDocumentPointerUp(): void {
     this.dragging.set(false);

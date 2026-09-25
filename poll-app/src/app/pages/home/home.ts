@@ -41,6 +41,7 @@ export class Home implements OnInit {
 
   protected readonly visibleSurveys: Signal<Survey[]> = computed(() => this.filterVisible());
 
+  /** Loads the surveys once the component is mounted. */
   async ngOnInit(): Promise<void> {
     await this.loadSurveys();
   }
@@ -50,6 +51,7 @@ export class Home implements OnInit {
     this.activeTab.set(tab);
   }
 
+  /** Fetches every survey from the backend, flagging failures for the template. */
   private async loadSurveys(): Promise<void> {
     try {
       this.surveys.set(await this.surveyApi.loadSurveys());

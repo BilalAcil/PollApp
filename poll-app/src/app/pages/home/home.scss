@@ -290,7 +290,6 @@ main {
   .ending-soon .card-grid {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-start;
     justify-content: space-between;
     gap: 0;
     padding: 0 0 0.5rem;
@@ -406,15 +405,11 @@ main {
     padding-left: 0;
   }
 
-  [_nghost-ng-c1910622990] {
-    width: 100%;
-  }
-
   app-survey-card {
     width: 100%;
   }
 
-  .toolbar[_ngcontent-ng-c1910622990] {
+  .toolbar {
     align-items: flex-start;
     flex-direction: column;
     gap: 48px;
