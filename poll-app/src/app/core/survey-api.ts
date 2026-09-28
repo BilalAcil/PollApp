@@ -84,6 +84,22 @@ export class SurveyApi {
   }
 
   /**
+   * Calls `onChange` whenever a vote is inserted anywhere in the database.
+   * "votes" has no survey_id column, so this cannot filter server-side;
+   * the caller re-fetches its own results instead. Returns a function that
+   * ends the subscription.
+   */
+  subscribeToVotes(onChange: () => void): () => void {
+    const channel = this.supabase.client
+      .channel('votes-changes')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, onChange)
+      .subscribe();
+    return () => {
+      this.supabase.client.removeChannel(channel);
+    };
+  }
+
+  /**
    * Creates a survey together with its questions and answer options and
    * returns the new id. Delegates to the "create_survey" database function
    * so every insert shares one transaction: if any step fails, no

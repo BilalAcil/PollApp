@@ -19,3 +19,9 @@ export const CATEGORIES: readonly CategoryOption[] = [
 
 /** Sentinel filter value that resets the category filter back to "All". */
 export const ALL_CATEGORIES = 'all';
+
+/** Translation key for a stored category value, falling back to the raw value. */
+export function categoryLabelKey(category: string): string {
+  const match = CATEGORIES.find((option) => option.value === category);
+  return match ? match.labelKey : category;
+}

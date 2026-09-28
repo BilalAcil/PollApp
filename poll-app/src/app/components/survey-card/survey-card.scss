@@ -1,4 +1,5 @@
 .survey-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: clamp(10rem, 42.6667vw - 1.3333rem, 32rem);
@@ -16,6 +17,12 @@
 
 .survey-card:hover {
   background: rgba(217, 217, 217, 0.1608);
+}
+
+.card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .survey-card:not(.highlight) {

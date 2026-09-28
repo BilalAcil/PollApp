@@ -1,7 +1,8 @@
 import { Component, computed, inject, input, Signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { CATEGORIES } from '../../core/categories';
-import { daysRemaining, isClosed } from '../../core/survey-status';
+import { categoryLabelKey } from '../../core/categories';
+import { daysRemaining, formatDeadlineDate, isClosed } from '../../core/survey-status';
 import { Translate } from '../../core/translate';
 import { Survey } from '../../models/survey.model';
 
@@ -10,7 +11,7 @@ export type SurveyCardVariant = 'highlight' | 'list';
 /** One survey shown as a card, either as a homescreen highlight or in the list. */
 @Component({
   selector: 'app-survey-card',
-  imports: [],
+  imports: [RouterLink],
   host: {
     '[class.highlight]': "variant() === 'highlight'",
   },
@@ -28,14 +29,16 @@ export class SurveyCard {
 
   /** Translates the survey's category value, falling back to the raw value. */
   private translateCategory(): string {
-    const match = CATEGORIES.find((category) => category.value === this.survey().category);
-    return match ? this.translate.t(match.labelKey) : this.survey().category;
+    return this.translate.t(categoryLabelKey(this.survey().category));
   }
 
   /** Builds the deadline pill text, distinguishing open, closed and open-ended surveys. */
   private formatDeadline(): string {
-    if (isClosed(this.survey())) {
-      return this.translate.t('survey.endedOn', { date: this.formattedDate() });
+    const deadline = this.survey().deadline;
+    if (isClosed(this.survey()) && deadline) {
+      return this.translate.t('survey.endedOn', {
+        date: formatDeadlineDate(deadline, this.translate.lang()),
+      });
     }
     const days = daysRemaining(this.survey());
     if (days === null) {
@@ -43,15 +46,5 @@ export class SurveyCard {
     }
     const key = days === 1 ? 'survey.endsInDay' : 'survey.endsInDays';
     return this.translate.t(key, { n: days });
-  }
-
-  /** Formats the deadline as a locale-aware date string. */
-  private formattedDate(): string {
-    const deadline = this.survey().deadline;
-    if (!deadline) {
-      return '';
-    }
-    const locale = this.translate.lang() === 'de' ? 'de-DE' : 'en-GB';
-    return new Date(deadline).toLocaleDateString(locale);
   }
 }

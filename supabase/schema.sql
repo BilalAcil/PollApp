@@ -179,3 +179,20 @@ grant select, insert on survey_questions to anon, authenticated;
 grant select, insert on survey_options to anon, authenticated;
 grant select, insert on votes to anon, authenticated;
 grant select on option_results to anon, authenticated;
+
+-- ---------------------------------------------------------------------------
+-- Realtime
+-- ---------------------------------------------------------------------------
+
+-- Broadcasts every new vote so the detail view can update its results live
+-- without a reload. "add table" has no "if not exists" clause, so the
+-- membership check below is what keeps this safe to re-run.
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'votes'
+  ) then
+    alter publication supabase_realtime add table votes;
+  end if;
+end $$;

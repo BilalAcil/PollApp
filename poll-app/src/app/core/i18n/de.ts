@@ -15,8 +15,22 @@ export const de: Record<string, string> = {
 
   'survey.endsInDay': 'Endet in {n} Tag',
   'survey.endsInDays': 'Endet in {n} Tagen',
+  'survey.endsOn': 'Endet am {date}',
   'survey.endedOn': 'Beendet am {date}',
   'survey.noDeadline': 'Läuft unbegrenzt',
+
+  'detail.category': 'Kategorie: {category}',
+  'detail.published': 'Veröffentlicht',
+  'detail.resultsTitle': 'Umfrageergebnisse',
+  'detail.live': 'LIVE',
+  'detail.resultsEmptyHint': 'Die Ergebnisse erscheinen hier, sobald Teilnehmer die Umfrage abgeschlossen haben.',
+  'detail.noAnswersYet': 'Es gibt noch keine Antworten.',
+  'detail.multipleAnswersHint': 'Mehr als eine Antwort ist möglich.',
+  'detail.completeSurvey': 'Umfrage abschließen',
+  'detail.voteError': 'Stimme konnte nicht gespeichert werden.',
+  'detail.notFound': 'Diese Umfrage gibt es nicht.',
+  'detail.loadError': 'Umfrage konnte nicht geladen werden.',
+  'detail.createSurvey': 'Umfrage erstellen',
 
   'category.teamActivities': 'Teamaktivitäten',
   'category.healthWellness': 'Gesundheit & Wohlbefinden',

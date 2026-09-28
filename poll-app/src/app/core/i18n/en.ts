@@ -15,8 +15,22 @@ export const en: Record<string, string> = {
 
   'survey.endsInDay': 'Ends in {n} Day',
   'survey.endsInDays': 'Ends in {n} Days',
+  'survey.endsOn': 'Ends on {date}',
   'survey.endedOn': 'Ended on {date}',
   'survey.noDeadline': 'Runs indefinitely',
+
+  'detail.category': 'Category: {category}',
+  'detail.published': 'Published',
+  'detail.resultsTitle': 'Survey results',
+  'detail.live': 'LIVE',
+  'detail.resultsEmptyHint': 'Results will be shown here after participants complete the survey.',
+  'detail.noAnswersYet': 'There are no answers yet.',
+  'detail.multipleAnswersHint': 'More than one answer is possible.',
+  'detail.completeSurvey': 'Complete survey',
+  'detail.voteError': 'Vote could not be saved.',
+  'detail.notFound': 'This survey does not exist.',
+  'detail.loadError': 'Survey could not be loaded.',
+  'detail.createSurvey': 'Create survey',
 
   'category.teamActivities': 'Team Activities',
   'category.healthWellness': 'Health & Wellness',
