@@ -81,7 +81,9 @@
 .layout {
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   gap: var(--space-xl);
+  width: 1060px;
 }
 
 .survey-panel {
@@ -253,27 +255,33 @@
 }
 
 .results-panel {
-  flex: 1 1 40%;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 96px;
+  width: 316px;
 }
 
 .results-panel h2 {
-  margin: 0 0 var(--space-lg);
+  margin: 0 0 16px 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--color-button-text);
 }
 
 .live {
-  color: var(--color-amber);
+  color: var(--color-amber-light);
 }
 
 .result-question {
-  margin-bottom: var(--space-lg);
+  margin-bottom: 24px;
 }
 
 .result-question h3 {
-  margin: 0 0 var(--space-sm);
+  margin: 0 0 16px 8px;
+  padding-left: 17px;
+  text-indent: -17px;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.9375rem;
