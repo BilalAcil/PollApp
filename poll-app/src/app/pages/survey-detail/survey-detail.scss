@@ -100,7 +100,7 @@
 
 .title {
   width: 622px;
-  margin: var(--space-sm) 0;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 56px;
@@ -109,56 +109,101 @@
 }
 
 .description {
-  margin: 0 0 var(--space-lg);
+  width: 622px;
+  margin: 8px 0 48px;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-dark-deep);
 }
 
 .questions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-lg) var(--space-xl);
+  gap: var(--space-lg);
   margin-bottom: var(--space-lg);
+}
+
+.question {
+  width: 300px;
 }
 
 .question h2 {
   margin: 0 0 var(--space-xs);
+  padding-left: 20px;
+  text-indent: -20px;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 18px;
+  color: var(--color-dark-deep);
 }
 
 .hint {
-  margin: 0 0 var(--space-sm);
+  margin: 0;
+  padding-left: 20px;
   font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: var(--color-text-dark);
-  opacity: 0.7;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--color-dark-deep);
 }
 
 .answers {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  margin: 0;
+  margin: 24px 0 0;
   padding: 0;
   list-style: none;
+}
+
+.answers li {
+  height: 20px;
 }
 
 .answers label {
   display: flex;
   align-items: center;
+  height: 100%;
   gap: var(--space-sm);
+  padding: 0 var(--space-sm);
+  border-radius: 0.5rem;
   font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-dark-deep);
   cursor: pointer;
 }
 
+.answers label:hover {
+  background: var(--color-peach-light);
+}
+
+.answer-letter {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-dark-deep);
+}
+
 .answers input[type='checkbox'] {
-  width: 1.125rem;
-  height: 1.125rem;
-  accent-color: var(--color-amber);
+  appearance: none;
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  background: url('/images/icon-checkbox-empty.png') no-repeat center / contain;
   cursor: pointer;
+}
+
+.answers label:hover input[type='checkbox']:not(:checked) {
+  background-image: url('/images/icon-checkbox-hover.png');
+}
+
+.answers input[type='checkbox']:checked {
+  background-image: url('/images/icon-checkbox-checked.png');
 }
 
 .answers input[type='checkbox']:disabled {

@@ -24,6 +24,7 @@ begin
   perform create_survey(
     p_title := 'Fit & wellness survey!',
     p_category := 'Health & Wellness',
+    p_description := 'Take a minute to share your preferences so we can make this a great experience for everyone.',
     p_deadline := now() + interval '2 days',
     p_questions := '[
       {"text": "How often do you exercise per week?", "allow_multiple": false,
@@ -34,6 +35,7 @@ begin
   perform create_survey(
     p_title := 'Gaming habits and favorite games!',
     p_category := 'Gaming & Entertainment',
+    p_description := 'Your input matters — let us know what you think so we can shape this together.',
     p_deadline := now() + interval '3 days',
     p_questions := '[
       {"text": "Which platform do you play on most?", "allow_multiple": true,
@@ -44,6 +46,7 @@ begin
   perform create_survey(
     p_title := 'Office coffee preferences',
     p_category := 'Lifestyle & Preferences',
+    p_description := 'Quick and easy: just a few questions to help us understand what works best for the team.',
     p_deadline := now() - interval '5 days',
     p_questions := '[
       {"text": "How do you take your coffee?", "allow_multiple": false,

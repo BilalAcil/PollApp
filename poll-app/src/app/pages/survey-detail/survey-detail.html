@@ -39,7 +39,8 @@
                           [disabled]="readOnly()"
                           (change)="toggleOption(question, option.id)"
                         />
-                        {{ optionLetter($index) }}. {{ option.label }}
+                        <span class="answer-letter">{{ optionLetter($index) }}.</span>
+                        {{ option.label }}
                       </label>
                     </li>
                   }
