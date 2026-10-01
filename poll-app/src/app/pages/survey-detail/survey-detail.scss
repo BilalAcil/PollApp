@@ -284,14 +284,14 @@
   text-indent: -17px;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
 }
 
 .result-row {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  margin-bottom: var(--space-xs);
+  margin-bottom: 16px;
 }
 
 .letter {
@@ -302,9 +302,10 @@
 }
 
 .track {
-  flex: 1 1 auto;
-  height: 0.5rem;
-  border-radius: var(--radius-pill);
+  flex: 0 0 auto;
+  width: 16rem;
+  height: 0.875rem;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
   background: var(--color-track);
   overflow: hidden;
 }
@@ -312,6 +313,8 @@
 .fill {
   display: block;
   height: 100%;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
   background: var(--color-amber);
   transition: width 0.3s ease;
 }
