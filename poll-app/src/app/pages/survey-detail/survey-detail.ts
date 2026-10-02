@@ -39,6 +39,7 @@ export class SurveyDetail {
   protected readonly loadError: WritableSignal<boolean> = signal(false);
   protected readonly voteError: WritableSignal<boolean> = signal(false);
   protected readonly hasVoted: WritableSignal<boolean> = signal(false);
+  protected readonly resultsScrolled: WritableSignal<boolean> = signal(false);
   private readonly selections: WritableSignal<Map<string, Set<string>>> = signal(new Map());
 
   protected readonly categoryLabel: Signal<string> = computed(() =>
@@ -86,6 +87,12 @@ export class SurveyDetail {
     } catch {
       this.voteError.set(true);
     }
+  }
+
+  /** Tracks whether the results list has been scrolled away from its top. */
+  protected onResultsScroll(event: Event): void {
+    const viewport = event.target as HTMLElement;
+    this.resultsScrolled.set(viewport.scrollTop > 0);
   }
 
   /** Converts a zero-based option index into its display letter (A, B, C, ...). */

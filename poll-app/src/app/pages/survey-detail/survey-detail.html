@@ -78,7 +78,12 @@
           </h2>
 
           <div class="results-scroll-row">
-            <div class="results-scroll" #resultsViewport>
+            <div
+              class="results-scroll"
+              #resultsViewport
+              [class.scrolled]="resultsScrolled()"
+              (scroll)="onResultsScroll($event)"
+            >
               @if (isResultsEmpty()) {
                 <p>{{ translate.t('detail.resultsEmptyHint') }}</p>
                 <p>{{ translate.t('detail.noAnswersYet') }}</p>
