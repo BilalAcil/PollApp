@@ -71,7 +71,11 @@
           }
         </section>
 
-        <aside class="results-panel" aria-labelledby="results-title">
+        <aside
+          class="results-panel"
+          [class.empty]="isResultsEmpty()"
+          aria-labelledby="results-title"
+        >
           <h2 id="results-title">
             {{ translate.t('detail.resultsTitle') }}
             <span class="live">{{ translate.t('detail.live') }}</span>
@@ -86,7 +90,7 @@
             >
               @if (isResultsEmpty()) {
                 <p>{{ translate.t('detail.resultsEmptyHint') }}</p>
-                <p>{{ translate.t('detail.noAnswersYet') }}</p>
+                <p class="no-answers">{{ translate.t('detail.noAnswersYet') }}</p>
               } @else {
                 @for (question of survey.survey_questions; track question.id) {
                   <div class="result-question">
