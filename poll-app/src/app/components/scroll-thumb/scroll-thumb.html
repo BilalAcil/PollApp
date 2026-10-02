@@ -1,6 +1,7 @@
 @if (visible()) {
   <div
     class="thumb"
+    [class.thumb--image]="variant() === 'image'"
     aria-hidden="true"
     [style.height.px]="thumbHeight()"
     [style.top.px]="thumbTop()"

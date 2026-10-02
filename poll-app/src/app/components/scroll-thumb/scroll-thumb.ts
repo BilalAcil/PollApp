@@ -28,6 +28,7 @@ const THUMB_HEIGHT_PX = 64;
 })
 export class ScrollThumb {
   readonly viewport: InputSignal<HTMLElement | null> = input<HTMLElement | null>(null);
+  readonly variant: InputSignal<'solid' | 'image'> = input<'solid' | 'image'>('solid');
 
   private readonly scrollTop: WritableSignal<number> = signal(0);
   private readonly clientHeight: WritableSignal<number> = signal(0);

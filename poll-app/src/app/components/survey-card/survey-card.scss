@@ -1,5 +1,8 @@
-.survey-card {
+:host {
   position: relative;
+}
+
+.survey-card {
   display: flex;
   flex-direction: column;
   width: clamp(10rem, 42.6667vw - 1.3333rem, 32rem);
@@ -15,7 +18,7 @@
   transition: background 0.15s ease;
 }
 
-.survey-card:hover {
+:host:hover .survey-card:not(.highlight) {
   background: rgba(217, 217, 217, 0.1608);
 }
 

@@ -77,28 +77,33 @@
             <span class="live">{{ translate.t('detail.live') }}</span>
           </h2>
 
-          @if (isResultsEmpty()) {
-            <p>{{ translate.t('detail.resultsEmptyHint') }}</p>
-            <p>{{ translate.t('detail.noAnswersYet') }}</p>
-          } @else {
-            @for (question of survey.survey_questions; track question.id) {
-              <div class="result-question">
-                <h3>{{ $index + 1 }}. {{ question.text }}</h3>
-                @for (option of question.survey_options; track option.id) {
-                  <div class="result-row">
-                    <span class="letter">{{ optionLetter($index) }}</span>
-                    <span class="track">
-                      <span
-                        class="fill"
-                        [style.width.%]="optionPercent(option.id, question.id)"
-                      ></span>
-                    </span>
-                    <span class="percent">{{ optionPercent(option.id, question.id) }}%</span>
+          <div class="results-scroll-row">
+            <div class="results-scroll" #resultsViewport>
+              @if (isResultsEmpty()) {
+                <p>{{ translate.t('detail.resultsEmptyHint') }}</p>
+                <p>{{ translate.t('detail.noAnswersYet') }}</p>
+              } @else {
+                @for (question of survey.survey_questions; track question.id) {
+                  <div class="result-question">
+                    <h3>{{ $index + 1 }}. {{ question.text }}</h3>
+                    @for (option of question.survey_options; track option.id) {
+                      <div class="result-row">
+                        <span class="letter">{{ optionLetter($index) }}</span>
+                        <span class="track">
+                          <span
+                            class="fill"
+                            [style.width.%]="optionPercent(option.id, question.id)"
+                          ></span>
+                        </span>
+                        <span class="percent">{{ optionPercent(option.id, question.id) }}%</span>
+                      </div>
+                    }
                   </div>
                 }
-              </div>
-            }
-          }
+              }
+            </div>
+            <app-scroll-thumb class="results-thumb" [viewport]="resultsViewport" variant="image" />
+          </div>
         </aside>
       </main>
     } @else if (!loading()) {

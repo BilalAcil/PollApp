@@ -14,6 +14,13 @@
   touch-action: none;
 }
 
+.thumb--image {
+  left: 0;
+  width: 0.5rem;
+  border-radius: 0;
+  background: url('/images/scrollbar-thumb.png') no-repeat center / contain;
+}
+
 @media (max-width: 1240px) {
   .thumb {
     left: 0;

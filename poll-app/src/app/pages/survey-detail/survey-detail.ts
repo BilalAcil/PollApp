@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
 import { categoryLabelKey } from '../../core/categories';
 import { SurveyApi } from '../../core/survey-api';
 import { formatDeadlineDate, isClosed } from '../../core/survey-status';
@@ -22,7 +23,7 @@ const VOTED_KEY_PREFIX = 'pollapp-voted-';
 /** Detail view for one survey: voting form on the left, live results on the right. */
 @Component({
   selector: 'app-survey-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, ScrollThumb],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
