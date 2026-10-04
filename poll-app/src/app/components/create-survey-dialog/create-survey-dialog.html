@@ -1,5 +1,5 @@
-<div class="backdrop" (click)="requestClose()">
-  <div class="panel" (click)="$event.stopPropagation()">
+<div class="backdrop">
+  <div class="panel">
     @if (createdSurveyId(); as id) {
       <div class="confirm-toast">
         <p>{{ translate.t('createSurvey.publishedMessage') }}</p>
@@ -9,19 +9,21 @@
           [attr.aria-label]="translate.t('createSurvey.closeConfirmation')"
           (click)="goToNewSurvey(id)"
         >
-          &#10005;
+          <img src="images/icon-close.png" alt="" />
         </button>
       </div>
     } @else {
       <header class="panel-header">
         <span class="badge">{{ translate.t('createSurvey.badge') }}</span>
-        <button type="button" class="cancel" (click)="requestClose()">
-          {{ translate.t('createSurvey.cancel') }}
-          <span aria-hidden="true">&#10005;</span>
-        </button>
       </header>
 
-      <h2 class="heading">{{ translate.t('createSurvey.heading') }}</h2>
+      <div class="heading-row">
+        <h2 class="heading">{{ translate.t('createSurvey.heading') }}</h2>
+        <button type="button" class="cancel" (click)="requestClose()">
+          <span>{{ translate.t('createSurvey.cancel') }}</span>
+          <img src="images/icon-close.png" alt="" />
+        </button>
+      </div>
 
       <div class="fields">
         <div class="fields-left">
