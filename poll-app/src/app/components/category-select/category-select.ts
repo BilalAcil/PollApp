@@ -4,6 +4,8 @@ import {
   ElementRef,
   HostListener,
   inject,
+  input,
+  InputSignal,
   model,
   ModelSignal,
   Signal,
@@ -32,6 +34,8 @@ export class CategorySelect {
   protected readonly allCategories: string = ALL_CATEGORIES;
 
   readonly value: ModelSignal<string> = model<string>(ALL_CATEGORIES);
+  readonly showAllOption: InputSignal<boolean> = input<boolean>(true);
+  readonly placeholderKey: InputSignal<string> = input<string>('home.sortByCategories');
   protected readonly open: WritableSignal<boolean> = signal(false);
 
   protected readonly currentLabelKey: Signal<string> = computed(() =>
@@ -66,6 +70,6 @@ export class CategorySelect {
   /** Looks up the translation key for the currently selected category. */
   private labelKeyFor(category: string): string {
     const match = this.categories.find((c) => c.value === category);
-    return match ? match.labelKey : 'home.sortByCategories';
+    return match ? match.labelKey : this.placeholderKey();
   }
 }

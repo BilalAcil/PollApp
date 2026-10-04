@@ -12,11 +12,13 @@
 
   @if (open()) {
     <ul class="options" role="listbox">
-      <li role="option" [attr.aria-selected]="value() === allCategories">
-        <button type="button" (click)="select(allCategories)">
-          {{ translate.t('home.sortByCategories') }}
-        </button>
-      </li>
+      @if (showAllOption()) {
+        <li role="option" [attr.aria-selected]="value() === allCategories">
+          <button type="button" (click)="select(allCategories)">
+            {{ translate.t('home.sortByCategories') }}
+          </button>
+        </li>
+      }
       @for (category of categories; track category.value) {
         <li role="option" [attr.aria-selected]="value() === category.value">
           <button type="button" (click)="select(category.value)">

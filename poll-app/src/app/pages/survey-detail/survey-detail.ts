@@ -9,10 +9,11 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
 import { categoryLabelKey } from '../../core/categories';
+import { CreateSurveyDialogState } from '../../core/create-survey-dialog-state';
+import { optionLetter } from '../../core/option-letter';
 import { SurveyApi } from '../../core/survey-api';
 import { formatDeadlineDate, isClosed } from '../../core/survey-status';
 import { Translate } from '../../core/translate';
@@ -23,13 +24,14 @@ const VOTED_KEY_PREFIX = 'pollapp-voted-';
 /** Detail view for one survey: voting form on the left, live results on the right. */
 @Component({
   selector: 'app-survey-detail',
-  imports: [RouterLink, ScrollThumb],
+  imports: [ScrollThumb],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
 export class SurveyDetail {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
   protected readonly translate: Translate = inject(Translate);
+  protected readonly dialogState: CreateSurveyDialogState = inject(CreateSurveyDialogState);
 
   readonly id: InputSignal<string> = input.required<string>();
 
@@ -40,6 +42,7 @@ export class SurveyDetail {
   protected readonly voteError: WritableSignal<boolean> = signal(false);
   protected readonly hasVoted: WritableSignal<boolean> = signal(false);
   protected readonly resultsScrolled: WritableSignal<boolean> = signal(false);
+  protected readonly optionLetter: (index: number) => string = optionLetter;
   private readonly selections: WritableSignal<Map<string, Set<string>>> = signal(new Map());
 
   protected readonly categoryLabel: Signal<string> = computed(() =>
@@ -93,11 +96,6 @@ export class SurveyDetail {
   protected onResultsScroll(event: Event): void {
     const viewport = event.target as HTMLElement;
     this.resultsScrolled.set(viewport.scrollTop > 0);
-  }
-
-  /** Converts a zero-based option index into its display letter (A, B, C, ...). */
-  protected optionLetter(index: number): string {
-    return String.fromCharCode(65 + index);
   }
 
   /** Share of votes an option holds among its own question's votes, rounded to a whole percent. */

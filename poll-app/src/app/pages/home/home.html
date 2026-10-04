@@ -11,7 +11,7 @@
           {{ translate.t('home.hero.title') }}
         </h1>
         <p class="hero-subtitle">{{ translate.t('home.hero.subtitle') }}</p>
-        <button type="button" class="btn-primary">
+        <button type="button" class="btn-primary" (click)="dialogState.show()">
           {{ translate.t('home.hero.cta') }}
           <span class="icon-reveal icon-reveal-add">
             <img class="icon" src="images/icon-add.png" alt="" />

@@ -5,12 +5,12 @@
     } @else if (survey(); as survey) {
       <header class="topbar">
         <img class="logo" src="images/logo-on-light.png" alt="Poll App" />
-        <a class="btn-primary" routerLink="/">
+        <button type="button" class="btn-primary" (click)="dialogState.show()">
           {{ translate.t('detail.createSurvey') }}
           <span class="icon-reveal">
             <img class="icon" src="images/icon-add.png" alt="" />
           </span>
-        </a>
+        </button>
       </header>
 
       <main class="layout">
