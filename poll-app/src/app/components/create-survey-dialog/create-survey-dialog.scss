@@ -111,8 +111,16 @@ button span {
 
 .field-label {
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  color: #fefdff;
+}
+
+.optional-suffix {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1;
 }
 
 .field-row {
