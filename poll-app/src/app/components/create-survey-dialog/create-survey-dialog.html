@@ -122,7 +122,9 @@
               />
 
               <div class="answers-head" [class.multiple]="question.allowMultiple">
-                <span class="field-label">{{ translate.t('createSurvey.answersLabel') }}</span>
+                <span class="field-label">{{
+                  translate.t(question.allowMultiple ? 'createSurvey.answersLabel' : 'createSurvey.answerLabel')
+                }}</span>
                 <span class="allow-multiple">
                   <input
                     type="checkbox"
@@ -136,7 +138,7 @@
               <ul class="answers">
                 @for (option of question.options; track $index; let ai = $index) {
                   @if (ai === 0 || question.allowMultiple) {
-                    <li>
+                    <li [class.single]="!question.allowMultiple">
                       @if (question.allowMultiple) {
                         <span class="answer-letter">{{ optionLetter(ai) }}.</span>
                       }
@@ -146,13 +148,14 @@
                         [value]="option"
                         (input)="updateAnswer(question.id, ai, answerInput.value)"
                       />
-                      <button
-                        type="button"
-                        class="icon-btn delete-btn"
-                        [disabled]="question.options.length <= minAnswersFor(question)"
-                        [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
-                        (click)="removeAnswer(question.id, ai)"
-                      ></button>
+                      @if (question.allowMultiple) {
+                        <button
+                          type="button"
+                          class="icon-btn delete-btn"
+                          [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
+                          (click)="removeAnswer(question.id, ai)"
+                        ></button>
+                      }
                     </li>
                   }
                 }

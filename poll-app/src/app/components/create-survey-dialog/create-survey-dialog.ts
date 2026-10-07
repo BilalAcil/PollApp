@@ -92,7 +92,6 @@ export class CreateSurveyDialog {
   protected readonly submitError: WritableSignal<boolean> = signal(false);
   protected readonly createdSurveyId: WritableSignal<string | null> = signal(null);
   protected readonly optionLetter: (index: number) => string = optionLetter;
-  protected readonly minAnswersFor: (q: DraftQuestion) => number = minAnswersFor;
   protected readonly maxAnswers: number = MAX_ANSWERS;
 
   protected readonly canPublish: Signal<boolean> = computed(() => this.validateDraft());
@@ -182,13 +181,16 @@ export class CreateSurveyDialog {
     );
   }
 
-  /** Removes one answer option, down to the current minimum. */
+  /** Removes one answer option, down to a single one. Dropping below two un-checks "allow multiple". */
   protected removeAnswer(questionId: string, index: number): void {
-    this.updateQuestion(questionId, (q) =>
-      q.options.length <= minAnswersFor(q)
-        ? q
-        : { ...q, options: q.options.filter((_, i) => i !== index) },
-    );
+    this.updateQuestion(questionId, (q) => {
+      if (q.options.length <= MIN_ANSWERS_SINGLE) {
+        return q;
+      }
+      const options = q.options.filter((_, i) => i !== index);
+      const allowMultiple = options.length >= MIN_ANSWERS_MULTI && q.allowMultiple;
+      return { ...q, options, allowMultiple };
+    });
   }
 
   /** Updates the text of one answer option. */
