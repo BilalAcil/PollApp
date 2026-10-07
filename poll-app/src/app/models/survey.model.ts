@@ -52,7 +52,7 @@ export interface OptionResult {
 export interface NewSurveyQuestion {
   /** Required. */
   text: string;
-  /** Required, at least two entries, at most six. */
+  /** Required, at most six entries. At least two once `allow_multiple` is true. */
   options: string[];
   allow_multiple: boolean;
 }

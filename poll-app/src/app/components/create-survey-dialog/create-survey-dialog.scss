@@ -17,7 +17,7 @@
   max-width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  padding: 40px 54px;
+  padding: 40px 57px;
   border-top-left-radius: 5px;
   border-top-right-radius: 100px;
   border-bottom-right-radius: 5px;
@@ -91,7 +91,7 @@ button span {
   flex-direction: column;
   width: 100%;
   gap: 64px;
-  padding: 40px 32px;
+  padding: 40px 33px;
   border-top-left-radius: 5px;
   border-top-right-radius: 80px;
   border-bottom-right-radius: 5px;
@@ -101,14 +101,16 @@ button span {
 
 .fields {
   display: flex;
-  gap: var(--space-xl);
+  height: 134px;
+  gap: var(--space-xxl);
 }
 
 .fields-left {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  justify-content: space-between;
   flex: 1 1 50%;
+  min-width: 470px;
 }
 
 .description-field {
@@ -116,7 +118,9 @@ button span {
 }
 
 .description-field .field-row {
+  align-items: flex-start;
   flex: 1 1 auto;
+  max-width: 452px;
   min-height: 0;
 }
 
@@ -163,6 +167,7 @@ button span {
 .fields-left .field-row input[type='text'],
 .fields-left .field-row input[type='date'] {
   width: 100%;
+  max-width: 430px;
   height: 38px;
   padding: 7px 13px;
   border-radius: 5px 20px 5px 5px;
@@ -195,6 +200,7 @@ button span {
 .description-field textarea {
   flex: 1 1 auto;
   width: 100%;
+  max-width: 418px;
   height: 100%;
   padding: 7px 13px;
   border: none;
@@ -209,7 +215,7 @@ button span {
 .question-input {
   width: 100%;
   height: 38px;
-  margin: var(--space-xs) 0 var(--space-sm);
+  margin-top: var(--space-sm) 0;
   padding: 7px 13px;
   border: none;
   border-radius: 5px 20px 5px 5px;
@@ -277,22 +283,31 @@ button span {
 }
 
 .question-block {
-  padding: var(--space-md);
-  border-radius: 12px;
-  background: var(--color-dark-deep);
+  height: 270px;
+  width: 430px;
 }
 
 .question-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.question-head .field-label {
+  padding-left: var(--space-sm);
 }
 
 .answers-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-sm);
+  margin-top: 64px;
+  margin-bottom: var(--space-md);
+}
+
+.answers-head.multiple {
+  margin-top: var(--space-lg);
 }
 
 .allow-multiple {
@@ -300,14 +315,34 @@ button span {
   align-items: center;
   gap: var(--space-xs);
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.allow-multiple input[type='checkbox'] {
+  appearance: none;
+  flex-shrink: 0;
+  width: 21px;
+  height: 21px;
+  padding: 3px;
+  background: url('/images/icon-checkbox-multiple-empty.png') no-repeat center / contain;
+  cursor: pointer;
+}
+
+.allow-multiple input[type='checkbox']:hover:not(:checked) {
+  background-image: url('/images/icon-checkbox-multiple-hover.png');
+}
+
+.allow-multiple input[type='checkbox']:checked {
+  background-image: url('/images/icon-checkbox-multiple-checked.png');
 }
 
 .answers {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0 0 var(--space-sm);
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-md);
   padding: 0;
   list-style: none;
 }
@@ -315,7 +350,9 @@ button span {
 .answers li {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  width: 425px;
+  height: 38px;
+  gap: 8px;
 }
 
 .answer-letter {
@@ -323,7 +360,8 @@ button span {
   width: 1rem;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 18px;
+  line-height: 1;
 }
 
 .answers input[type='text'] {
@@ -340,13 +378,41 @@ button span {
 }
 
 .add-answer {
+  display: inline-flex;
+  align-items: center;
+  width: 172px;
+  height: 40px;
+  padding: 0 0 0 26px;
+  gap: 10px;
   border: none;
   background: transparent;
   color: var(--color-text-on-dark);
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  text-decoration: underline;
+  font-family: var(--font-button);
+  font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
+}
+
+.add-answer>div {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 8px 12px;
+  gap: 4px;
+}
+
+.add-answer-underline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--color-text-on-dark);
+}
+
+.add-answer img {
+  display: block;
+  width: 16px;
+  height: 16px;
 }
 
 .add-answer:disabled {

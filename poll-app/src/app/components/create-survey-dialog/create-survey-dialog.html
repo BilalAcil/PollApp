@@ -121,46 +121,57 @@
                 (input)="updateQuestionText(question.id, questionInput.value)"
               />
 
-              <div class="answers-head">
+              <div class="answers-head" [class.multiple]="question.allowMultiple">
                 <span class="field-label">{{ translate.t('createSurvey.answersLabel') }}</span>
-                <label class="allow-multiple">
+                <span class="allow-multiple">
                   <input
                     type="checkbox"
                     [checked]="question.allowMultiple"
                     (change)="toggleAllowMultiple(question.id)"
                   />
                   {{ translate.t('createSurvey.allowMultiple') }}
-                </label>
+                </span>
               </div>
 
               <ul class="answers">
                 @for (option of question.options; track $index; let ai = $index) {
-                  <li>
-                    <span class="answer-letter">{{ optionLetter(ai) }}.</span>
-                    <input
-                      type="text"
-                      #answerInput
-                      [value]="option"
-                      (input)="updateAnswer(question.id, ai, answerInput.value)"
-                    />
-                    <button
-                      type="button"
-                      class="icon-btn delete-btn"
-                      [disabled]="question.options.length <= minAnswers"
-                      [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
-                      (click)="removeAnswer(question.id, ai)"
-                    ></button>
-                  </li>
+                  @if (ai === 0 || question.allowMultiple) {
+                    <li>
+                      @if (question.allowMultiple) {
+                        <span class="answer-letter">{{ optionLetter(ai) }}.</span>
+                      }
+                      <input
+                        type="text"
+                        #answerInput
+                        [value]="option"
+                        (input)="updateAnswer(question.id, ai, answerInput.value)"
+                      />
+                      <button
+                        type="button"
+                        class="icon-btn delete-btn"
+                        [disabled]="question.options.length <= minAnswersFor(question)"
+                        [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
+                        (click)="removeAnswer(question.id, ai)"
+                      ></button>
+                    </li>
+                  }
                 }
               </ul>
-              <button
-                type="button"
-                class="add-answer"
-                [disabled]="question.options.length >= maxAnswers"
-                (click)="addAnswer(question.id)"
-              >
-                {{ translate.t('createSurvey.addAnswer') }} &#8853;
-              </button>
+              @if (question.allowMultiple) {
+                <button
+                  type="button"
+                  class="add-answer"
+                  [disabled]="question.options.length >= maxAnswers"
+                  (click)="addAnswer(question.id)"
+                >
+                  <div>
+                    <div class="add-answer-underline">
+                      <span>{{ translate.t('createSurvey.addAnswer') }}</span>
+                      <img src="images/icon-add-circle.png" alt="" />
+                    </div>
+                  </div>
+                </button>
+              }
             </div>
           }
           <button type="button" class="add-question" (click)="addQuestion()">

@@ -266,10 +266,6 @@
   width: 316px;
 }
 
-.results-panel.empty {
-  top: 160px;
-}
-
 .results-scroll-row {
   position: relative;
   flex: 1 1 auto;
@@ -277,7 +273,6 @@
 }
 
 .results-scroll {
-  position: relative;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
@@ -291,20 +286,6 @@
 
 .results-scroll.scrolled {
   box-shadow: inset 0 10px 8px -8px rgba(0, 0, 0, 0.35);
-}
-
-.no-answers {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: 0;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-}
-
-.results-scroll p {
-  font-weight: 700;
-  font-size: 1.125rem;
 }
 
 .results-thumb {

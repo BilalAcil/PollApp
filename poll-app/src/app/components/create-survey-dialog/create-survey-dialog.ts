@@ -17,8 +17,10 @@ import { SurveyApi } from '../../core/survey-api';
 import { Translate } from '../../core/translate';
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey.model';
 
-/** Minimum answer options a question must keep. */
-const MIN_ANSWERS = 2;
+/** Minimum answer options once "allow multiple" is checked. */
+const MIN_ANSWERS_MULTI = 2;
+/** Minimum answer options for a single-answer question: just A. */
+const MIN_ANSWERS_SINGLE = 1;
 /** Maximum answer options a question may have. */
 const MAX_ANSWERS = 6;
 
@@ -40,7 +42,12 @@ interface SurveyDraft {
 
 /** Builds a single empty question, optionally reusing an existing id. */
 function createEmptyQuestion(id: string = crypto.randomUUID()): DraftQuestion {
-  return { id, text: '', options: ['', ''], allowMultiple: false };
+  return { id, text: '', options: [''], allowMultiple: false };
+}
+
+/** The minimum number of answer options a question must keep right now. */
+function minAnswersFor(question: DraftQuestion): number {
+  return question.allowMultiple ? MIN_ANSWERS_MULTI : MIN_ANSWERS_SINGLE;
 }
 
 /** Builds a fresh, empty survey draft with one starter question. */
@@ -85,7 +92,7 @@ export class CreateSurveyDialog {
   protected readonly submitError: WritableSignal<boolean> = signal(false);
   protected readonly createdSurveyId: WritableSignal<string | null> = signal(null);
   protected readonly optionLetter: (index: number) => string = optionLetter;
-  protected readonly minAnswers: number = MIN_ANSWERS;
+  protected readonly minAnswersFor: (q: DraftQuestion) => number = minAnswersFor;
   protected readonly maxAnswers: number = MAX_ANSWERS;
 
   protected readonly canPublish: Signal<boolean> = computed(() => this.validateDraft());
@@ -159,9 +166,13 @@ export class CreateSurveyDialog {
     this.updateQuestion(questionId, (q) => ({ ...q, text }));
   }
 
-  /** Toggles whether a question allows multiple selected answers. */
+  /** Toggles multi-answer mode, revealing option B the first time it's checked. */
   protected toggleAllowMultiple(questionId: string): void {
-    this.updateQuestion(questionId, (q) => ({ ...q, allowMultiple: !q.allowMultiple }));
+    this.updateQuestion(questionId, (q) => {
+      const allowMultiple = !q.allowMultiple;
+      const needsOption = allowMultiple && q.options.length < MIN_ANSWERS_MULTI;
+      return { ...q, allowMultiple, options: needsOption ? [...q.options, ''] : q.options };
+    });
   }
 
   /** Appends an empty answer option, up to the maximum. */
@@ -171,10 +182,10 @@ export class CreateSurveyDialog {
     );
   }
 
-  /** Removes one answer option, down to the minimum. */
+  /** Removes one answer option, down to the current minimum. */
   protected removeAnswer(questionId: string, index: number): void {
     this.updateQuestion(questionId, (q) =>
-      q.options.length <= MIN_ANSWERS
+      q.options.length <= minAnswersFor(q)
         ? q
         : { ...q, options: q.options.filter((_, i) => i !== index) },
     );
@@ -241,10 +252,10 @@ export class CreateSurveyDialog {
     );
   }
 
-  /** True once a question has text and at least two non-empty answers. */
+  /** True once a question has text and enough non-empty answers for its mode. */
   private questionIsValid(question: DraftQuestion): boolean {
     const filled = question.options.filter((option) => option.trim().length > 0);
-    return question.text.trim().length > 0 && filled.length >= MIN_ANSWERS;
+    return question.text.trim().length > 0 && filled.length >= minAnswersFor(question);
   }
 
   /** Maps the editable draft onto the shape the backend expects. */
