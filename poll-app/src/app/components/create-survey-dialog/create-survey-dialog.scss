@@ -206,6 +206,16 @@ button span {
   flex: 0 0 54%;
 }
 
+.fields-left .field-row input[type='text']:focus,
+.fields-left .field-row input[type='date']:focus,
+.description-field textarea:focus,
+.question-input:focus,
+.answers input[type='text']:focus {
+  outline: none;
+  border: none;
+  background: var(--color-peach-pale);
+}
+
 .description-field textarea {
   flex: 1 1 auto;
   width: 100%;
