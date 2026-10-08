@@ -45,7 +45,7 @@ export const de: Record<string, string> = {
   'createSurvey.answerLabel': 'Antwort',
   'createSurvey.answersLabel': 'Antworten',
   'createSurvey.addAnswer': 'Antwort hinzufügen',
-  'createSurvey.maxAnswersHint': 'Du kannst bis zu 6 Antwortfelder hinzufügen.',
+  'createSurvey.maxAnswersHint': 'Du kannst bis zu 6 Antwortfelder hinzufügen',
   'createSurvey.addQuestion': 'Nächste Frage hinzufügen',
   'createSurvey.publish': 'Veröffentlichen',
   'createSurvey.publishError': 'Umfrage konnte nicht angelegt werden.',

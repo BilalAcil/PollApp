@@ -50,6 +50,11 @@ function minAnswersFor(question: DraftQuestion): number {
   return question.allowMultiple ? MIN_ANSWERS_MULTI : MIN_ANSWERS_SINGLE;
 }
 
+/** Drops empty answer options beyond the first, so they don't resurface later. */
+function trimEmptyOptions(options: string[]): string[] {
+  return options.filter((option, index) => index === 0 || option.trim().length > 0);
+}
+
 /** Builds a fresh, empty survey draft with one starter question. */
 function createEmptyDraft(): SurveyDraft {
   return { title: '', description: '', deadline: '', questions: [createEmptyQuestion()] };
@@ -169,7 +174,10 @@ export class CreateSurveyDialog {
   protected toggleAllowMultiple(questionId: string): void {
     this.updateQuestion(questionId, (q) => {
       const allowMultiple = !q.allowMultiple;
-      const needsOption = allowMultiple && q.options.length < MIN_ANSWERS_MULTI;
+      if (!allowMultiple) {
+        return { ...q, allowMultiple, options: trimEmptyOptions(q.options) };
+      }
+      const needsOption = q.options.length < MIN_ANSWERS_MULTI;
       return { ...q, allowMultiple, options: needsOption ? [...q.options, ''] : q.options };
     });
   }
