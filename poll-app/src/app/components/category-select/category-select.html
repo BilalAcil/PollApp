@@ -6,9 +6,13 @@
     [attr.aria-expanded]="open()"
     (click)="toggle()"
   >
-    {{ translate.t(currentLabelKey()) }}
+    {{ translate.t(triggerLabelKey()) }}
     <span class="arrow" [class.up]="open()" aria-hidden="true"></span>
   </button>
+
+  @if (selectedLabelKey(); as labelKey) {
+    <p class="selected-label">{{ translate.t(labelKey) }}</p>
+  }
 
   @if (open()) {
     <ul class="options" role="listbox">

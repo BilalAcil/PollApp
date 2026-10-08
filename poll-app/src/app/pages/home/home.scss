@@ -89,32 +89,48 @@
 }
 
 .icon-reveal {
-  display: inline-flex;
+  position: relative;
+  display: inline-block;
   flex-shrink: 0;
-  align-items: center;
   width: 0;
+  height: 1.25em;
   overflow: hidden;
   transition: width 0.2s ease;
 }
 
 .icon-reveal .icon {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 1.25em;
   width: auto;
   flex-shrink: 0;
 }
 
-.btn-primary:hover:not(:active) .icon-reveal-add {
+.icon-check {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+
+.btn-primary:hover:not(.confirming) .icon-reveal {
   width: 1.25em;
   transition-delay: 0.15s;
 }
 
-.btn-primary:active .icon-reveal-check {
+.btn-primary.confirming .icon-reveal {
   width: 1.25em;
+  transition-delay: 0s;
 }
 
-.btn-primary:active .icon-reveal-add {
-  width: 0;
-  transition-delay: 0s;
+.btn-primary.confirming .icon-add {
+  opacity: 0;
+  transition: none;
+}
+
+.btn-primary.confirming .icon-check {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.3s ease;
 }
 
 .hero-visual {
@@ -365,12 +381,11 @@ main {
     background: var(--color-amber-light);
   }
 
-  .btn-primary .icon-reveal-add,
-  .btn-primary:active .icon-reveal-add {
+  .btn-primary .icon-reveal {
     width: 1.25em;
   }
 
-  .icon-reveal-check {
+  .icon-check {
     display: none;
   }
 

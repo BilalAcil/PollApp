@@ -11,13 +11,16 @@
           {{ translate.t('home.hero.title') }}
         </h1>
         <p class="hero-subtitle">{{ translate.t('home.hero.subtitle') }}</p>
-        <button type="button" class="btn-primary" (click)="dialogState.show()">
+        <button
+          type="button"
+          class="btn-primary"
+          [class.confirming]="confirmingCreate()"
+          (click)="startCreateSurvey()"
+        >
           {{ translate.t('home.hero.cta') }}
-          <span class="icon-reveal icon-reveal-add">
-            <img class="icon" src="images/icon-add.png" alt="" />
-          </span>
-          <span class="icon-reveal icon-reveal-check">
-            <img class="icon" src="images/icon-check.png" alt="" />
+          <span class="icon-reveal">
+            <img class="icon icon-add" src="images/icon-add.png" alt="" />
+            <img class="icon icon-check" src="images/icon-check.png" alt="" />
           </span>
         </button>
       </div>

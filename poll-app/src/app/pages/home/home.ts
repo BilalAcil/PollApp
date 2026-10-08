@@ -15,6 +15,8 @@ type Tab = 'active' | 'past';
 
 /** How many of the soonest-ending active surveys are highlighted above the list. */
 const ENDING_SOON_COUNT = 3;
+/** How long the hero button shows its confirm checkmark before the dialog opens. */
+const CONFIRM_ICON_DELAY_MS = 350;
 
 /** The homescreen: hero, ending-soon highlights, and the filterable survey list. */
 @Component({
@@ -33,6 +35,7 @@ export class Home implements OnInit {
   protected readonly loadError: WritableSignal<boolean> = signal(false);
   protected readonly activeTab: WritableSignal<Tab> = signal('active');
   protected readonly categoryFilter: WritableSignal<string> = signal(ALL_CATEGORIES);
+  protected readonly confirmingCreate: WritableSignal<boolean> = signal(false);
 
   protected readonly endingSoon: Signal<Survey[]> = computed(() =>
     this.surveys()
@@ -51,6 +54,15 @@ export class Home implements OnInit {
   /** Switches between the "active" and "past" tab. */
   protected selectTab(tab: Tab): void {
     this.activeTab.set(tab);
+  }
+
+  /** Shows the hero button's confirm checkmark briefly before opening the dialog. */
+  protected startCreateSurvey(): void {
+    this.confirmingCreate.set(true);
+    setTimeout(() => {
+      this.confirmingCreate.set(false);
+      this.dialogState.show();
+    }, CONFIRM_ICON_DELAY_MS);
   }
 
   /** Fetches every survey from the backend, flagging failures for the template. */

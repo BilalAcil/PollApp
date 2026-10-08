@@ -41,6 +41,12 @@ export class CategorySelect {
   protected readonly currentLabelKey: Signal<string> = computed(() =>
     this.labelKeyFor(this.value()),
   );
+  protected readonly triggerLabelKey: Signal<string> = computed(() =>
+    this.showAllOption() ? this.placeholderKey() : this.currentLabelKey(),
+  );
+  protected readonly selectedLabelKey: Signal<string | null> = computed(() =>
+    this.showAllOption() && this.value() !== this.allCategories ? this.currentLabelKey() : null,
+  );
 
   /** Opens or closes the option list. */
   protected toggle(): void {

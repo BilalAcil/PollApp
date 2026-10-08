@@ -292,7 +292,6 @@ button span {
 }
 
 .question-block {
-  height: 270px;
   width: 430px;
 }
 
@@ -410,6 +409,10 @@ button span {
   gap: 4px;
 }
 
+.add-answer:hover>div {
+  background: #faf5fe33;
+}
+
 .add-answer-underline {
   display: flex;
   align-items: center;
@@ -479,25 +482,52 @@ button span {
 }
 
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  height: 48px;
   border: none;
-  border-radius: var(--radius-pill);
-  padding: 0.75rem 1.5rem;
-  background: var(--color-amber-soft);
+  border-radius: 10px;
+  padding: 12px 16px;
+  background: #ffcfa1;
   color: var(--color-button-text);
   font-family: var(--font-button);
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition:
+    gap 0.2s ease,
+    background 0.15s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
+  gap: 8px;
   background: var(--color-amber-light);
 }
 
 .btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  cursor: default;
+}
+
+.btn-primary .icon-reveal {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.btn-primary .icon-reveal .icon {
+  height: 18px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.btn-primary:hover:not(:disabled) .icon-reveal {
+  width: 21px;
+  transition-delay: 0.15s;
 }
 
 .error {
@@ -517,6 +547,17 @@ button span {
   border-radius: 16px;
   background: var(--color-peach-light);
   color: var(--color-text-dark);
+  animation: confirm-toast-in 300ms ease-out;
+}
+
+@keyframes confirm-toast-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .confirm-toast p {

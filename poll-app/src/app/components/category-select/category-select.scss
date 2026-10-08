@@ -31,6 +31,19 @@
   background-color: rgba(217, 217, 217, 0.0784);
 }
 
+.selected-label {
+  position: absolute;
+  top: 100%;
+  left: 0.625rem;
+  margin: 0.25rem 0 0;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--color-amber-light);
+}
+
 .arrow {
   flex-shrink: 0;
   width: 0.9375rem;
