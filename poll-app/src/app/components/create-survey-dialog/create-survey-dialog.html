@@ -121,7 +121,7 @@
                 (input)="updateQuestionText(question.id, questionInput.value)"
               />
 
-              <div class="answers-head" [class.multiple]="question.allowMultiple">
+              <div class="answers-head">
                 <span class="field-label">{{
                   translate.t(question.allowMultiple ? 'createSurvey.answersLabel' : 'createSurvey.answerLabel')
                 }}</span>
