@@ -424,17 +424,15 @@ button span {
   height: 16px;
 }
 
-.add-answer:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  text-decoration: none;
-}
-
 .add-answer-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
+}
+
+.add-answer-row.maxed {
+  justify-content: center;
 }
 
 .max-answers-hint {

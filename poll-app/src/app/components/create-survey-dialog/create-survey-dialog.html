@@ -161,20 +161,17 @@
                 }
               </ul>
               @if (question.allowMultiple) {
-                <div class="add-answer-row">
-                  <button
-                    type="button"
-                    class="add-answer"
-                    [disabled]="question.options.length >= maxAnswers"
-                    (click)="addAnswer(question.id)"
-                  >
-                    <div>
-                      <div class="add-answer-underline">
-                        <span>{{ translate.t('createSurvey.addAnswer') }}</span>
-                        <img src="images/icon-add-circle.png" alt="" />
+                <div class="add-answer-row" [class.maxed]="question.options.length >= maxAnswers">
+                  @if (question.options.length < maxAnswers) {
+                    <button type="button" class="add-answer" (click)="addAnswer(question.id)">
+                      <div>
+                        <div class="add-answer-underline">
+                          <span>{{ translate.t('createSurvey.addAnswer') }}</span>
+                          <img src="images/icon-add-circle.png" alt="" />
+                        </div>
                       </div>
-                    </div>
-                  </button>
+                    </button>
+                  }
                   @if (question.options.length > 2) {
                     <span class="max-answers-hint">{{ translate.t('createSurvey.maxAnswersHint') }}</span>
                   }
