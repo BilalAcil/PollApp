@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { CategorySelect } from '../category-select/category-select';
 import { CreateSurveyDialogState } from '../../core/create-survey-dialog-state';
 import { optionLetter } from '../../core/option-letter';
+import { ScrollThumb } from '../scroll-thumb/scroll-thumb';
 import { SurveyApi } from '../../core/survey-api';
 import { Translate } from '../../core/translate';
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey.model';
@@ -81,7 +82,7 @@ function toNewSurveyQuestion(question: DraftQuestion): NewSurveyQuestion {
  */
 @Component({
   selector: 'app-create-survey-dialog',
-  imports: [CategorySelect],
+  imports: [CategorySelect, ScrollThumb],
   templateUrl: './create-survey-dialog.html',
   styleUrl: './create-survey-dialog.scss',
 })

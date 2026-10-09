@@ -29,6 +29,7 @@ const THUMB_HEIGHT_PX = 64;
 export class ScrollThumb {
   readonly viewport: InputSignal<HTMLElement | null> = input<HTMLElement | null>(null);
   readonly variant: InputSignal<'solid' | 'image'> = input<'solid' | 'image'>('solid');
+  readonly topInset: InputSignal<number> = input<number>(0);
 
   private readonly scrollTop: WritableSignal<number> = signal(0);
   private readonly clientHeight: WritableSignal<number> = signal(0);
@@ -96,18 +97,18 @@ export class ScrollThumb {
 
   /** The thumb's fixed pixel height, capped by the track's own height. */
   private computeThumbHeight(): number {
-    return Math.min(THUMB_HEIGHT_PX, this.clientHeight());
+    return Math.min(THUMB_HEIGHT_PX, this.clientHeight() - this.topInset());
   }
 
   /** Computes the thumb's pixel offset from the top of the track. */
   private computeThumbTop(): number {
-    const track = this.clientHeight();
-    const maxScroll = this.scrollHeight() - track;
+    const track = this.clientHeight() - this.topInset();
+    const maxScroll = this.scrollHeight() - this.clientHeight();
     if (maxScroll <= 0) {
-      return 0;
+      return this.topInset();
     }
     const travel = track - this.thumbHeight();
-    return (this.scrollTop() / maxScroll) * travel;
+    return this.topInset() + (this.scrollTop() / maxScroll) * travel;
   }
 
   /** Moves the viewport's scroll position to follow a drag to clientY. */

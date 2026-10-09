@@ -1,207 +1,224 @@
 <div class="backdrop">
-  <div class="panel">
-    @if (createdSurveyId(); as id) {
-      <div class="confirm-toast">
-        <p>{{ translate.t('createSurvey.publishedMessage') }}</p>
-        <button
-          type="button"
-          class="icon-btn"
-          [attr.aria-label]="translate.t('createSurvey.closeConfirmation')"
-          (click)="goToNewSurvey(id)"
-        >
-          <img src="images/icon-close.png" alt="" />
-        </button>
-      </div>
-    } @else {
-      <header class="panel-header">
-        <span class="badge">{{ translate.t('createSurvey.badge') }}</span>
-      </header>
+  <div class="panel-wrap">
+    <div class="panel" #panelViewport>
+      @if (createdSurveyId(); as id) {
+        <div class="confirm-toast">
+          <p>{{ translate.t('createSurvey.publishedMessage') }}</p>
+          <button
+            type="button"
+            class="icon-btn"
+            [attr.aria-label]="translate.t('createSurvey.closeConfirmation')"
+            (click)="goToNewSurvey(id)"
+          >
+            <img src="images/icon-close.png" alt="" />
+          </button>
+        </div>
+      } @else {
+        <header class="panel-header">
+          <span class="badge">{{ translate.t('createSurvey.badge') }}</span>
+        </header>
 
-      <div class="heading-row">
-        <h2 class="heading">{{ translate.t('createSurvey.heading') }}</h2>
-        <button type="button" class="cancel" (click)="requestClose()">
-          <span>{{ translate.t('createSurvey.cancel') }}</span>
-          <img src="images/icon-close.png" alt="" />
-        </button>
-      </div>
+        <div class="heading-row">
+          <h2 class="heading">{{ translate.t('createSurvey.heading') }}</h2>
+          <button type="button" class="cancel" (click)="requestClose()">
+            <span>{{ translate.t('createSurvey.cancel') }}</span>
+            <img src="images/icon-close.png" alt="" />
+          </button>
+        </div>
 
-      <div class="form-body">
-        <div class="fields">
-          <div class="fields-left">
-            <label class="field">
-              <span class="field-label">{{ translate.t('createSurvey.titleLabel') }}</span>
-              <span class="field-row">
-                <input
-                  type="text"
-                  #titleInput
-                  [value]="draft().title"
-                  (input)="updateTitle(titleInput.value)"
-                />
-                <button
-                  type="button"
-                  class="icon-btn delete-btn"
-                  [attr.aria-label]="translate.t('createSurvey.clearField')"
-                  (click)="clearTitle()"
-                ></button>
-              </span>
-            </label>
-
-            <div class="deadline-row">
-              <label class="field deadline-field">
-                <span class="field-label"
-                  >{{ translate.t('createSurvey.deadlineLabel') }}
-                  <span class="optional-suffix">{{ translate.t('createSurvey.optionalSuffix') }}</span></span
-                >
+        <div class="form-body">
+          <div class="fields">
+            <div class="fields-left">
+              <label class="field">
+                <span class="field-label">{{ translate.t('createSurvey.titleLabel') }}</span>
                 <span class="field-row">
                   <input
-                    type="date"
-                    #deadlineInput
-                    [value]="draft().deadline"
-                    [class.empty]="!draft().deadline"
-                    (input)="updateDeadline(deadlineInput.value)"
+                    type="text"
+                    #titleInput
+                    [value]="draft().title"
+                    (input)="updateTitle(titleInput.value)"
                   />
                   <button
                     type="button"
                     class="icon-btn delete-btn"
                     [attr.aria-label]="translate.t('createSurvey.clearField')"
-                    (click)="clearDeadline()"
+                    (click)="clearTitle()"
                   ></button>
                 </span>
               </label>
 
-              <app-category-select
-                class="deadline-category"
-                [(value)]="category"
-                [showAllOption]="false"
-                [placeholderKey]="'createSurvey.choosePlaceholder'"
-              />
+              <div class="deadline-row">
+                <label class="field deadline-field">
+                  <span class="field-label"
+                    >{{ translate.t('createSurvey.deadlineLabel') }}
+                    <span class="optional-suffix">{{
+                      translate.t('createSurvey.optionalSuffix')
+                    }}</span></span
+                  >
+                  <span class="field-row">
+                    <input
+                      type="date"
+                      #deadlineInput
+                      [value]="draft().deadline"
+                      [class.empty]="!draft().deadline"
+                      (input)="updateDeadline(deadlineInput.value)"
+                    />
+                    <button
+                      type="button"
+                      class="icon-btn delete-btn"
+                      [attr.aria-label]="translate.t('createSurvey.clearField')"
+                      (click)="clearDeadline()"
+                    ></button>
+                  </span>
+                </label>
+
+                <app-category-select
+                  class="deadline-category"
+                  [(value)]="category"
+                  [showAllOption]="false"
+                  [placeholderKey]="'createSurvey.choosePlaceholder'"
+                />
+              </div>
             </div>
-          </div>
 
-          <label class="field description-field">
-            <span class="field-label"
-              >{{ translate.t('createSurvey.descriptionLabel') }}
-              <span class="optional-suffix">{{ translate.t('createSurvey.optionalSuffix') }}</span></span
-            >
-            <span class="field-row">
-              <textarea
-                #descriptionInput
-                [value]="draft().description"
-                (input)="updateDescription(descriptionInput.value)"
-              ></textarea>
-              <button
-                type="button"
-                class="icon-btn delete-btn"
-                [attr.aria-label]="translate.t('createSurvey.clearField')"
-                (click)="clearDescription()"
-              ></button>
-            </span>
-          </label>
-        </div>
-
-        <div class="questions">
-          @for (question of draft().questions; track question.id; let i = $index) {
-            <div class="question-block">
-              <div class="question-head">
-                <span class="field-label">{{ i + 1 }}. {{ translate.t('createSurvey.questionLabel') }}</span>
+            <label class="field description-field">
+              <span class="field-label"
+                >{{ translate.t('createSurvey.descriptionLabel') }}
+                <span class="optional-suffix">{{
+                  translate.t('createSurvey.optionalSuffix')
+                }}</span></span
+              >
+              <span class="field-row">
+                <textarea
+                  #descriptionInput
+                  [value]="draft().description"
+                  (input)="updateDescription(descriptionInput.value)"
+                ></textarea>
                 <button
                   type="button"
                   class="icon-btn delete-btn"
-                  [attr.aria-label]="
-                    i === 0 ? translate.t('createSurvey.clearQuestion') : translate.t('createSurvey.deleteQuestion')
-                  "
-                  (click)="onDeleteQuestion(i, question.id)"
+                  [attr.aria-label]="translate.t('createSurvey.clearField')"
+                  (click)="clearDescription()"
                 ></button>
-              </div>
-              <input
-                type="text"
-                #questionInput
-                class="question-input"
-                [value]="question.text"
-                (input)="updateQuestionText(question.id, questionInput.value)"
-              />
+              </span>
+            </label>
+          </div>
 
-              <div class="answers-head">
-                <span class="field-label">{{
-                  translate.t(question.allowMultiple ? 'createSurvey.answersLabel' : 'createSurvey.answerLabel')
-                }}</span>
-                <span class="allow-multiple">
-                  <input
-                    type="checkbox"
-                    [checked]="question.allowMultiple"
-                    (change)="toggleAllowMultiple(question.id)"
-                  />
-                  {{ translate.t('createSurvey.allowMultiple') }}
-                </span>
-              </div>
-
-              <ul class="answers">
-                @for (option of question.options; track $index; let ai = $index) {
-                  @if (ai === 0 || question.allowMultiple) {
-                    <li [class.single]="!question.allowMultiple">
-                      @if (question.allowMultiple) {
-                        <span class="answer-letter">{{ optionLetter(ai) }}.</span>
-                      }
-                      <input
-                        type="text"
-                        #answerInput
-                        [value]="option"
-                        (input)="updateAnswer(question.id, ai, answerInput.value)"
-                      />
-                      @if (question.allowMultiple) {
-                        <button
-                          type="button"
-                          class="icon-btn delete-btn"
-                          [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
-                          (click)="removeAnswer(question.id, ai)"
-                        ></button>
-                      }
-                    </li>
-                  }
-                }
-              </ul>
-              @if (question.allowMultiple) {
-                <div class="add-answer-row" [class.maxed]="question.options.length >= maxAnswers">
-                  @if (question.options.length < maxAnswers) {
-                    <button type="button" class="add-answer" (click)="addAnswer(question.id)">
-                      <div>
-                        <div class="add-answer-underline">
-                          <span>{{ translate.t('createSurvey.addAnswer') }}</span>
-                          <img src="images/icon-add-circle.png" alt="" />
-                        </div>
-                      </div>
-                    </button>
-                  }
-                  @if (question.options.length > 2) {
-                    <span class="max-answers-hint">{{ translate.t('createSurvey.maxAnswersHint') }}</span>
-                  }
+          <div class="questions">
+            @for (question of draft().questions; track question.id; let i = $index) {
+              <div class="question-block">
+                <div class="question-head">
+                  <span class="field-label"
+                    >{{ i + 1 }}. {{ translate.t('createSurvey.questionLabel') }}</span
+                  >
+                  <button
+                    type="button"
+                    class="icon-btn delete-btn"
+                    [attr.aria-label]="
+                      i === 0
+                        ? translate.t('createSurvey.clearQuestion')
+                        : translate.t('createSurvey.deleteQuestion')
+                    "
+                    (click)="onDeleteQuestion(i, question.id)"
+                  ></button>
                 </div>
-              }
-            </div>
+                <input
+                  type="text"
+                  #questionInput
+                  class="question-input"
+                  [value]="question.text"
+                  (input)="updateQuestionText(question.id, questionInput.value)"
+                />
+
+                <div class="answers-head">
+                  <span class="field-label">{{
+                    translate.t(
+                      question.allowMultiple
+                        ? 'createSurvey.answersLabel'
+                        : 'createSurvey.answerLabel'
+                    )
+                  }}</span>
+                  <span class="allow-multiple">
+                    <input
+                      type="checkbox"
+                      [checked]="question.allowMultiple"
+                      (change)="toggleAllowMultiple(question.id)"
+                    />
+                    {{ translate.t('createSurvey.allowMultiple') }}
+                  </span>
+                </div>
+
+                <ul class="answers">
+                  @for (option of question.options; track $index; let ai = $index) {
+                    @if (ai === 0 || question.allowMultiple) {
+                      <li [class.single]="!question.allowMultiple">
+                        @if (question.allowMultiple) {
+                          <span class="answer-letter">{{ optionLetter(ai) }}.</span>
+                        }
+                        <input
+                          type="text"
+                          #answerInput
+                          [value]="option"
+                          (input)="updateAnswer(question.id, ai, answerInput.value)"
+                        />
+                        @if (question.allowMultiple) {
+                          <button
+                            type="button"
+                            class="icon-btn delete-btn"
+                            [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
+                            (click)="removeAnswer(question.id, ai)"
+                          ></button>
+                        }
+                      </li>
+                    }
+                  }
+                </ul>
+                @if (question.allowMultiple) {
+                  <div class="add-answer-row" [class.maxed]="question.options.length >= maxAnswers">
+                    @if (question.options.length < maxAnswers) {
+                      <button type="button" class="add-answer" (click)="addAnswer(question.id)">
+                        <div>
+                          <div class="add-answer-underline">
+                            <span>{{ translate.t('createSurvey.addAnswer') }}</span>
+                            <img src="images/icon-add-circle.png" alt="" />
+                          </div>
+                        </div>
+                      </button>
+                    }
+                    @if (question.options.length > 2) {
+                      <span class="max-answers-hint">{{
+                        translate.t('createSurvey.maxAnswersHint')
+                      }}</span>
+                    }
+                  </div>
+                }
+              </div>
+            }
+            <button type="button" class="add-question" (click)="addQuestion()">
+              <span>{{ translate.t('createSurvey.addQuestion') }}</span>
+              <img src="images/icon-add-circle.png" alt="" />
+            </button>
+          </div>
+        </div>
+
+        <div class="footer">
+          @if (submitError()) {
+            <p class="error" role="alert">{{ translate.t('createSurvey.publishError') }}</p>
           }
-          <button type="button" class="add-question" (click)="addQuestion()">
-            <span>{{ translate.t('createSurvey.addQuestion') }}</span>
-            <img src="images/icon-add-circle.png" alt="" />
+          <button
+            type="button"
+            class="btn-primary publish"
+            [disabled]="!canPublish() || submitting()"
+            (click)="publish()"
+          >
+            {{ translate.t('createSurvey.publish') }}
+            <span class="icon-reveal">
+              <img class="icon" src="images/icon-check.png" alt="" />
+            </span>
           </button>
         </div>
-      </div>
-
-      <div class="footer">
-        @if (submitError()) {
-          <p class="error" role="alert">{{ translate.t('createSurvey.publishError') }}</p>
-        }
-        <button
-          type="button"
-          class="btn-primary publish"
-          [disabled]="!canPublish() || submitting()"
-          (click)="publish()"
-        >
-          {{ translate.t('createSurvey.publish') }}
-          <span class="icon-reveal">
-            <img class="icon" src="images/icon-check.png" alt="" />
-          </span>
-        </button>
-      </div>
-    }
+      }
+    </div>
+    <app-scroll-thumb class="panel-thumb" [viewport]="panelViewport" variant="image" [topInset]="90" />
   </div>
 </div>
