@@ -468,9 +468,10 @@ button span {
 .footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-md);
-  margin-top: var(--space-lg);
+  margin-top: 3rem;
+  margin-bottom: var(--space-sm);
 }
 
 .add-question {
@@ -506,7 +507,6 @@ button span {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 0;
   height: 48px;
   border: none;
   border-radius: 10px;
