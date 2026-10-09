@@ -24,12 +24,10 @@
   overflow-y: auto;
   scrollbar-width: none;
   padding: 40px 54px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 100px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-radius: 5px 100px 5px 5px;
   background: var(--color-dark-deep);
   color: var(--color-text-on-dark);
+  border-top: solid 2px var(--color-dark-deep);
 }
 
 .panel::-webkit-scrollbar {
