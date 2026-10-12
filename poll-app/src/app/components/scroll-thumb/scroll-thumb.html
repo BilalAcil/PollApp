@@ -2,6 +2,7 @@
   <div
     class="thumb"
     [class.thumb--image]="variant() === 'image'"
+    [class.active]="recentlyActive()"
     aria-hidden="true"
     [style.height.px]="thumbHeight()"
     [style.top.px]="thumbTop()"

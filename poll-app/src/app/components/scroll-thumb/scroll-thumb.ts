@@ -12,6 +12,8 @@ import {
 
 /** Fixed pixel height of the thumb, per the design spec. */
 const THUMB_HEIGHT_PX = 64;
+/** How long the image-variant thumb stays visible after the last scroll. */
+const INACTIVITY_HIDE_DELAY_MS = 2000;
 
 /**
  * Custom vertical scrollbar thumb for a given viewport element.
@@ -35,8 +37,10 @@ export class ScrollThumb {
   private readonly clientHeight: WritableSignal<number> = signal(0);
   private readonly scrollHeight: WritableSignal<number> = signal(0);
   protected readonly dragging: WritableSignal<boolean> = signal(false);
+  protected readonly recentlyActive: WritableSignal<boolean> = signal(false);
   private dragStartY = 0;
   private dragStartScrollTop = 0;
+  private hideTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly visible: Signal<boolean> = computed(
     () => this.scrollHeight() > this.clientHeight(),
@@ -54,6 +58,7 @@ export class ScrollThumb {
     this.dragging.set(true);
     this.dragStartY = event.clientY;
     this.dragStartScrollTop = this.viewport()?.scrollTop ?? 0;
+    this.markActive();
     event.preventDefault();
   }
 
@@ -78,13 +83,17 @@ export class ScrollThumb {
       return;
     }
     this.readMetrics(el);
-    const onScroll = (): void => this.readMetrics(el);
+    const onScroll = (): void => {
+      this.readMetrics(el);
+      this.markActive();
+    };
     el.addEventListener('scroll', onScroll);
     const observer = new ResizeObserver(() => this.readMetrics(el));
     observer.observe(el);
     onCleanup(() => {
       el.removeEventListener('scroll', onScroll);
       observer.disconnect();
+      this.clearHideTimeout();
     });
   }
 
@@ -93,6 +102,21 @@ export class ScrollThumb {
     this.scrollTop.set(el.scrollTop);
     this.clientHeight.set(el.clientHeight);
     this.scrollHeight.set(el.scrollHeight);
+  }
+
+  /** Shows the image-variant thumb and restarts its fade-out timer. */
+  private markActive(): void {
+    this.recentlyActive.set(true);
+    this.clearHideTimeout();
+    this.hideTimeoutId = setTimeout(() => this.recentlyActive.set(false), INACTIVITY_HIDE_DELAY_MS);
+  }
+
+  /** Cancels a pending fade-out, if any. */
+  private clearHideTimeout(): void {
+    if (this.hideTimeoutId !== null) {
+      clearTimeout(this.hideTimeoutId);
+      this.hideTimeoutId = null;
+    }
   }
 
   /** The thumb's fixed pixel height, capped by the track's own height. */
