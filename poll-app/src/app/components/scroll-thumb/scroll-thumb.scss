@@ -12,6 +12,12 @@
   background: var(--color-amber-light);
   cursor: pointer;
   touch-action: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.thumb.active {
+  opacity: 1;
 }
 
 .thumb--image {
@@ -19,12 +25,6 @@
   width: 0.5rem;
   border-radius: 0.25rem;
   background: #bababa;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.thumb--image.active {
-  opacity: 1;
 }
 
 @media (max-width: 1240px) {

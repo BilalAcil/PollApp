@@ -12,7 +12,7 @@ import {
 
 /** Smallest the thumb may shrink to, so it stays easy to grab. */
 const THUMB_MIN_HEIGHT_PX = 32;
-/** How long the image-variant thumb stays visible after the last scroll. */
+/** How long the thumb stays visible after the last mouse movement over the viewport. */
 const INACTIVITY_HIDE_DELAY_MS = 2000;
 
 /**
@@ -76,7 +76,7 @@ export class ScrollThumb {
     this.dragging.set(false);
   }
 
-  /** Subscribes to scroll and resize changes on the current viewport element. */
+  /** Tracks scroll/resize metrics and shows the thumb on scroll or mouse movement. */
   private attachToViewport(onCleanup: (fn: () => void) => void): void {
     const el = this.viewport();
     if (!el) {
@@ -87,11 +87,14 @@ export class ScrollThumb {
       this.readMetrics(el);
       this.markActive();
     };
+    const onMouseMove = (): void => this.markActive();
     el.addEventListener('scroll', onScroll);
+    el.addEventListener('mousemove', onMouseMove);
     const observer = new ResizeObserver(() => this.readMetrics(el));
     observer.observe(el);
     onCleanup(() => {
       el.removeEventListener('scroll', onScroll);
+      el.removeEventListener('mousemove', onMouseMove);
       observer.disconnect();
       this.clearHideTimeout();
     });
@@ -104,7 +107,7 @@ export class ScrollThumb {
     this.scrollHeight.set(el.scrollHeight);
   }
 
-  /** Shows the image-variant thumb and restarts its fade-out timer. */
+  /** Shows the thumb and restarts its fade-out timer. */
   private markActive(): void {
     this.recentlyActive.set(true);
     this.clearHideTimeout();

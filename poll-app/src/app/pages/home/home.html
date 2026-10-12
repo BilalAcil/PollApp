@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page" #pageViewport>
   <div class="page-inner">
     <header class="topbar">
       <img class="logo" src="images/logo-on-dark.png" alt="Poll App" />
@@ -95,3 +95,4 @@
     </main>
   </div>
 </div>
+<app-scroll-thumb class="page-thumb" [viewport]="pageViewport" />
