@@ -64,8 +64,11 @@ export class SurveyDetail {
     const next = new Map(this.selections());
     const current = new Set(next.get(question.id));
     if (!question.allow_multiple) {
+      const wasSelected = current.has(optionId);
       current.clear();
-      current.add(optionId);
+      if (!wasSelected) {
+        current.add(optionId);
+      }
     } else if (current.has(optionId)) {
       current.delete(optionId);
     } else {

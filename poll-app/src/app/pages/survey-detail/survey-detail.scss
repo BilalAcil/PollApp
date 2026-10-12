@@ -55,7 +55,7 @@
 
 .btn-primary:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: default;
 }
 
 .icon-reveal {
@@ -100,7 +100,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-sm);
 }
 
 .badge {
@@ -116,6 +115,14 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 1;
+  cursor: default;
+}
+
+.survey-summary {
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 48px;
 }
 
 .deadline {
@@ -124,32 +131,38 @@
   font-size: 14px;
   line-height: 1;
   color: var(--color-button-text);
+  cursor: default;
 }
 
 .category {
   font-family: var(--font-body);
   font-size: 0.875rem;
   color: var(--color-text-dark);
+  cursor: default;
 }
 
 .title {
   width: 622px;
+  height: 104px;
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 56px;
   line-height: 50px;
   color: #ee9236;
+  cursor: default;
 }
 
 .description {
   width: 622px;
-  margin: 8px 0 48px;
+  margin: 0;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 16px;
-  line-height: 1;
+  line-height: 1.4;
   color: var(--color-dark-deep);
+  white-space: pre-line;
+  cursor: default;
 }
 
 .questions {
@@ -182,6 +195,7 @@
   font-weight: 700;
   font-size: 18px;
   color: var(--color-dark-deep);
+  cursor: default;
 }
 
 .hint {
@@ -222,7 +236,7 @@
   cursor: pointer;
 }
 
-.answers label:hover {
+.answers:not(.read-only) label:hover {
   background: var(--color-peach-light);
 }
 
@@ -244,7 +258,7 @@
 }
 
 .answers label:hover input[type='checkbox']:not(:checked) {
-  background-image: url('/images/icon-checkbox-hover.png');
+  background-image: url('/images/icon-checkbox-empty.png');
 }
 
 .answers input[type='checkbox']:checked {
@@ -252,7 +266,11 @@
 }
 
 .answers input[type='checkbox']:disabled {
-  cursor: not-allowed;
+  cursor: default;
+}
+
+.answers.read-only label {
+  cursor: default;
 }
 
 .results-panel {
@@ -278,6 +296,7 @@
   scrollbar-width: none;
   box-shadow: inset 0 10px 8px -8px rgba(0, 0, 0, 0);
   transition: box-shadow 0.2s ease;
+  cursor: default;
 }
 
 .results-scroll::-webkit-scrollbar {
@@ -303,6 +322,7 @@
   font-size: 32px;
   line-height: 1;
   color: var(--color-button-text);
+  cursor: default;
 }
 
 .live {
@@ -338,7 +358,7 @@
 
 .track {
   flex: 0 0 auto;
-  width: 16rem;
+  width: 15.7rem;
   height: 0.875rem;
   border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
   background: var(--color-track);

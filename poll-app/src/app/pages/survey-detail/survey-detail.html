@@ -15,17 +15,21 @@
 
       <main class="layout">
         <section class="survey-panel" aria-labelledby="survey-title">
-          <div class="meta-row">
-            <span class="badge">{{ translate.t('detail.published') }}</span>
+          <div class="survey-summary">
+            <div class="meta-row">
+              <span class="badge">{{ translate.t('detail.published') }}</span>
+            </div>
+            <div class="meta-row">
+              <time class="deadline" [attr.datetime]="survey.deadline">{{ deadlineLabel() }}</time>
+              <span class="category">{{
+                translate.t('detail.category', { category: categoryLabel() })
+              }}</span>
+            </div>
+            <h1 id="survey-title" class="title">{{ survey.title }}</h1>
+            @if (survey.description) {
+              <p class="description">{{ survey.description }}</p>
+            }
           </div>
-          <div class="meta-row">
-            <time class="deadline" [attr.datetime]="survey.deadline">{{ deadlineLabel() }}</time>
-            <span class="category">{{ translate.t('detail.category', { category: categoryLabel() }) }}</span>
-          </div>
-          <h1 id="survey-title" class="title">{{ survey.title }}</h1>
-          @if (survey.description) {
-            <p class="description">{{ survey.description }}</p>
-          }
 
           <div class="questions">
             @for (question of survey.survey_questions; track question.id) {
@@ -34,7 +38,7 @@
                 @if (question.allow_multiple) {
                   <p class="hint">{{ translate.t('detail.multipleAnswersHint') }}</p>
                 }
-                <ul class="answers">
+                <ul class="answers" [class.read-only]="readOnly()">
                   @for (option of question.survey_options; track option.id) {
                     <li>
                       <label>
