@@ -41,6 +41,7 @@ export const en: Record<string, string> = {
   'createSurvey.descriptionLabel': 'Describing text',
   'createSurvey.optionalSuffix': '(optional)',
   'createSurvey.questionLabel': 'Question',
+  'createSurvey.questionPlaceholder': 'Type your question',
   'createSurvey.allowMultiple': 'Allow multiple answers',
   'createSurvey.answerLabel': 'Answer',
   'createSurvey.answersLabel': 'Answers',

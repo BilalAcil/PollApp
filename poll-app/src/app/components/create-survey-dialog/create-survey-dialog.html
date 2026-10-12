@@ -1,19 +1,7 @@
 <div class="backdrop">
   <div class="panel-wrap">
     <div class="panel" #panelViewport>
-      @if (createdSurveyId(); as id) {
-        <div class="confirm-toast">
-          <p>{{ translate.t('createSurvey.publishedMessage') }}</p>
-          <button
-            type="button"
-            class="icon-btn"
-            [attr.aria-label]="translate.t('createSurvey.closeConfirmation')"
-            (click)="goToNewSurvey(id)"
-          >
-            <img src="images/icon-close.png" alt="" />
-          </button>
-        </div>
-      } @else {
+      <div class="form-content" [class.frozen]="createdSurveyId() !== null">
         <header class="panel-header">
           <span class="badge">{{ translate.t('createSurvey.badge') }}</span>
         </header>
@@ -127,6 +115,7 @@
                   #questionInput
                   class="question-input"
                   [value]="question.text"
+                  [placeholder]="translate.t('createSurvey.questionPlaceholder')"
                   (input)="updateQuestionText(question.id, questionInput.value)"
                 />
 
@@ -208,6 +197,7 @@
           <button
             type="button"
             class="btn-primary publish"
+            [class.confirmed]="submitting() || createdSurveyId() !== null"
             [disabled]="!canPublish() || submitting()"
             (click)="publish()"
           >
@@ -216,9 +206,27 @@
               <img class="icon" src="images/icon-check.png" alt="" />
             </span>
           </button>
+          @if (createdSurveyId(); as id) {
+            <div class="confirm-toast">
+              <p>{{ translate.t('createSurvey.publishedMessage') }}</p>
+              <button
+                type="button"
+                class="icon-btn"
+                [attr.aria-label]="translate.t('createSurvey.closeConfirmation')"
+                (click)="goToNewSurvey(id)"
+              >
+                <img src="images/icon-close-dark.png" alt="" />
+              </button>
+            </div>
+          }
         </div>
-      }
+      </div>
     </div>
-    <app-scroll-thumb class="panel-thumb" [viewport]="panelViewport" variant="image" [topInset]="90" />
+    <app-scroll-thumb
+      class="panel-thumb"
+      [viewport]="panelViewport"
+      variant="image"
+      [topInset]="90"
+    />
   </div>
 </div>
