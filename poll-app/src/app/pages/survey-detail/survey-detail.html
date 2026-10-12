@@ -93,7 +93,7 @@
               (scroll)="onResultsScroll($event)"
             >
               @if (isResultsEmpty()) {
-                <p>{{ translate.t('detail.resultsEmptyHint') }}</p>
+                <p class="results-empty-hint">{{ translate.t('detail.resultsEmptyHint') }}</p>
                 <p class="no-answers">{{ translate.t('detail.noAnswersYet') }}</p>
               } @else {
                 @for (question of survey.survey_questions; track question.id) {
