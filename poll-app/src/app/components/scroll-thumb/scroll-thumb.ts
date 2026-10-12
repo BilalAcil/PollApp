@@ -10,8 +10,8 @@ import {
   WritableSignal,
 } from '@angular/core';
 
-/** Fixed pixel height of the thumb, per the design spec. */
-const THUMB_HEIGHT_PX = 64;
+/** Smallest the thumb may shrink to, so it stays easy to grab. */
+const THUMB_MIN_HEIGHT_PX = 32;
 /** How long the image-variant thumb stays visible after the last scroll. */
 const INACTIVITY_HIDE_DELAY_MS = 2000;
 
@@ -119,9 +119,14 @@ export class ScrollThumb {
     }
   }
 
-  /** The thumb's fixed pixel height, capped by the track's own height. */
+  /** The thumb's height, proportional to how much of the content is visible. */
   private computeThumbHeight(): number {
-    return Math.min(THUMB_HEIGHT_PX, this.clientHeight() - this.topInset());
+    const track = this.clientHeight() - this.topInset();
+    if (this.scrollHeight() <= 0) {
+      return track;
+    }
+    const proportional = (this.clientHeight() / this.scrollHeight()) * track;
+    return Math.min(track, Math.max(THUMB_MIN_HEIGHT_PX, proportional));
   }
 
   /** Computes the thumb's pixel offset from the top of the track. */

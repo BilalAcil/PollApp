@@ -17,8 +17,8 @@
 .thumb--image {
   left: 0;
   width: 0.5rem;
-  border-radius: 0;
-  background: url('/images/scrollbar-thumb.png') no-repeat center / contain;
+  border-radius: 0.25rem;
+  background: #bababa;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
