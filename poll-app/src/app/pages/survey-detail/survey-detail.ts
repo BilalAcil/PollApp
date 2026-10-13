@@ -9,6 +9,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
 import { categoryLabelKey } from '../../core/categories';
@@ -24,7 +25,7 @@ const VOTED_KEY_PREFIX = 'pollapp-voted-';
 /** Detail view for one survey: voting form on the left, live results on the right. */
 @Component({
   selector: 'app-survey-detail',
-  imports: [ScrollThumb],
+  imports: [ScrollThumb, RouterLink],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
 })
