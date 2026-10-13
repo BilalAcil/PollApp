@@ -447,6 +447,10 @@ main {
     width: 100%;
   }
 
+  .card-grid.list app-survey-card {
+    min-width: 100%;
+  }
+
   .toolbar {
     align-items: flex-start;
     flex-direction: column;
