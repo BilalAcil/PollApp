@@ -417,6 +417,10 @@ main {
   .card-grid {
     grid-template-columns: 1fr;
   }
+
+  .page-thumb {
+    display: none;
+  }
 }
 
 @media (max-width: 800px) {
