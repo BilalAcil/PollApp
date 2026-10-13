@@ -210,10 +210,11 @@ export class CreateSurveyDialog {
     }));
   }
 
-  /** Closes the dialog unless a publish request is in flight. */
+  /** Closes the dialog and returns to the homescreen, unless a publish request is in flight. */
   protected requestClose(): void {
     if (!this.submitting()) {
       this.dialogState.hide();
+      void this.router.navigate(['/']);
     }
   }
 
