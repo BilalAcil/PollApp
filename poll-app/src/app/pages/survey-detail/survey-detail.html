@@ -18,10 +18,18 @@
       <main class="layout">
         <section class="survey-panel" aria-labelledby="survey-title">
           <div class="survey-summary">
-            <div class="meta-row">
+            <div class="meta-row meta-row-top">
               <span class="badge">{{ translate.t('detail.published') }}</span>
+              <button
+                type="button"
+                class="survey-close"
+                routerLink="/"
+                [attr.aria-label]="translate.t('detail.backToHome')"
+              >
+                <img src="images/icon-close-dark.png" alt="" />
+              </button>
             </div>
-            <div class="meta-row">
+            <div class="meta-row meta-row-dates">
               <time class="deadline" [attr.datetime]="survey.deadline">{{ deadlineLabel() }}</time>
               <span class="category">{{
                 translate.t('detail.category', { category: categoryLabel() })

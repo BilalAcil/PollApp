@@ -21,6 +21,7 @@ export const de: Record<string, string> = {
 
   'detail.category': 'Kategorie: {category}',
   'detail.published': 'Veröffentlicht',
+  'detail.backToHome': 'Zurück zur Startseite',
   'detail.resultsTitle': 'Ergebnisse',
   'detail.live': 'LIVE',
   'detail.resultsEmptyHint': 'Die Ergebnisse erscheinen hier, sobald Teilnehmer die Umfrage abgeschlossen haben.',

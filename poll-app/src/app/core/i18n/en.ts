@@ -21,6 +21,7 @@ export const en: Record<string, string> = {
 
   'detail.category': 'Category: {category}',
   'detail.published': 'Published',
+  'detail.backToHome': 'Back to home',
   'detail.resultsTitle': 'Survey results',
   'detail.live': 'LIVE',
   'detail.resultsEmptyHint': 'Results will be shown here after participants complete the survey.',
