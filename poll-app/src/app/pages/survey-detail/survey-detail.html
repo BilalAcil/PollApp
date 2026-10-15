@@ -68,18 +68,17 @@
             }
           </div>
 
-          @if (!readOnly()) {
-            <div class="complete-row">
-              <button
-                type="button"
-                class="btn-primary"
-                [disabled]="!canComplete()"
-                (click)="complete()"
-              >
-                {{ translate.t('detail.completeSurvey') }}
-              </button>
-            </div>
-          }
+          <div class="complete-row">
+            <button
+              type="button"
+              class="btn-primary"
+              [disabled]="readOnly() || !canComplete()"
+              (click)="complete()"
+            >
+              {{ translate.t('detail.completeSurvey') }}
+              <span class="complete-check"><img src="images/icon-check.png" alt="" /></span>
+            </button>
+          </div>
           @if (voteError()) {
             <p class="error" role="alert">{{ translate.t('detail.voteError') }}</p>
           }
