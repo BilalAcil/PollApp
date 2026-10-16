@@ -322,6 +322,82 @@
   width: 316px;
 }
 
+.results-toggle-row {
+  display: none;
+}
+
+.results-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-dark-deep);
+  cursor: pointer;
+}
+
+.results-toggle-label {
+  position: relative;
+  display: inline-grid;
+}
+
+.label-text {
+  grid-area: 1 / 1;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.4s ease;
+}
+
+.label-text.visible {
+  opacity: 1;
+}
+
+.results-toggle-arrow {
+  display: block;
+  box-sizing: content-box;
+  width: 16px;
+  height: 8px;
+  padding: 8px 4px;
+  background: url('/images/icon-arrow-drop-down.png') no-repeat center / 16px 8px;
+  background-origin: content-box;
+  transition: transform 0.4s ease;
+}
+
+.results-toggle-arrow.open {
+  transform: rotate(180deg);
+}
+
+.results-toggle:hover .results-toggle-arrow {
+  background-image: url('/images/icon-arrow-drop-down-orange.png');
+}
+
+.results-collapse {
+  display: grid;
+  grid-template-rows: 1fr;
+  min-height: 0;
+  transition: grid-template-rows 0.4s ease;
+}
+
+.results-collapse-inner {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.results-panel.collapsed .results-collapse {
+  grid-template-rows: 0fr;
+}
+
+.results-panel.collapsed .results-collapse-inner {
+  opacity: 0;
+}
+
 .results-scroll-row {
   position: relative;
   flex: 1 1 auto;
@@ -517,6 +593,11 @@
     align-items: center;
   }
 
+  .results-toggle-row {
+    display: flex;
+    width: 670px;
+  }
+
   .survey-panel {
     width: 90%;
   }
@@ -527,6 +608,7 @@
 
   .layout {
     align-items: center;
+    gap: 3.5rem;
   }
 
   .results-scroll {
@@ -583,6 +665,10 @@
 
 @media (max-width: 950px) {
 
+  .results-toggle-row {
+    width: 648px;
+  }
+
   .results-scroll-row {
     width: auto;
   }
@@ -628,6 +714,10 @@
   .track {
     width: 14rem;
   }
+
+  .results-toggle-row {
+    width: 616px;
+  }
 }
 
 
@@ -639,11 +729,19 @@
   .track {
     width: 13rem;
   }
+
+  .results-toggle-row {
+    width: 584px;
+  }
 }
 
 @media (max-width: 700px) {
   .track {
     width: 11.5rem;
+  }
+
+  .results-toggle-row {
+    width: 536px;
   }
 
   .questions {
@@ -665,6 +763,10 @@
 
   .track {
     width: 14.3rem;
+  }
+
+  .results-toggle-row {
+    width: 300px;
   }
 
   .results-panel h2 {

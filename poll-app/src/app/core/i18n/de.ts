@@ -23,6 +23,8 @@ export const de: Record<string, string> = {
   'detail.published': 'Veröffentlicht',
   'detail.backToHome': 'Zurück zur Startseite',
   'detail.resultsTitle': 'Ergebnisse',
+  'detail.closeResults': 'Ergebnisse schließen',
+  'detail.showResults': 'Ergebnisse anzeigen',
   'detail.live': 'LIVE',
   'detail.resultsEmptyHint': 'Die Ergebnisse erscheinen hier, sobald Teilnehmer die Umfrage abgeschlossen haben.',
   'detail.noAnswersYet': 'Es gibt noch keine Antworten.',

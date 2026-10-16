@@ -55,6 +55,7 @@ export class SurveyDetail {
   protected readonly isResultsEmpty: Signal<boolean> = computed(() =>
     this.results().every((option) => option.vote_count === 0),
   );
+  protected readonly resultsOpen: WritableSignal<boolean> = signal(true);
 
   constructor() {
     effect((onCleanup) => this.loadAndSubscribe(onCleanup));
@@ -94,6 +95,11 @@ export class SurveyDetail {
     } catch {
       this.voteError.set(true);
     }
+  }
+
+  /** Toggles whether the results panel is expanded below the 1000px breakpoint. */
+  protected toggleResults(): void {
+    this.resultsOpen.update((open) => !open);
   }
 
   /** Tracks whether the results list has been scrolled away from its top. */

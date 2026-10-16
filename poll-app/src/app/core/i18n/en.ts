@@ -23,6 +23,8 @@ export const en: Record<string, string> = {
   'detail.published': 'Published',
   'detail.backToHome': 'Back to home',
   'detail.resultsTitle': 'Survey results',
+  'detail.closeResults': 'Close results',
+  'detail.showResults': 'See results',
   'detail.live': 'LIVE',
   'detail.resultsEmptyHint': 'Results will be shown here after participants complete the survey.',
   'detail.noAnswersYet': 'There are no answers yet.',
