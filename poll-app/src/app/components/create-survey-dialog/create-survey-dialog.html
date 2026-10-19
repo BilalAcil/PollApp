@@ -1,4 +1,13 @@
 <div class="backdrop">
+  <div class="dialog-topbar">
+    <img
+      class="dialog-logo"
+      src="images/logo-on-light.png"
+      alt="Poll App"
+      (click)="requestClose()"
+    />
+  </div>
+
   <div class="panel-wrap">
     <div class="panel" #panelViewport>
       <div class="form-content" [class.frozen]="createdSurveyId() !== null">
