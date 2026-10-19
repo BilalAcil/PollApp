@@ -330,12 +330,13 @@ button span {
 
 .questions {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, max-content);
   gap: var(--space-xxl);
 }
 
 .question-block {
-  width: 430px;
+  width: 470px;
+  padding-right: 40px;
 }
 
 .question-head {
@@ -645,30 +646,31 @@ button span {
   }
 }
 
-@media (max-width: 1000px) {
-  .panel {
-    padding: 40px 18px;
-  }
-}
-
-@media (max-width: 950px) {
+@media (max-width: 1170px) {
   .fields-left {
-    min-width: max(430px, calc(100vw - 480px));
+    flex: 0 0 auto;
+    min-width: 0;
+    width: max(380px, calc(100vw - 700px));
   }
-}
 
-@media (max-width: 900px) {
-  .fields-left {
-    min-width: max(380px, calc(100vw - 470px));
+  .description-field {
+    flex: 0 0 auto;
+    width: max(380px, calc(100vw - 710px));
   }
 
   .question-block {
-    width: max(380px, calc(100vw - 470px));
+    width: max(380px, calc(100vw - 700px));
   }
 
   .answers li,
   .answers li.single {
     width: 100%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .panel {
+    padding: 40px 18px;
   }
 }
 
