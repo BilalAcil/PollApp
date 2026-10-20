@@ -216,6 +216,14 @@ button span {
   cursor: text;
 }
 
+.fields-left .field-row input[type='text'] {
+  min-width: 430px;
+}
+
+.fields-left .field-row input[type='date'] {
+  min-width: 200px;
+}
+
 .fields-left .field-row input[type='date']::-webkit-calendar-picker-indicator {
   display: none;
 }
@@ -831,6 +839,7 @@ button span {
   .fields-left {
     min-width: 0;
     width: 100%;
+    flex-direction: row;
     gap: var(--space-sm);
   }
 
@@ -857,8 +866,8 @@ button span {
 
   .deadline-category {
     position: absolute;
-    top: 176px;
-    right: 88px;
+    top: 260px;
+    right: 80px;
     width: 200px;
   }
 
@@ -890,7 +899,7 @@ button span {
   .allow-multiple {
     position: absolute;
     top: 0;
-    right: 56px;
+    right: 48px;
   }
 
   .answers {
@@ -913,5 +922,47 @@ button span {
 
   .add-question {
     justify-self: center;
+  }
+
+  .footer {
+    margin-top: 2rem;
+    margin-bottom: var(--space-lg);
+  }
+}
+
+@media (max-width: 800px) {
+  .form-body {
+    padding: 40px 10px;
+  }
+
+  .deadline-category {
+    right: 56px;
+  }
+
+  .fields-left>.deadline-row {
+    flex: 0 0 200px;
+  }
+
+  .fields-left>.field {
+    flex: 1 1 auto;
+  }
+
+  .fields-left .field-row input[type='text'] {
+    min-width: 0;
+    max-width: min(430px, calc(100vw - 370px));
+  }
+
+  .description-field textarea {
+    max-width: min(430px, calc(100vw - 370px));
+  }
+}
+
+@media (max-width: 750px) {
+  .allow-multiple {
+    position: static;
+  }
+
+  .answers-head {
+    width: 320px;
   }
 }
