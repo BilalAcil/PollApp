@@ -108,6 +108,16 @@
                   <span class="field-label"
                     >{{ i + 1 }}. {{ translate.t('createSurvey.questionLabel') }}</span
                   >
+                </div>
+                <span class="question-input-row">
+                  <input
+                    type="text"
+                    #questionInput
+                    class="question-input"
+                    [value]="question.text"
+                    [placeholder]="translate.t('createSurvey.questionPlaceholder')"
+                    (input)="updateQuestionText(question.id, questionInput.value)"
+                  />
                   <button
                     type="button"
                     class="icon-btn delete-btn"
@@ -118,15 +128,7 @@
                     "
                     (click)="onDeleteQuestion(i, question.id)"
                   ></button>
-                </div>
-                <input
-                  type="text"
-                  #questionInput
-                  class="question-input"
-                  [value]="question.text"
-                  [placeholder]="translate.t('createSurvey.questionPlaceholder')"
-                  (input)="updateQuestionText(question.id, questionInput.value)"
-                />
+                </span>
 
                 <div class="answers-head">
                   <span class="field-label">{{

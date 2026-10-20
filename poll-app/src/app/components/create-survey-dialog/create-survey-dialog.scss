@@ -335,6 +335,7 @@ button span {
 }
 
 .question-block {
+  position: relative;
   width: 470px;
   padding-right: 40px;
 }
@@ -344,6 +345,18 @@ button span {
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-sm);
+}
+
+.question-input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.question-input-row .delete-btn {
+  position: absolute;
+  top: 0;
+  right: 40px;
 }
 
 .question-head .field-label {
@@ -650,16 +663,16 @@ button span {
   .fields-left {
     flex: 0 0 auto;
     min-width: 0;
-    width: max(380px, calc(100vw - 700px));
+    width: max(380px, calc(50vw - 115px));
   }
 
   .description-field {
     flex: 0 0 auto;
-    width: max(380px, calc(100vw - 710px));
+    width: max(380px, calc(50vw - 125px));
   }
 
   .question-block {
-    width: max(380px, calc(100vw - 700px));
+    width: max(380px, calc(50vw - 115px));
   }
 
   .answers li,
@@ -671,6 +684,49 @@ button span {
 @media (max-width: 1000px) {
   .panel {
     padding: 40px 18px;
+  }
+
+  .fields-left {
+    width: max(380px, calc(50vw - 74.5px));
+  }
+
+  .description-field {
+    width: max(380px, calc(50vw - 83.5px));
+  }
+
+  .question-block {
+    width: max(380px, calc(50vw - 74.5px));
+  }
+
+  .heading-row {
+    padding-right: 16px;
+  }
+
+  .footer {
+    padding-right: 16px;
+  }
+
+}
+
+@media (max-width: 930px) {
+  .deadline-row {
+    flex-direction: column;
+  }
+
+  .fields {
+    height: 174px;
+  }
+
+  .fields-left {
+    width: calc(50vw - 74.5px);
+  }
+
+  .description-field {
+    width: calc(50vw - 83.5px);
+  }
+
+  .question-block {
+    width: calc(50vw - 74.5px);
   }
 }
 
@@ -734,11 +790,12 @@ button span {
   .cancel {
     grid-area: cancel;
     align-self: center;
-    width: 32px;
+    margin-right: 2rem;
+    width: 39px;
     height: 32px;
-    padding: 0;
+    padding: 8px 12px;
     gap: 0;
-    border-radius: 50%;
+    border-radius: 10px;
   }
 
   .cancel span {
@@ -759,21 +816,30 @@ button span {
     grid-area: body;
   }
 
-  .footer {
-    grid-area: footer;
-    flex-direction: column;
-    align-items: center;
-  }
+  // .footer {
+  //   grid-area: footer;
+  //   flex-direction: column;
+  //   align-items: center;
+  // }
 
   .fields {
     flex-direction: column;
     height: auto;
-    gap: var(--space-lg);
+    gap: var(--space-sm);
   }
 
   .fields-left {
     min-width: 0;
     width: 100%;
+    gap: var(--space-sm);
+  }
+
+  .description-field textarea {
+    max-width: 430px;
+  }
+
+  .description-field .field-row {
+    height: 108px;
   }
 
   .description-field {
@@ -790,8 +856,10 @@ button span {
   }
 
   .deadline-category {
-    order: -1;
-    width: 100%;
+    position: absolute;
+    top: 176px;
+    right: 88px;
+    width: 200px;
   }
 
   .deadline-field {
@@ -805,6 +873,42 @@ button span {
 
   .question-block {
     width: 100%;
+    padding-right: 0;
+  }
+
+  .question-input {
+    max-width: 430px;
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .question-input-row .delete-btn {
+    position: static;
+  }
+
+  .allow-multiple {
+    position: absolute;
+    top: 0;
+    right: 56px;
+  }
+
+  .answers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .answers li {
+    width: auto;
+    min-width: 0;
+  }
+
+  .answers li.single {
+    grid-column: 1 / -1;
+  }
+
+  .answers input[type='text'] {
+    max-width: 430px;
   }
 
   .add-question {

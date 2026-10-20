@@ -106,6 +106,12 @@
   background: var(--color-lavender-hover);
 }
 
+@media (max-width: 930px) {
+  .trigger {
+    padding: 6px;
+  }
+}
+
 @media (max-width: 800px) {
   .options {
     position: static;
