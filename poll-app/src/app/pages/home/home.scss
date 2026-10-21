@@ -354,7 +354,7 @@ main {
 
 @media (max-width: 900px) {
   :host {
-    padding: var(--space-lg);
+    padding: 0 var(--space-lg);
   }
 
   .hero-title,
@@ -364,7 +364,7 @@ main {
   }
 
   .page-inner {
-    padding: 1rem 1rem;
+    padding: 2.5rem 1rem;
   }
 
   .hero {
@@ -482,11 +482,11 @@ main {
   }
 
   :host {
-    padding: 48px 16px 16px 16px;
+    padding: 0;
   }
 
   .page-inner {
-    padding: 0;
+    padding: 48px 16px 16px 16px;
   }
 }
 

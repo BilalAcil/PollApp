@@ -17,6 +17,8 @@ type Tab = 'active' | 'past';
 const ENDING_SOON_COUNT = 3;
 /** How long the hero button shows its confirm checkmark before the dialog opens. */
 const CONFIRM_ICON_DELAY_MS = 350;
+/** Below this width the confirm checkmark is hidden, so the delay is skipped too. */
+const CONFIRM_ICON_BREAKPOINT_PX = 900;
 
 /** The homescreen: hero, ending-soon highlights, and the filterable survey list. */
 @Component({
@@ -58,6 +60,10 @@ export class Home implements OnInit {
 
   /** Shows the hero button's confirm checkmark briefly before opening the dialog. */
   protected startCreateSurvey(): void {
+    if (window.innerWidth <= CONFIRM_ICON_BREAKPOINT_PX) {
+      this.dialogState.show();
+      return;
+    }
     this.confirmingCreate.set(true);
     setTimeout(() => {
       this.confirmingCreate.set(false);
