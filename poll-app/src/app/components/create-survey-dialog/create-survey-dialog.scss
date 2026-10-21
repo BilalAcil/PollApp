@@ -344,6 +344,7 @@ button span {
 
 .question-block {
   position: relative;
+  min-width: 0;
   width: 470px;
   padding-right: 40px;
 }
@@ -975,6 +976,11 @@ button span {
   .fields-left>.field {
     flex: initial;
     width: 100%;
+    gap: var(--space-sm);
+  }
+
+  .field {
+    gap: var(--space-sm);
   }
 
   .fields-left>.deadline-row {
@@ -1011,6 +1017,37 @@ button span {
   .answers {
     display: flex;
   }
+
+  .answers input[type='text'] {
+    max-width: 430px;
+  }
+
+  .footer {
+    justify-content: center;
+  }
+
+  .max-answers-hint {
+    display: none;
+  }
+
+  .add-answer-row.maxed .max-answers-hint {
+    display: inline;
+  }
+
+  .footer {
+    padding-right: 0;
+    margin-left: 70px;
+  }
+
+  .add-question {
+    margin-top: 70px;
+  }
+}
+
+@media (max-width: 635px) {
+  .answers input[type='text'] {
+    max-width: min(430px, calc(100vw - 205px));
+  }
 }
 
 @media (max-width: 530px) {
@@ -1020,5 +1057,65 @@ button span {
 
   .panel {
     padding: 1.5rem 1rem;
+  }
+
+  .answers input[type='text'] {
+    max-width: 430px;
+  }
+}
+
+@media (max-width: 515px) {
+  .answers input[type='text'] {
+    max-width: min(430px, calc(100vw - 85px));
+  }
+}
+
+@media (max-width: 400px) {
+  .field {
+    position: relative;
+  }
+
+  .field-row .delete-btn {
+    position: absolute;
+    top: -4px;
+    right: 16px;
+  }
+
+  .question-input-row .delete-btn {
+    position: absolute;
+    top: -4px;
+    right: 16px;
+  }
+
+  .question-input {
+    width: 100%;
+  }
+
+  .answers li {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+
+  .answers li .delete-btn {
+    position: absolute;
+    top: -4px;
+    right: 16px;
+  }
+
+  .answers input[type='text'] {
+    width: 100%;
+    max-width: min(348px, calc(100vw - 52px));
+  }
+
+  .add-answer {
+    padding: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .answers-head {
+    width: auto;
   }
 }

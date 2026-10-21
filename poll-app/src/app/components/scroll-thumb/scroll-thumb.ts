@@ -32,6 +32,7 @@ export class ScrollThumb {
   readonly viewport: InputSignal<HTMLElement | null> = input<HTMLElement | null>(null);
   readonly variant: InputSignal<'solid' | 'image'> = input<'solid' | 'image'>('solid');
   readonly topInset: InputSignal<number> = input<number>(0);
+  readonly bottomInset: InputSignal<number> = input<number>(0);
 
   private readonly scrollTop: WritableSignal<number> = signal(0);
   private readonly clientHeight: WritableSignal<number> = signal(0);
@@ -83,6 +84,7 @@ export class ScrollThumb {
       return;
     }
     this.readMetrics(el);
+    const rafId = requestAnimationFrame(() => this.readMetrics(el));
     const onScroll = (): void => {
       this.readMetrics(el);
       this.markActive();
@@ -93,6 +95,7 @@ export class ScrollThumb {
     const observer = new ResizeObserver(() => this.readMetrics(el));
     observer.observe(el);
     onCleanup(() => {
+      cancelAnimationFrame(rafId);
       el.removeEventListener('scroll', onScroll);
       el.removeEventListener('mousemove', onMouseMove);
       observer.disconnect();
@@ -124,7 +127,7 @@ export class ScrollThumb {
 
   /** The thumb's height, proportional to how much of the content is visible. */
   private computeThumbHeight(): number {
-    const track = this.clientHeight() - this.topInset();
+    const track = this.trackHeight();
     if (this.scrollHeight() <= 0) {
       return track;
     }
@@ -132,9 +135,14 @@ export class ScrollThumb {
     return Math.min(track, Math.max(THUMB_MIN_HEIGHT_PX, proportional));
   }
 
+  /** The track's pixel height, after removing the top and bottom insets. */
+  private trackHeight(): number {
+    return this.clientHeight() - this.topInset() - this.bottomInset();
+  }
+
   /** Computes the thumb's pixel offset from the top of the track. */
   private computeThumbTop(): number {
-    const track = this.clientHeight() - this.topInset();
+    const track = this.trackHeight();
     const maxScroll = this.scrollHeight() - this.clientHeight();
     if (maxScroll <= 0) {
       return this.topInset();
@@ -146,12 +154,12 @@ export class ScrollThumb {
   /** Moves the viewport's scroll position to follow a drag to clientY. */
   private dragThumbTo(clientY: number): void {
     const el = this.viewport();
-    const track = this.clientHeight();
-    const travel = track - this.thumbHeight();
+    const travel = this.trackHeight() - this.thumbHeight();
+    const maxScroll = this.scrollHeight() - this.clientHeight();
     if (!el || travel <= 0) {
       return;
     }
-    const deltaScroll = ((clientY - this.dragStartY) / travel) * (this.scrollHeight() - track);
+    const deltaScroll = ((clientY - this.dragStartY) / travel) * maxScroll;
     el.scrollTop = this.dragStartScrollTop + deltaScroll;
   }
 }
