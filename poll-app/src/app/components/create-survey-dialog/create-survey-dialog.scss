@@ -966,3 +966,59 @@ button span {
     width: 320px;
   }
 }
+
+@media (max-width: 650px) {
+  .fields-left {
+    flex-direction: column;
+  }
+
+  .fields-left>.field {
+    flex: initial;
+    width: 100%;
+  }
+
+  .fields-left>.deadline-row {
+    flex: initial;
+    width: 100%;
+    flex-direction: column-reverse;
+    gap: var(--space-lg);
+  }
+
+  .fields-left .field-row input[type='text'] {
+    max-width: 430px;
+  }
+
+  .description-field textarea {
+    max-width: 430px;
+  }
+
+  .deadline-category {
+    position: static;
+  }
+
+  .trigger {
+    padding: 6px;
+  }
+
+  .form-body {
+    padding: 40px 32px;
+  }
+
+  .panel {
+    padding: 40px 54px;
+  }
+
+  .answers {
+    display: flex;
+  }
+}
+
+@media (max-width: 530px) {
+  .form-body {
+    padding: 40px 10px;
+  }
+
+  .panel {
+    padding: 1.5rem 1rem;
+  }
+}
