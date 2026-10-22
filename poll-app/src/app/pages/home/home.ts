@@ -36,8 +36,14 @@ export class Home implements OnInit {
   protected readonly loading: WritableSignal<boolean> = signal(true);
   protected readonly loadError: WritableSignal<boolean> = signal(false);
   protected readonly activeTab: WritableSignal<Tab> = signal('active');
-  protected readonly categoryFilter: WritableSignal<string> = signal(ALL_CATEGORIES);
   protected readonly confirmingCreate: WritableSignal<boolean> = signal(false);
+  private readonly activeCategoryFilter: WritableSignal<string> = signal(ALL_CATEGORIES);
+  private readonly pastCategoryFilter: WritableSignal<string> = signal(ALL_CATEGORIES);
+
+  /** The category filter for whichever tab is currently selected, kept separate per tab. */
+  protected readonly categoryFilter: Signal<string> = computed(() =>
+    this.activeTab() === 'active' ? this.activeCategoryFilter() : this.pastCategoryFilter(),
+  );
 
   protected readonly endingSoon: Signal<Survey[]> = computed(() =>
     this.surveys()
@@ -56,6 +62,15 @@ export class Home implements OnInit {
   /** Switches between the "active" and "past" tab. */
   protected selectTab(tab: Tab): void {
     this.activeTab.set(tab);
+  }
+
+  /** Updates the category filter for whichever tab is currently selected. */
+  protected setCategoryFilter(category: string): void {
+    if (this.activeTab() === 'active') {
+      this.activeCategoryFilter.set(category);
+    } else {
+      this.pastCategoryFilter.set(category);
+    }
   }
 
   /** Shows the hero button's confirm checkmark briefly before opening the dialog. */

@@ -71,7 +71,10 @@
             </button>
           </div>
 
-          <app-category-select [(value)]="categoryFilter" />
+          <app-category-select
+            [value]="categoryFilter()"
+            (valueChange)="setCategoryFilter($event)"
+          />
         </div>
 
         @if (visibleSurveys().length === 0) {

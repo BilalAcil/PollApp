@@ -121,14 +121,12 @@
 }
 
 @media (max-width: 900px) {
-
   .title {
     font-size: 1.25rem;
   }
 }
 
 @media (max-width: 800px) {
-
   .survey-card {
     width: unset;
     height: auto;
@@ -143,7 +141,6 @@
 }
 
 @media (max-width: 600px) {
-
   :host(.highlight) {
     align-items: stretch;
     justify-content: flex-start;

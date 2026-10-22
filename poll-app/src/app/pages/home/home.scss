@@ -321,7 +321,6 @@ main {
 }
 
 @media (max-width: 1110px) {
-
   .ending-soon .card-grid {
     display: flex;
     flex-wrap: nowrap;
@@ -424,7 +423,6 @@ main {
 }
 
 @media (max-width: 800px) {
-
   .card-grid.list {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -497,7 +495,6 @@ main {
 }
 
 @media (max-width: 700px) {
-
   .btn-primary {
     justify-content: center;
     font-weight: 700;
@@ -541,5 +538,4 @@ main {
     max-width: 100%;
     text-overflow: none;
   }
-
 }

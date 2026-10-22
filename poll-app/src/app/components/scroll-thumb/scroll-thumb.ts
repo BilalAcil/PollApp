@@ -85,6 +85,16 @@ export class ScrollThumb {
     }
     this.readMetrics(el);
     const rafId = requestAnimationFrame(() => this.readMetrics(el));
+    const unbindListeners = this.bindViewportListeners(el);
+    onCleanup(() => {
+      cancelAnimationFrame(rafId);
+      unbindListeners();
+      this.clearHideTimeout();
+    });
+  }
+
+  /** Wires scroll/mouse-move tracking and a resize observer on the viewport. Returns a teardown function. */
+  private bindViewportListeners(el: HTMLElement): () => void {
     const onScroll = (): void => {
       this.readMetrics(el);
       this.markActive();
@@ -94,13 +104,11 @@ export class ScrollThumb {
     el.addEventListener('mousemove', onMouseMove);
     const observer = new ResizeObserver(() => this.readMetrics(el));
     observer.observe(el);
-    onCleanup(() => {
-      cancelAnimationFrame(rafId);
+    return () => {
       el.removeEventListener('scroll', onScroll);
       el.removeEventListener('mousemove', onMouseMove);
       observer.disconnect();
-      this.clearHideTimeout();
-    });
+    };
   }
 
   /** Reads the viewport's current scroll metrics into signals. */

@@ -21,6 +21,8 @@ import { Translate } from '../../core/translate';
 import { OptionResult, QuestionWithOptions, SurveyWithQuestions } from '../../models/survey.model';
 
 const VOTED_KEY_PREFIX = 'pollapp-voted-';
+/** Multiplier to turn a vote share into a whole percent. */
+const PERCENT_MULTIPLIER = 100;
 
 /** Detail view for one survey: voting form on the left, live results on the right. */
 @Component({
@@ -65,19 +67,26 @@ export class SurveyDetail {
   protected toggleOption(question: QuestionWithOptions, optionId: string): void {
     const next = new Map(this.selections());
     const current = new Set(next.get(question.id));
-    if (!question.allow_multiple) {
-      const wasSelected = current.has(optionId);
-      current.clear();
-      if (!wasSelected) {
-        current.add(optionId);
-      }
-    } else if (current.has(optionId)) {
-      current.delete(optionId);
-    } else {
-      current.add(optionId);
-    }
-    next.set(question.id, current);
+    next.set(question.id, this.nextSelection(current, optionId, question.allow_multiple));
     this.selections.set(next);
+  }
+
+  /** Computes the next selected-option set for a question after toggling one option. */
+  private nextSelection(
+    current: Set<string>,
+    optionId: string,
+    allowMultiple: boolean,
+  ): Set<string> {
+    if (!allowMultiple) {
+      return current.has(optionId) ? new Set() : new Set([optionId]);
+    }
+    const next = new Set(current);
+    if (next.has(optionId)) {
+      next.delete(optionId);
+    } else {
+      next.add(optionId);
+    }
+    return next;
   }
 
   /** Whether one answer option is currently checked in the voting form. */
@@ -114,7 +123,7 @@ export class SurveyDetail {
     if (total === 0) {
       return 0;
     }
-    return Math.round((this.voteCountFor(optionId) / total) * 100);
+    return Math.round((this.voteCountFor(optionId) / total) * PERCENT_MULTIPLIER);
   }
 
   /** Loads the survey and its results for the current id, then keeps results live. */
