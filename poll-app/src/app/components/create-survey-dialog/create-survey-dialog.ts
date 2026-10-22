@@ -18,10 +18,10 @@ import { SurveyApi } from '../../core/survey-api';
 import { Translate } from '../../core/translate';
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey.model';
 
-/** Minimum answer options once "allow multiple" is checked. */
-const MIN_ANSWERS_MULTI = 2;
-/** Minimum answer options for a single-answer question: just A. */
-const MIN_ANSWERS_SINGLE = 1;
+/** Minimum answer options a question must always keep, so there's something to choose between. */
+const MIN_ANSWERS = 2;
+/** Answer options revealed the first time "allow multiple" is checked. */
+const REVEAL_ON_ALLOW_MULTIPLE = 3;
 /** Maximum answer options a question may have. */
 const MAX_ANSWERS = 6;
 
@@ -43,17 +43,7 @@ interface SurveyDraft {
 
 /** Builds a single empty question, optionally reusing an existing id. */
 function createEmptyQuestion(id: string = crypto.randomUUID()): DraftQuestion {
-  return { id, text: '', options: [''], allowMultiple: false };
-}
-
-/** The minimum number of answer options a question must keep right now. */
-function minAnswersFor(question: DraftQuestion): number {
-  return question.allowMultiple ? MIN_ANSWERS_MULTI : MIN_ANSWERS_SINGLE;
-}
-
-/** Drops empty answer options beyond the first, so they don't resurface later. */
-function trimEmptyOptions(options: string[]): string[] {
-  return options.filter((option, index) => index === 0 || option.trim().length > 0);
+  return { id, text: '', options: ['', ''], allowMultiple: false };
 }
 
 /** Builds a fresh, empty survey draft with one starter question. */
@@ -99,6 +89,7 @@ export class CreateSurveyDialog {
   protected readonly createdSurveyId: WritableSignal<string | null> = signal(null);
   protected readonly optionLetter: (index: number) => string = optionLetter;
   protected readonly maxAnswers: number = MAX_ANSWERS;
+  protected readonly minAnswers: number = MIN_ANSWERS;
 
   protected readonly canPublish: Signal<boolean> = computed(() => this.validateDraft());
 
@@ -171,14 +162,14 @@ export class CreateSurveyDialog {
     this.updateQuestion(questionId, (q) => ({ ...q, text }));
   }
 
-  /** Toggles multi-answer mode, revealing option B the first time it's checked. */
+  /** Toggles multi-answer mode: reveals option C when checked, trims back to A/B when unchecked. */
   protected toggleAllowMultiple(questionId: string): void {
     this.updateQuestion(questionId, (q) => {
       const allowMultiple = !q.allowMultiple;
       if (!allowMultiple) {
-        return { ...q, allowMultiple, options: trimEmptyOptions(q.options) };
+        return { ...q, allowMultiple, options: q.options.slice(0, MIN_ANSWERS) };
       }
-      const needsOption = q.options.length < MIN_ANSWERS_MULTI;
+      const needsOption = q.options.length < REVEAL_ON_ALLOW_MULTIPLE;
       return { ...q, allowMultiple, options: needsOption ? [...q.options, ''] : q.options };
     });
   }
@@ -190,14 +181,14 @@ export class CreateSurveyDialog {
     );
   }
 
-  /** Removes one answer option, down to a single one. Dropping below two un-checks "allow multiple". */
+  /** Removes one answer option, or just clears its text once only the minimum two remain. */
   protected removeAnswer(questionId: string, index: number): void {
     this.updateQuestion(questionId, (q) => {
-      if (q.options.length <= MIN_ANSWERS_SINGLE) {
-        return q;
+      if (q.options.length <= MIN_ANSWERS) {
+        return { ...q, options: q.options.map((option, i) => (i === index ? '' : option)) };
       }
       const options = q.options.filter((_, i) => i !== index);
-      const allowMultiple = options.length >= MIN_ANSWERS_MULTI && q.allowMultiple;
+      const allowMultiple = options.length <= MIN_ANSWERS ? false : q.allowMultiple;
       return { ...q, options, allowMultiple };
     });
   }
@@ -264,10 +255,10 @@ export class CreateSurveyDialog {
     );
   }
 
-  /** True once a question has text and enough non-empty answers for its mode. */
+  /** True once a question has text and at least the minimum number of answers filled in. */
   private questionIsValid(question: DraftQuestion): boolean {
     const filled = question.options.filter((option) => option.trim().length > 0);
-    return question.text.trim().length > 0 && filled.length >= minAnswersFor(question);
+    return question.text.trim().length > 0 && filled.length >= MIN_ANSWERS;
   }
 
   /** Maps the editable draft onto the shape the backend expects. */

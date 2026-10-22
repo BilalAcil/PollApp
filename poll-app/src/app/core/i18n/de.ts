@@ -46,7 +46,6 @@ export const de: Record<string, string> = {
   'createSurvey.questionLabel': 'Frage',
   'createSurvey.questionPlaceholder': 'Stell deine Frage',
   'createSurvey.allowMultiple': 'Mehrere Antworten erlauben',
-  'createSurvey.answerLabel': 'Antwort',
   'createSurvey.answersLabel': 'Antworten',
   'createSurvey.addAnswer': 'Antwort hinzufügen',
   'createSurvey.maxAnswersHint': 'Du kannst bis zu 6 Antwortfelder hinzufügen',
