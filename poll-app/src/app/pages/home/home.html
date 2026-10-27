@@ -90,14 +90,10 @@
           </p>
         } @else {
           <div class="list-row">
-            <div class="list-row-spacer"></div>
-            <div class="card-grid list" #listViewport>
+            <div class="card-grid list">
               @for (survey of visibleSurveys(); track survey.id) {
                 <app-survey-card [survey]="survey" variant="list" />
               }
-            </div>
-            <div class="list-row-spacer">
-              <app-scroll-thumb [viewport]="listViewport" />
             </div>
           </div>
         }
