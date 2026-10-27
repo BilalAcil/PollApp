@@ -26,6 +26,14 @@
   width: 206px;
 }
 
+:host(.invalid) .trigger {
+  border: 2px solid #e5484d;
+}
+
+:host(.shake) .trigger {
+  animation: invalid-shake 0.4s ease;
+}
+
 .trigger:hover,
 .trigger[aria-expanded='true'] {
   background-color: rgba(217, 217, 217, 0.0784);

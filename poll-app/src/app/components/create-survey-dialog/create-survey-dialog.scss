@@ -285,6 +285,20 @@ button span {
   font-size: 0.9375rem;
 }
 
+.fields-left .field-row input[type='text'].invalid,
+.fields-left .field-row input[type='date'].invalid,
+.description-field textarea.invalid,
+.question-input.invalid,
+.answers input[type='text'].invalid {
+  border: 2px solid #e5484d;
+}
+
+.fields-left .field-row input[type='text'].shake,
+.question-input.shake,
+.answers input[type='text'].shake {
+  animation: invalid-shake 0.4s ease;
+}
+
 .icon-btn {
   display: inline-flex;
   flex-shrink: 0;

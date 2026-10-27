@@ -6,6 +6,30 @@
   box-sizing: border-box;
 }
 
+/** Brief horizontal shake used to draw attention to an invalid form field. */
+@keyframes invalid-shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-3px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(3px);
+  }
+}
+
 @font-face {
   font-family: 'Nerko One';
   src: url('/fonts/nerko-one-regular.woff2') format('woff2');

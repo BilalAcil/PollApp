@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   HostListener,
   inject,
   Signal,
@@ -19,10 +20,10 @@ import { NewSurvey, NewSurveyQuestion } from '../../models/survey.model';
 
 /** Minimum answer options a question must always keep, so there's something to choose between. */
 const MIN_ANSWERS = 2;
-/** Answer options revealed the first time "allow multiple" is checked. */
-const REVEAL_ON_ALLOW_MULTIPLE = 3;
 /** Maximum answer options a question may have. */
 const MAX_ANSWERS = 6;
+/** How long the invalid-field shake animation plays. */
+const SHAKE_DURATION_MS = 400;
 
 /** One question as edited in the form, before being sent to the backend. */
 interface DraftQuestion {
@@ -78,12 +79,15 @@ function toNewSurveyQuestion(question: DraftQuestion): NewSurveyQuestion {
 export class CreateSurveyDialog {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
   private readonly router: Router = inject(Router);
+  private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   protected readonly dialogState: CreateSurveyDialogState = inject(CreateSurveyDialogState);
 
   protected readonly draft: WritableSignal<SurveyDraft> = signal(createEmptyDraft());
   protected readonly category: WritableSignal<string> = signal('');
   protected readonly submitting: WritableSignal<boolean> = signal(false);
   protected readonly submitError: WritableSignal<boolean> = signal(false);
+  protected readonly showValidationErrors: WritableSignal<boolean> = signal(false);
+  protected readonly shake: WritableSignal<boolean> = signal(false);
   protected readonly createdSurveyId: WritableSignal<string | null> = signal(null);
   protected readonly optionLetter: (index: number) => string = optionLetter;
   protected readonly maxAnswers: number = MAX_ANSWERS;
@@ -160,16 +164,9 @@ export class CreateSurveyDialog {
     this.updateQuestion(questionId, (q) => ({ ...q, text }));
   }
 
-  /** Toggles multi-answer mode: reveals option C when checked, trims back to A/B when unchecked. */
+  /** Toggles whether a question accepts more than one selected answer. */
   protected toggleAllowMultiple(questionId: string): void {
-    this.updateQuestion(questionId, (q) => {
-      const allowMultiple = !q.allowMultiple;
-      if (!allowMultiple) {
-        return { ...q, allowMultiple, options: q.options.slice(0, MIN_ANSWERS) };
-      }
-      const needsOption = q.options.length < REVEAL_ON_ALLOW_MULTIPLE;
-      return { ...q, allowMultiple, options: needsOption ? [...q.options, ''] : q.options };
-    });
+    this.updateQuestion(questionId, (q) => ({ ...q, allowMultiple: !q.allowMultiple }));
   }
 
   /** Appends an empty answer option, up to the maximum. */
@@ -215,7 +212,12 @@ export class CreateSurveyDialog {
 
   /** Sends the draft to the backend and switches to the confirmation view. */
   protected async publish(): Promise<void> {
-    if (!this.canPublish() || this.submitting()) {
+    if (this.submitting()) {
+      return;
+    }
+    if (!this.canPublish()) {
+      this.showValidationErrors.set(true);
+      this.flashInvalidFields();
       return;
     }
     this.submitting.set(true);
@@ -259,6 +261,28 @@ export class CreateSurveyDialog {
     return question.text.trim().length > 0 && filled.length >= MIN_ANSWERS;
   }
 
+  /** Whether the title field should be shown as missing, after a failed publish attempt. */
+  protected titleInvalid(): boolean {
+    return this.showValidationErrors() && this.draft().title.trim().length === 0;
+  }
+
+  /** Whether the category field should be shown as missing, after a failed publish attempt. */
+  protected categoryInvalid(): boolean {
+    return this.showValidationErrors() && this.category().length === 0;
+  }
+
+  /** Whether a question's text field should be shown as missing. */
+  protected questionTextInvalid(question: DraftQuestion): boolean {
+    return this.showValidationErrors() && question.text.trim().length === 0;
+  }
+
+  /** Whether one empty answer field is still needed to satisfy the question's minimum. */
+  protected answerInvalid(question: DraftQuestion, value: string): boolean {
+    return (
+      this.showValidationErrors() && !this.questionIsValid(question) && value.trim().length === 0
+    );
+  }
+
   /** Maps the editable draft onto the shape the backend expects. */
   private toNewSurvey(): NewSurvey {
     const d = this.draft();
@@ -269,6 +293,26 @@ export class CreateSurveyDialog {
       deadline: d.deadline ? toIsoDeadline(d.deadline) : null,
       questions: d.questions.map(toNewSurveyQuestion),
     };
+  }
+
+  /** Briefly shakes the invalid fields and scrolls/focuses the first one. */
+  private flashInvalidFields(): void {
+    this.shake.set(true);
+    setTimeout(() => this.shake.set(false), SHAKE_DURATION_MS);
+    setTimeout(() => this.focusFirstInvalidField(), 0);
+  }
+
+  /** Scrolls to and focuses the first field currently marked invalid. */
+  private focusFirstInvalidField(): void {
+    const firstInvalid = this.elementRef.nativeElement.querySelector<HTMLElement>('.invalid');
+    if (!firstInvalid) {
+      return;
+    }
+    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const focusable = firstInvalid.matches('input, textarea')
+      ? firstInvalid
+      : firstInvalid.querySelector<HTMLElement>('button');
+    focusable?.focus();
   }
 
   /** Locks page scrolling while the overlay is open, restored on destroy. */
