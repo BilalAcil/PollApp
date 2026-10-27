@@ -9,7 +9,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
 import { categoryLabel as categoryLabelFor } from '../../core/categories';
@@ -22,6 +22,8 @@ import { OptionResult, QuestionWithOptions, SurveyWithQuestions } from '../../mo
 const VOTED_KEY_PREFIX = 'pollapp-voted-';
 /** Multiplier to turn a vote share into a whole percent. */
 const PERCENT_MULTIPLIER = 100;
+/** How long the real results are shown after voting, before returning to the homescreen. */
+const RESULTS_PREVIEW_DELAY_MS = 2000;
 
 /** Detail view for one survey: voting form on the left, live results on the right. */
 @Component({
@@ -32,6 +34,7 @@ const PERCENT_MULTIPLIER = 100;
 })
 export class SurveyDetail {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
+  private readonly router: Router = inject(Router);
   protected readonly dialogState: CreateSurveyDialogState = inject(CreateSurveyDialogState);
 
   readonly id: InputSignal<string> = input.required<string>();
@@ -56,9 +59,20 @@ export class SurveyDetail {
   protected readonly previewMode: Signal<boolean> = computed(() => !this.readOnly());
   protected readonly isResultsEmpty: Signal<boolean> = computed(() => this.computeResultsEmpty());
   protected readonly resultsOpen: WritableSignal<boolean> = signal(true);
+  protected readonly readOnlyHint: WritableSignal<boolean> = signal(false);
+  protected readonly readOnlyHintMessage: Signal<string> = computed(() =>
+    this.hasVoted() ? "You've already answered this survey." : 'Voting is closed for this survey.',
+  );
 
   constructor() {
     effect((onCleanup) => this.loadAndSubscribe(onCleanup));
+  }
+
+  /** Shows a hint, once, when the user clicks an answer that can no longer be voted on. */
+  protected onReadOnlyClick(): void {
+    if (this.readOnly()) {
+      this.readOnlyHint.set(true);
+    }
   }
 
   /** Toggles one answer option, replacing the selection for single-answer questions. */
@@ -92,13 +106,14 @@ export class SurveyDetail {
     return this.selections().get(questionId)?.has(optionId) ?? false;
   }
 
-  /** Submits every selected option as one vote each and locks the form. */
+  /** Submits every selected option as one vote each, then returns to the homescreen after briefly showing the live results. */
   protected async complete(): Promise<void> {
     const optionIds = Array.from(this.selections().values()).flatMap((set) => Array.from(set));
     try {
       await this.surveyApi.vote(optionIds);
       this.markVoted(this.id());
       await this.reloadResults(this.id());
+      setTimeout(() => void this.router.navigate(['/']), RESULTS_PREVIEW_DELAY_MS);
     } catch {
       this.voteError.set(true);
     }
@@ -155,6 +170,7 @@ export class SurveyDetail {
     this.loadError.set(false);
     this.voteError.set(false);
     this.hasVoted.set(this.readVotedFlag(surveyId));
+    this.readOnlyHint.set(false);
     this.selections.set(new Map());
     void this.loadSurveyAndResults(surveyId);
     const unsubscribe = this.surveyApi.subscribeToVotes(() => void this.reloadResults(surveyId));

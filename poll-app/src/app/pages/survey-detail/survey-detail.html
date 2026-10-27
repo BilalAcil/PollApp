@@ -19,7 +19,7 @@
         <section class="survey-panel" aria-labelledby="survey-title">
           <div class="survey-summary">
             <div class="meta-row meta-row-top">
-              <span class="badge">Published</span>
+              <span class="badge" [class.draft]="!hasVoted()">{{ hasVoted() ? 'Published' : 'Draft' }}</span>
               <button type="button" class="survey-close" routerLink="/" aria-label="Back to home">
                 <img src="images/icon-close-dark.png" alt="" />
               </button>
@@ -54,6 +54,15 @@
                         <span class="answer-letter">{{ optionLetter($index) }}.</span>
                         <span class="answer-text">{{ option.label }}</span>
                       </label>
+                      @if (readOnly()) {
+                        <button
+                          type="button"
+                          class="readonly-overlay"
+                          aria-hidden="true"
+                          tabindex="-1"
+                          (click)="onReadOnlyClick()"
+                        ></button>
+                      }
                     </li>
                   }
                 </ul>
@@ -61,17 +70,22 @@
             }
           </div>
 
-          <div class="complete-row">
-            <button
-              type="button"
-              class="btn-primary"
-              [disabled]="readOnly() || !canComplete()"
-              (click)="complete()"
-            >
-              Complete survey
-              <span class="complete-check"><img src="images/icon-check.png" alt="" /></span>
-            </button>
-          </div>
+          @if (readOnlyHint()) {
+            <p class="readonly-hint" role="status">{{ readOnlyHintMessage() }}</p>
+          }
+          @if (!hasVoted()) {
+            <div class="complete-row">
+              <button
+                type="button"
+                class="btn-primary"
+                [disabled]="readOnly() || !canComplete()"
+                (click)="complete()"
+              >
+                Complete survey
+                <span class="complete-check"><img src="images/icon-check.png" alt="" /></span>
+              </button>
+            </div>
+          }
           @if (voteError()) {
             <p class="error" role="alert">Vote could not be saved.</p>
           }
