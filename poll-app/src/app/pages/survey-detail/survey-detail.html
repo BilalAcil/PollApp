@@ -127,11 +127,11 @@
                             <span class="track">
                               <span
                                 class="fill"
-                                [style.width.%]="optionPercent(option.id, question.id)"
+                                [style.width.%]="displayPercent(option.id, question.id)"
                               ></span>
                             </span>
                             <span class="percent"
-                              >{{ optionPercent(option.id, question.id) }}%</span
+                              >{{ displayPercent(option.id, question.id) }}%</span
                             >
                           </div>
                         }

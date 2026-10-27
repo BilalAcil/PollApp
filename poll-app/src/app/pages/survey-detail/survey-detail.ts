@@ -52,9 +52,9 @@ export class SurveyDetail {
   protected readonly deadlineLabel: Signal<string> = computed(() => this.formatDeadlineLabel());
   protected readonly readOnly: Signal<boolean> = computed(() => this.computeReadOnly());
   protected readonly canComplete: Signal<boolean> = computed(() => this.everyQuestionAnswered());
-  protected readonly isResultsEmpty: Signal<boolean> = computed(() =>
-    this.results().every((option) => option.vote_count === 0),
-  );
+  /** True while the user can still vote: shows a local preview instead of the server results. */
+  protected readonly previewMode: Signal<boolean> = computed(() => !this.readOnly());
+  protected readonly isResultsEmpty: Signal<boolean> = computed(() => this.computeResultsEmpty());
   protected readonly resultsOpen: WritableSignal<boolean> = signal(true);
 
   constructor() {
@@ -115,13 +115,37 @@ export class SurveyDetail {
     this.resultsScrolled.set(viewport.scrollTop > 0);
   }
 
+  /** The percent to render for one option: a local preview while voting, the real share once cast. */
+  protected displayPercent(optionId: string, questionId: string): number {
+    return this.previewMode()
+      ? this.previewPercent(optionId, questionId)
+      : this.optionPercent(optionId, questionId);
+  }
+
   /** Share of votes an option holds among its own question's votes, rounded to a whole percent. */
-  protected optionPercent(optionId: string, questionId: string): number {
+  private optionPercent(optionId: string, questionId: string): number {
     const total = this.questionVoteTotal(questionId);
     if (total === 0) {
       return 0;
     }
     return Math.round((this.voteCountFor(optionId) / total) * PERCENT_MULTIPLIER);
+  }
+
+  /** Previews an option's share based only on the user's own in-progress selection. */
+  private previewPercent(optionId: string, questionId: string): number {
+    const selected = this.selections().get(questionId);
+    if (!selected || selected.size === 0 || !selected.has(optionId)) {
+      return 0;
+    }
+    return Math.round(PERCENT_MULTIPLIER / selected.size);
+  }
+
+  /** True once there is nothing to show: no own selection yet while voting, no votes yet once cast. */
+  private computeResultsEmpty(): boolean {
+    if (this.previewMode()) {
+      return Array.from(this.selections().values()).every((set) => set.size === 0);
+    }
+    return this.results().every((option) => option.vote_count === 0);
   }
 
   /** Loads the survey and its results for the current id, then keeps results live. */
