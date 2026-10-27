@@ -169,10 +169,8 @@ Grundlage ist der Figma-Entwurf, festgehalten in `docs/design-system.md`.
   dann den Hinweis „More than one answer is possible".
 - **Abstimmung wird gesammelt abgegeben** — der Benutzer hakt alle Fragen an und
   bestätigt einmal mit „Complete survey". Erst danach erscheint die Auswertung.
-- **Oberflächensprache Englisch**, dazu ein Sprachumschalter (Flaggen oben
-  rechts) für Deutsch. Die Wahl wird in `localStorage` gespeichert und überdauert
-  einen Seitenbesuch. Deshalb darf **kein sichtbarer Text fest im Template
-  stehen** — alle Labels kommen aus einer Übersetzungsdatei.
+- **Oberflächensprache Englisch**, fest im Template. Es gibt keinen
+  Sprachumschalter.
 - **`Published` / `Draft` ist nur ein Zustandslabel**, kein Feature: Es gibt
   keinen „Als Entwurf speichern"-Button, also auch keine Spalte dafür.
 
@@ -196,10 +194,6 @@ Erste fertige Seite. Liest echte Daten über `SurveyApi.loadSurveys()`.
   laufenden Umfragen — kein Zeitfenster, sondern eine feste Anzahl. Läuft eine
   davon ab, rutscht automatisch die nächste nach. Nutzt `isClosed()` und
   `byDeadlineAscending()` aus `survey-status.ts`.
-- Übersetzung über `Translate` (`src/app/core/translate.ts`): Signal-basiert,
-  Wörterbücher in `core/i18n/en.ts` und `de.ts`, Sprachwahl in `localStorage`
-  unter dem Schlüssel `pollapp-lang`, `document.documentElement.lang` wird bei
-  jedem Wechsel synchron gehalten
 - Der „New survey"-Button öffnet noch keinen Dialog — das ist User Story 3,
   noch nicht gebaut
 - Kartenklick öffnet noch keine Detailansicht — das ist User Story 4, noch
