@@ -1,7 +1,8 @@
 # PollApp
 
-Diplomarbeit-Projekt (Developer Akademie). Angular 21 SPA im Unterordner `poll-app/`,
-ohne SSR, Build-Ausgabe nach `poll-app/dist/poll-app/browser/`.
+Abschlussprojekt der Weiterbildung bei der Developer Akademie (endet mit
+Zertifikat). Angular 21 SPA im Unterordner `poll-app/`, ohne SSR,
+Build-Ausgabe nach `poll-app/dist/poll-app/browser/`.
 
 ## Befehle
 
