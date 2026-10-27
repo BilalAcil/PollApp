@@ -2,22 +2,25 @@
   <div class="page-inner">
     <header class="topbar">
       <img class="logo" src="images/logo-on-dark.png" alt="Poll App" />
-      <app-language-switcher />
     </header>
 
     <section class="hero">
       <div class="hero-copy">
-        <h1 class="hero-title" [class.lang-de]="translate.lang() === 'de'">
-          {{ translate.t('home.hero.title') }}
+        <h1 class="hero-title">
+          Collect Feedback,
+          Unlock Ideas
         </h1>
-        <p class="hero-subtitle">{{ translate.t('home.hero.subtitle') }}</p>
+        <p class="hero-subtitle">
+          Create and share surveys in minutes – from team events to workplace culture. Collect
+          opinions, engage your audience, and turn feedback into action.
+        </p>
         <button
           type="button"
           class="btn-primary"
           [class.confirming]="confirmingCreate()"
           (click)="startCreateSurvey()"
         >
-          {{ translate.t('home.hero.cta') }}
+          New survey
           <span class="icon-reveal">
             <img class="icon icon-add" src="images/icon-add.png" alt="" />
             <img class="icon icon-check" src="images/icon-check.png" alt="" />
@@ -33,14 +36,14 @@
     </section>
 
     <main>
-      <h2 class="section-title">{{ translate.t('home.yourSurveys') }}</h2>
+      <h2 class="section-title">Your surveys</h2>
 
       @if (loadError()) {
-        <p class="error" role="alert">{{ translate.t('home.loadError') }}</p>
+        <p class="error" role="alert">Surveys could not be loaded.</p>
       } @else if (!loading()) {
         @if (endingSoon().length > 0) {
           <section class="ending-soon" aria-labelledby="ending-soon-heading">
-            <h3 id="ending-soon-heading">{{ translate.t('home.endingSoon') }}</h3>
+            <h3 id="ending-soon-heading">Ending soon surveys</h3>
             <div class="card-grid">
               @for (survey of endingSoon(); track survey.id) {
                 <app-survey-card [survey]="survey" variant="highlight" />
@@ -58,7 +61,7 @@
               [attr.aria-selected]="activeTab() === 'active'"
               (click)="selectTab('active')"
             >
-              {{ translate.t('home.tabs.active') }}
+              Active survey
             </button>
             <button
               type="button"
@@ -67,7 +70,7 @@
               [attr.aria-selected]="activeTab() === 'past'"
               (click)="selectTab('past')"
             >
-              {{ translate.t('home.tabs.past') }}
+              Past survey
             </button>
           </div>
 
@@ -79,7 +82,11 @@
 
         @if (visibleSurveys().length === 0) {
           <p class="empty">
-            {{ translate.t(activeTab() === 'active' ? 'home.empty.active' : 'home.empty.past') }}
+            @if (activeTab() === 'active') {
+              No active surveys in this category yet.
+            } @else {
+              No past surveys in this category yet.
+            }
           </p>
         } @else {
           <div class="list-row">

@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 
 import { ALL_CATEGORIES, CATEGORIES, CategoryOption } from '../../core/categories';
-import { Translate } from '../../core/translate';
 
 /**
  * Custom category dropdown. A native <select> popup cannot be styled
@@ -27,7 +26,6 @@ import { Translate } from '../../core/translate';
   styleUrl: './category-select.scss',
 })
 export class CategorySelect {
-  protected readonly translate: Translate = inject(Translate);
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 
   protected readonly categories: readonly CategoryOption[] = CATEGORIES;
@@ -35,17 +33,15 @@ export class CategorySelect {
 
   readonly value: ModelSignal<string> = model<string>(ALL_CATEGORIES);
   readonly showAllOption: InputSignal<boolean> = input<boolean>(true);
-  readonly placeholderKey: InputSignal<string> = input<string>('home.sortByCategories');
+  readonly placeholderLabel: InputSignal<string> = input<string>('Sort by categories');
   protected readonly open: WritableSignal<boolean> = signal(false);
 
-  protected readonly currentLabelKey: Signal<string> = computed(() =>
-    this.labelKeyFor(this.value()),
+  protected readonly currentLabel: Signal<string> = computed(() => this.labelFor(this.value()));
+  protected readonly triggerLabel: Signal<string> = computed(() =>
+    this.showAllOption() ? this.placeholderLabel() : this.currentLabel(),
   );
-  protected readonly triggerLabelKey: Signal<string> = computed(() =>
-    this.showAllOption() ? this.placeholderKey() : this.currentLabelKey(),
-  );
-  protected readonly selectedLabelKey: Signal<string | null> = computed(() =>
-    this.showAllOption() && this.value() !== this.allCategories ? this.currentLabelKey() : null,
+  protected readonly selectedLabel: Signal<string | null> = computed(() =>
+    this.showAllOption() && this.value() !== this.allCategories ? this.currentLabel() : null,
   );
 
   /** Opens or closes the option list. */
@@ -73,9 +69,9 @@ export class CategorySelect {
     this.open.set(false);
   }
 
-  /** Looks up the translation key for the currently selected category. */
-  private labelKeyFor(category: string): string {
+  /** Looks up the display label for the currently selected category. */
+  private labelFor(category: string): string {
     const match = this.categories.find((c) => c.value === category);
-    return match ? match.labelKey : this.placeholderKey();
+    return match ? match.label : this.placeholderLabel();
   }
 }

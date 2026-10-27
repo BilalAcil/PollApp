@@ -1,14 +1,12 @@
 import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 
 import { CategorySelect } from '../../components/category-select/category-select';
-import { LanguageSwitcher } from '../../components/language-switcher/language-switcher';
 import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
 import { SurveyCard } from '../../components/survey-card/survey-card';
 import { ALL_CATEGORIES } from '../../core/categories';
 import { CreateSurveyDialogState } from '../../core/create-survey-dialog-state';
 import { SurveyApi } from '../../core/survey-api';
 import { byDeadlineAscending, isClosed } from '../../core/survey-status';
-import { Translate } from '../../core/translate';
 import { Survey } from '../../models/survey.model';
 
 type Tab = 'active' | 'past';
@@ -23,13 +21,12 @@ const CONFIRM_ICON_BREAKPOINT_PX = 900;
 /** The homescreen: hero, ending-soon highlights, and the filterable survey list. */
 @Component({
   selector: 'app-home',
-  imports: [LanguageSwitcher, SurveyCard, CategorySelect, ScrollThumb],
+  imports: [SurveyCard, CategorySelect, ScrollThumb],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
-  protected readonly translate: Translate = inject(Translate);
   protected readonly dialogState: CreateSurveyDialogState = inject(CreateSurveyDialogState);
 
   protected readonly surveys: WritableSignal<Survey[]> = signal([]);

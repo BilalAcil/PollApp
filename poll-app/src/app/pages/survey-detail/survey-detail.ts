@@ -12,12 +12,11 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { ScrollThumb } from '../../components/scroll-thumb/scroll-thumb';
-import { categoryLabelKey } from '../../core/categories';
+import { categoryLabel as categoryLabelFor } from '../../core/categories';
 import { CreateSurveyDialogState } from '../../core/create-survey-dialog-state';
 import { optionLetter } from '../../core/option-letter';
 import { SurveyApi } from '../../core/survey-api';
 import { formatDeadlineDate, isClosed } from '../../core/survey-status';
-import { Translate } from '../../core/translate';
 import { OptionResult, QuestionWithOptions, SurveyWithQuestions } from '../../models/survey.model';
 
 const VOTED_KEY_PREFIX = 'pollapp-voted-';
@@ -33,7 +32,6 @@ const PERCENT_MULTIPLIER = 100;
 })
 export class SurveyDetail {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
-  protected readonly translate: Translate = inject(Translate);
   protected readonly dialogState: CreateSurveyDialogState = inject(CreateSurveyDialogState);
 
   readonly id: InputSignal<string> = input.required<string>();
@@ -49,7 +47,7 @@ export class SurveyDetail {
   private readonly selections: WritableSignal<Map<string, Set<string>>> = signal(new Map());
 
   protected readonly categoryLabel: Signal<string> = computed(() =>
-    this.translate.t(categoryLabelKey(this.survey()?.category ?? '')),
+    categoryLabelFor(this.survey()?.category ?? ''),
   );
   protected readonly deadlineLabel: Signal<string> = computed(() => this.formatDeadlineLabel());
   protected readonly readOnly: Signal<boolean> = computed(() => this.computeReadOnly());
@@ -198,11 +196,10 @@ export class SurveyDetail {
       return '';
     }
     if (!survey.deadline) {
-      return this.translate.t('survey.noDeadline');
+      return 'Runs indefinitely';
     }
-    const date = formatDeadlineDate(survey.deadline, this.translate.lang());
-    const key = isClosed(survey) ? 'survey.endedOn' : 'survey.endsOn';
-    return this.translate.t(key, { date });
+    const date = formatDeadlineDate(survey.deadline);
+    return isClosed(survey) ? `Ended on ${date}` : `Ends on ${date}`;
   }
 
   /** Reads whether this browser has already voted on the given survey. */

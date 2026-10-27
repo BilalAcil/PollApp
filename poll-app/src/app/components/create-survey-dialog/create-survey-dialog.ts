@@ -15,7 +15,6 @@ import { CreateSurveyDialogState } from '../../core/create-survey-dialog-state';
 import { optionLetter } from '../../core/option-letter';
 import { ScrollThumb } from '../scroll-thumb/scroll-thumb';
 import { SurveyApi } from '../../core/survey-api';
-import { Translate } from '../../core/translate';
 import { NewSurvey, NewSurveyQuestion } from '../../models/survey.model';
 
 /** Minimum answer options a question must always keep, so there's something to choose between. */
@@ -80,7 +79,6 @@ export class CreateSurveyDialog {
   private readonly surveyApi: SurveyApi = inject(SurveyApi);
   private readonly router: Router = inject(Router);
   protected readonly dialogState: CreateSurveyDialogState = inject(CreateSurveyDialogState);
-  protected readonly translate: Translate = inject(Translate);
 
   protected readonly draft: WritableSignal<SurveyDraft> = signal(createEmptyDraft());
   protected readonly category: WritableSignal<string> = signal('');

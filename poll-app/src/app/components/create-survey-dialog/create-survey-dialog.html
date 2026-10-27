@@ -12,13 +12,13 @@
     <div class="panel" #panelViewport>
       <div class="form-content" [class.frozen]="createdSurveyId() !== null">
         <header class="panel-header">
-          <span class="badge">{{ translate.t('createSurvey.badge') }}</span>
+          <span class="badge">Draft</span>
         </header>
 
         <div class="heading-row">
-          <h2 class="heading">{{ translate.t('createSurvey.heading') }}</h2>
+          <h2 class="heading">Create new survey</h2>
           <button type="button" class="cancel" (click)="requestClose()">
-            <span>{{ translate.t('createSurvey.cancel') }}</span>
+            <span>Cancel</span>
             <img src="images/icon-close.png" alt="" />
           </button>
         </div>
@@ -27,7 +27,7 @@
           <div class="fields">
             <div class="fields-left">
               <label class="field">
-                <span class="field-label">{{ translate.t('createSurvey.titleLabel') }}</span>
+                <span class="field-label">Survey name</span>
                 <span class="field-row">
                   <input
                     type="text"
@@ -38,7 +38,7 @@
                   <button
                     type="button"
                     class="icon-btn delete-btn"
-                    [attr.aria-label]="translate.t('createSurvey.clearField')"
+                    aria-label="Clear field"
                     (click)="clearTitle()"
                   ></button>
                 </span>
@@ -46,12 +46,7 @@
 
               <div class="deadline-row">
                 <label class="field deadline-field">
-                  <span class="field-label"
-                    >{{ translate.t('createSurvey.deadlineLabel') }}
-                    <span class="optional-suffix">{{
-                      translate.t('createSurvey.optionalSuffix')
-                    }}</span></span
-                  >
+                  <span class="field-label">Set end date <span class="optional-suffix">(optional)</span></span>
                   <span class="field-row">
                     <input
                       type="date"
@@ -63,7 +58,7 @@
                     <button
                       type="button"
                       class="icon-btn delete-btn"
-                      [attr.aria-label]="translate.t('createSurvey.clearField')"
+                      aria-label="Clear field"
                       (click)="clearDeadline()"
                     ></button>
                   </span>
@@ -73,18 +68,13 @@
                   class="deadline-category"
                   [(value)]="category"
                   [showAllOption]="false"
-                  [placeholderKey]="'createSurvey.choosePlaceholder'"
+                  placeholderLabel="Choose category"
                 />
               </div>
             </div>
 
             <label class="field description-field">
-              <span class="field-label"
-                >{{ translate.t('createSurvey.descriptionLabel') }}
-                <span class="optional-suffix">{{
-                  translate.t('createSurvey.optionalSuffix')
-                }}</span></span
-              >
+              <span class="field-label">Describing text <span class="optional-suffix">(optional)</span></span>
               <span class="field-row">
                 <textarea
                   #descriptionInput
@@ -94,7 +84,7 @@
                 <button
                   type="button"
                   class="icon-btn delete-btn"
-                  [attr.aria-label]="translate.t('createSurvey.clearField')"
+                  aria-label="Clear field"
                   (click)="clearDescription()"
                 ></button>
               </span>
@@ -105,9 +95,7 @@
             @for (question of draft().questions; track question.id; let i = $index) {
               <div class="question-block">
                 <div class="question-head">
-                  <span class="field-label"
-                    >{{ i + 1 }}. {{ translate.t('createSurvey.questionLabel') }}</span
-                  >
+                  <span class="field-label">{{ i + 1 }}. Question</span>
                 </div>
                 <span class="question-input-row">
                   <input
@@ -115,30 +103,26 @@
                     #questionInput
                     class="question-input"
                     [value]="question.text"
-                    [placeholder]="translate.t('createSurvey.questionPlaceholder')"
+                    placeholder="Type your question"
                     (input)="updateQuestionText(question.id, questionInput.value)"
                   />
                   <button
                     type="button"
                     class="icon-btn delete-btn"
-                    [attr.aria-label]="
-                      i === 0
-                        ? translate.t('createSurvey.clearQuestion')
-                        : translate.t('createSurvey.deleteQuestion')
-                    "
+                    [attr.aria-label]="i === 0 ? 'Clear question' : 'Delete question'"
                     (click)="onDeleteQuestion(i, question.id)"
                   ></button>
                 </span>
 
                 <div class="answers-head">
-                  <span class="field-label">{{ translate.t('createSurvey.answersLabel') }}</span>
+                  <span class="field-label">Answers</span>
                   <span class="allow-multiple">
                     <input
                       type="checkbox"
                       [checked]="question.allowMultiple"
                       (change)="toggleAllowMultiple(question.id)"
                     />
-                    {{ translate.t('createSurvey.allowMultiple') }}
+                    Allow multiple answers
                   </span>
                 </div>
 
@@ -156,7 +140,7 @@
                         type="button"
                         class="icon-btn delete-btn"
                         [disabled]="question.options.length <= minAnswers && !option.trim()"
-                        [attr.aria-label]="translate.t('createSurvey.deleteAnswer')"
+                        aria-label="Remove answer"
                         (click)="removeAnswer(question.id, ai)"
                       ></button>
                     </li>
@@ -168,23 +152,21 @@
                       <button type="button" class="add-answer" (click)="addAnswer(question.id)">
                         <div>
                           <div class="add-answer-underline">
-                            <span>{{ translate.t('createSurvey.addAnswer') }}</span>
+                            <span>Add answer</span>
                             <img src="images/icon-add-circle.png" alt="" />
                           </div>
                         </div>
                       </button>
                     }
                     @if (question.options.length > 2) {
-                      <span class="max-answers-hint">{{
-                        translate.t('createSurvey.maxAnswersHint')
-                      }}</span>
+                      <span class="max-answers-hint">You can add up to 6 answer fields</span>
                     }
                   </div>
                 }
               </div>
             }
             <button type="button" class="add-question" (click)="addQuestion()">
-              <span>{{ translate.t('createSurvey.addQuestion') }}</span>
+              <span>Add next question</span>
               <img src="images/icon-add-circle.png" alt="" />
             </button>
           </div>
@@ -192,7 +174,7 @@
 
         <div class="footer">
           @if (submitError()) {
-            <p class="error" role="alert">{{ translate.t('createSurvey.publishError') }}</p>
+            <p class="error" role="alert">Survey could not be created.</p>
           }
           <button
             type="button"
@@ -201,18 +183,18 @@
             [disabled]="!canPublish() || submitting()"
             (click)="publish()"
           >
-            {{ translate.t('createSurvey.publish') }}
+            Publish
             <span class="icon-reveal">
               <img class="icon" src="images/icon-check.png" alt="" />
             </span>
           </button>
           @if (createdSurveyId(); as id) {
             <div class="confirm-toast">
-              <p>{{ translate.t('createSurvey.publishedMessage') }}</p>
+              <p>Your survey is now published</p>
               <button
                 type="button"
                 class="icon-btn"
-                [attr.aria-label]="translate.t('createSurvey.closeConfirmation')"
+                aria-label="Close"
                 (click)="goToNewSurvey(id)"
               >
                 <img src="images/icon-close-dark.png" alt="" />

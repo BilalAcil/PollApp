@@ -1,4 +1,3 @@
-import { Lang } from './translate';
 import { Survey } from '../models/survey.model';
 
 /** Number of milliseconds in a single day. */
@@ -28,9 +27,8 @@ export function daysRemaining(survey: Survey, now: Date = new Date()): number | 
 }
 
 /** Formats an ISO deadline as a locale-aware date string. */
-export function formatDeadlineDate(deadline: string, lang: Lang): string {
-  const locale = lang === 'de' ? 'de-DE' : 'en-GB';
-  return new Date(deadline).toLocaleDateString(locale);
+export function formatDeadlineDate(deadline: string): string {
+  return new Date(deadline).toLocaleDateString('en-GB');
 }
 
 /**

@@ -69,10 +69,6 @@
   cursor: default;
 }
 
-.hero-title.lang-de {
-  font-size: 6cqw;
-}
-
 .hero-subtitle {
   margin: 0;
   font-family: var(--font-body);
@@ -356,8 +352,7 @@ main {
     padding: 0 var(--space-lg);
   }
 
-  .hero-title,
-  .hero-title.lang-de {
+  .hero-title {
     font-size: 11cqw;
     line-height: 9.9cqw;
   }

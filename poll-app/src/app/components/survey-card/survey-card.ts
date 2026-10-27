@@ -1,9 +1,8 @@
-import { Component, computed, inject, input, Signal } from '@angular/core';
+import { Component, computed, input, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { categoryLabelKey } from '../../core/categories';
+import { categoryLabel as categoryLabelFor } from '../../core/categories';
 import { daysRemaining, formatDeadlineDate, isClosed } from '../../core/survey-status';
-import { Translate } from '../../core/translate';
 import { Survey } from '../../models/survey.model';
 
 export type SurveyCardVariant = 'highlight' | 'list';
@@ -19,32 +18,24 @@ export type SurveyCardVariant = 'highlight' | 'list';
   styleUrl: './survey-card.scss',
 })
 export class SurveyCard {
-  private readonly translate: Translate = inject(Translate);
-
   readonly survey = input.required<Survey>();
   readonly variant = input<SurveyCardVariant>('list');
 
-  protected readonly categoryLabel: Signal<string> = computed(() => this.translateCategory());
+  protected readonly categoryLabel: Signal<string> = computed(() =>
+    categoryLabelFor(this.survey().category),
+  );
   protected readonly deadlineLabel: Signal<string> = computed(() => this.formatDeadline());
-
-  /** Translates the survey's category value, falling back to the raw value. */
-  private translateCategory(): string {
-    return this.translate.t(categoryLabelKey(this.survey().category));
-  }
 
   /** Builds the deadline pill text, distinguishing open, closed and open-ended surveys. */
   private formatDeadline(): string {
     const deadline = this.survey().deadline;
     if (isClosed(this.survey()) && deadline) {
-      return this.translate.t('survey.endedOn', {
-        date: formatDeadlineDate(deadline, this.translate.lang()),
-      });
+      return `Ended on ${formatDeadlineDate(deadline)}`;
     }
     const days = daysRemaining(this.survey());
     if (days === null) {
-      return this.translate.t('survey.noDeadline');
+      return 'Runs indefinitely';
     }
-    const key = days === 1 ? 'survey.endsInDay' : 'survey.endsInDays';
-    return this.translate.t(key, { n: days });
+    return days === 1 ? 'Ends in 1 Day' : `Ends in ${days} Days`;
   }
 }

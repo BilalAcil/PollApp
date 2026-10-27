@@ -1,14 +1,14 @@
 <div class="page">
   <div class="page-inner">
     @if (loadError()) {
-      <p class="error" role="alert">{{ translate.t('detail.loadError') }}</p>
+      <p class="error" role="alert">Survey could not be loaded.</p>
     } @else if (survey(); as survey) {
       <header class="topbar">
         <a routerLink="/">
           <img class="logo" src="images/logo-on-light.png" alt="Poll App" />
         </a>
         <button type="button" class="btn-primary" (click)="dialogState.show()">
-          {{ translate.t('detail.createSurvey') }}
+          Create survey
           <span class="icon-reveal">
             <img class="icon" src="images/icon-add.png" alt="" />
           </span>
@@ -19,21 +19,14 @@
         <section class="survey-panel" aria-labelledby="survey-title">
           <div class="survey-summary">
             <div class="meta-row meta-row-top">
-              <span class="badge">{{ translate.t('detail.published') }}</span>
-              <button
-                type="button"
-                class="survey-close"
-                routerLink="/"
-                [attr.aria-label]="translate.t('detail.backToHome')"
-              >
+              <span class="badge">Published</span>
+              <button type="button" class="survey-close" routerLink="/" aria-label="Back to home">
                 <img src="images/icon-close-dark.png" alt="" />
               </button>
             </div>
             <div class="meta-row meta-row-dates">
               <time class="deadline" [attr.datetime]="survey.deadline">{{ deadlineLabel() }}</time>
-              <span class="category">{{
-                translate.t('detail.category', { category: categoryLabel() })
-              }}</span>
+              <span class="category">Category: {{ categoryLabel() }}</span>
             </div>
             <h1 id="survey-title" class="title">{{ survey.title }}</h1>
             @if (survey.description) {
@@ -46,7 +39,7 @@
               <div class="question">
                 <h2>{{ $index + 1 }}. {{ question.text }}</h2>
                 @if (question.allow_multiple) {
-                  <p class="hint">{{ translate.t('detail.multipleAnswersHint') }}</p>
+                  <p class="hint">More than one answer is possible.</p>
                 }
                 <ul class="answers" [class.read-only]="readOnly()">
                   @for (option of question.survey_options; track option.id) {
@@ -75,12 +68,12 @@
               [disabled]="readOnly() || !canComplete()"
               (click)="complete()"
             >
-              {{ translate.t('detail.completeSurvey') }}
+              Complete survey
               <span class="complete-check"><img src="images/icon-check.png" alt="" /></span>
             </button>
           </div>
           @if (voteError()) {
-            <p class="error" role="alert">{{ translate.t('detail.voteError') }}</p>
+            <p class="error" role="alert">Vote could not be saved.</p>
           }
         </section>
 
@@ -98,12 +91,8 @@
               (click)="toggleResults()"
             >
               <span class="results-toggle-label">
-                <span class="label-text" [class.visible]="resultsOpen()">{{
-                  translate.t('detail.closeResults')
-                }}</span>
-                <span class="label-text" [class.visible]="!resultsOpen()">{{
-                  translate.t('detail.showResults')
-                }}</span>
+                <span class="label-text" [class.visible]="resultsOpen()">Close results</span>
+                <span class="label-text" [class.visible]="!resultsOpen()">See results</span>
               </span>
               <span class="results-toggle-arrow" [class.open]="resultsOpen()"></span>
             </button>
@@ -112,8 +101,8 @@
           <div class="results-collapse">
             <div class="results-collapse-inner">
               <h2 id="results-title">
-                {{ translate.t('detail.resultsTitle') }}
-                <span class="live">{{ translate.t('detail.live') }}</span>
+                Survey results
+                <span class="live">LIVE</span>
               </h2>
 
               <div class="results-scroll-row">
@@ -124,8 +113,10 @@
                   (scroll)="onResultsScroll($event)"
                 >
                   @if (isResultsEmpty()) {
-                    <p class="results-empty-hint">{{ translate.t('detail.resultsEmptyHint') }}</p>
-                    <p class="no-answers">{{ translate.t('detail.noAnswersYet') }}</p>
+                    <p class="results-empty-hint">
+                      Results will be shown here after participants complete the survey.
+                    </p>
+                    <p class="no-answers">There are no answers yet.</p>
                   } @else {
                     @for (question of survey.survey_questions; track question.id) {
                       <div class="result-question">
@@ -159,7 +150,7 @@
         </aside>
       </main>
     } @else if (!loading()) {
-      <p class="error" role="alert">{{ translate.t('detail.notFound') }}</p>
+      <p class="error" role="alert">This survey does not exist.</p>
     }
   </div>
 </div>
