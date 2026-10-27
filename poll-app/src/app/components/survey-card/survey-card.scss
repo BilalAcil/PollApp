@@ -120,6 +120,14 @@
   background: var(--color-amber-light);
 }
 
+@media (max-width: 1110px) and (min-width: 1001px) {
+  :host(.highlight) {
+    width: calc((100vw - 8rem) / 3);
+    height: auto;
+    aspect-ratio: 20 / 19.375;
+  }
+}
+
 @media (max-width: 900px) {
   .title {
     font-size: 1.25rem;
